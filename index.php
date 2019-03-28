@@ -6,6 +6,9 @@
  <meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<style>
+	* {font-family: "微软雅黑"}
+		</style>
 </head>
 <body>
 	<div class="container">
@@ -15,14 +18,13 @@
   <div class="form-group">
     <label>请输入用户名</label>
     <input type="text" class="form-control" name="post" placeholder="Enter username">
-    <small id="emailHelp" class="form-text text-muted">不区分大小写</small>
+    <small id="emailHelp" class="form-text text-muted">&nbsp;不区分大小写</small>
   </div>
   <button type="submit" class="btn btn-primary">提交</button>
 </form>
   </div>
 	<br>
-<div class="container">
-<?php
+	<?php
 if(!empty($_POST["post"])){
 $mcapiurl="https://api.mojang.com/users/profiles/minecraft/".$_POST["post"];
 $mcjson= file_get_contents($mcapiurl);
@@ -31,15 +33,34 @@ $id=($djson->id);
 $kedamaurl=("https://stats.craft.moe/static/data/$id/stats.json");
 $kedamajson= file_get_contents($kedamaurl);
 $dkjson=json_decode($kedamajson,true);}?>
-<table class="table-striped table-bordered" width="100%">
-	<tr><td height="30px">玩家信息</td></tr>
+    <div class="container">
+  <p></p>
+  <div id="accordion">
+    <div class="card">
+      <div class="card-header">
+        <a class="card-link" data-toggle="collapse" href="#collapseOne">
+          玩家信息
+        </a>
+      </div>
+      <div id="collapseOne" class="collapse show" data-parent="#accordion">
+        <div class="card-body">
+         <table class="table-striped table-bordered" width="100%">
 <tr><td><?php echo '玩家名:'.json_decode(json_encode($dkjson['data']['playername']));?></td></tr>
 <tr><td><?php echo 'UUID:'.json_decode(json_encode($dkjson['data']['uuid'])); ?> </td></tr>
 <tr><td><?php echo '是否被ban:'.json_decode(json_encode($dkjson['data']['ban'])); ?> </td></tr>
 </table>
-<br><br>
-<table class="table-striped table-bordered" width="100%">
-<tr><td height="30px"><a>被杀死次数</a></td></tr>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+        被杀死次数
+      </a>
+      </div>
+      <div id="collapseTwo" class="collapse" data-parent="#accordion">
+        <div class="card-body">
+          <table class="table-striped table-bordered" width="100%">
 <tr><td><?php echo '河豚:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:pufferfish']); ?> </td></tr>
 <tr><td><?php echo '骷髅:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:skeleton']); ?> </td></tr>
 <tr><td><?php echo '卫道士:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:vindicator']); ?> </td></tr>
@@ -52,9 +73,18 @@ $dkjson=json_decode($kedamajson,true);}?>
 <tr><td><?php echo '末影人:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:enderman']); ?> </td></tr>
 <tr><td><?php echo '幻翼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:phantom']); ?> </td></tr>
 	</table>
-	<br><br>
-	<table class="table-striped table-bordered" width="100%">
-<tr><td height="30px">捡起物品次数</td></tr>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+          捡起物品次数
+        </a>
+      </div>
+      <div id="collapseThree" class="collapse" data-parent="#accordion">
+        <div class="card-body">
+          <table class="table-striped table-bordered" width="100%">
 <tr><td><?php echo '栓绳:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lead']); ?> </td></tr>
 <tr><td><?php echo '石头半砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone_slab']); ?> </td></tr>
 <tr><td><?php echo '附魔书:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:enchanted_book']); ?> </td></tr>
@@ -500,7 +530,12 @@ $dkjson=json_decode($kedamajson,true);}?>
 <tr><td><?php echo '去皮从林木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_jungle_wood']); ?> </td></tr>
 <tr><td><?php echo '红色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_concrete']); ?> </td></tr>
 <tr><td><?php echo '煤炭:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:coal']); ?> </td></tr></table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 <footer>
 	<br><br><br>
 	<div class="container">

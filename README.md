@@ -6,9 +6,10 @@
 **To Do List**
 ```
 1.Picked_up (已完成)
-2.Dropped
-3.Crafted
-4.Used
-5.Custom
+2.Dropped(已完成)
+3.Crafted(已完成)
+4.Used(已完成)
+5.Custom(已完成)
 6.Advancement
+7.Delete meaningless output
 ```

@@ -5,15 +5,16 @@
 	 <meta name="Description" content="Kedama Stats Search">
  <meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
 <style>
 	* {font-family: "微软雅黑"}
-		</style>
+</style>
 </head>
 <body>
 	<div class="container">
 	<br>
-	<h1>Kedama数据查询</h1>
+	<h1 class="text-center">毛玉线圈物语玩家数据查询</h1>
+	<br>
 	<form method="post">
   <div class="form-group">
     <label>请输入用户名</label>
@@ -172,7 +173,7 @@ $dkjson=json_decode($kedamajson,true);}?>
               <tr><td><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:piston']); ?> </td></tr>
               <tr><td><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_wool']); ?> </td></tr>
               <tr><td><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_wool']); ?> </td></tr>
-              <tr><td><?php echo '品红色:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_wool']); ?> </td></tr>
+              <tr><td><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_wool']); ?> </td></tr>
               <tr><td><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_wool']); ?> </td></tr>
               <tr><td><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_wool']); ?> </td></tr>
               <tr><td><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_wool']); ?> </td></tr>
@@ -775,7 +776,7 @@ $dkjson=json_decode($kedamajson,true);}?>
               <tr><td><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:piston']); ?> </td></tr>
               <tr><td><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_wool']); ?> </td></tr>
               <tr><td><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_wool']); ?> </td></tr>
-              <tr><td><?php echo '品红色:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_wool']); ?> </td></tr>
+              <tr><td><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_wool']); ?> </td></tr>
               <tr><td><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_wool']); ?> </td></tr>
               <tr><td><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_wool']); ?> </td></tr>
               <tr><td><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_wool']); ?> </td></tr>
@@ -1378,7 +1379,7 @@ $dkjson=json_decode($kedamajson,true);}?>
               <tr><td><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:piston']); ?> </td></tr>
               <tr><td><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_wool']); ?> </td></tr>
               <tr><td><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_wool']); ?> </td></tr>
-              <tr><td><?php echo '品红色:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_wool']); ?> </td></tr>
+              <tr><td><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_wool']); ?> </td></tr>
               <tr><td><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_wool']); ?> </td></tr>
               <tr><td><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_wool']); ?> </td></tr>
               <tr><td><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_wool']); ?> </td></tr>
@@ -1981,7 +1982,7 @@ $dkjson=json_decode($kedamajson,true);}?>
               <tr><td><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:piston']); ?> </td></tr>
               <tr><td><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_wool']); ?> </td></tr>
               <tr><td><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_wool']); ?> </td></tr>
-              <tr><td><?php echo '品红色:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_wool']); ?> </td></tr>
+              <tr><td><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_wool']); ?> </td></tr>
               <tr><td><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_wool']); ?> </td></tr>
               <tr><td><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_wool']); ?> </td></tr>
               <tr><td><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_wool']); ?> </td></tr>
@@ -2584,7 +2585,7 @@ $dkjson=json_decode($kedamajson,true);}?>
               <tr><td><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:used/minecraft:piston']); ?> </td></tr>
               <tr><td><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_wool']); ?> </td></tr>
               <tr><td><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_wool']); ?> </td></tr>
-              <tr><td><?php echo '品红色:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_wool']); ?> </td></tr>
+              <tr><td><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_wool']); ?> </td></tr>
               <tr><td><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_wool']); ?> </td></tr>
               <tr><td><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_wool']); ?> </td></tr>
               <tr><td><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_wool']); ?> </td></tr>
@@ -3097,11 +3098,18 @@ $dkjson=json_decode($kedamajson,true);}?>
 <footer>
 	<br><br><br>
 	<div class="container">
-  <small class="form-text text-muted">&copy;2017-2019 blingwang.cn All Rights Reserved.</small>
-	</div>
+<small class="form-text text-muted text-center">Data Sources: <a href="https://api.mojang.com">Mojang Public API</a> & <a href="https://stats.craft.moe">NyaaStats️</a></small>
+<small class="form-text text-muted text-center">前往 <a href="https://craft.moe">毛玉线圈物语</a> 服务器</small>
+
+<br>
+  <small class="form-text text-muted text-center">&copy;2017-2019 blingwang.cn All Rights Reserved.</small>
+ <small class="form-text text-muted text-center">Made by BlingWang with ❤️</small>
+<br><br>
+
+		</div>
 	</footer>
 </body>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
 </html>

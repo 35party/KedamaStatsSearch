@@ -5,14 +5,16 @@
 	 <meta name="Description" content="Kedama Stats Search">
  <meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"><style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+  <style>
 	* {font-family: "微软雅黑"}
 		</style>
 </head>
 <body>
 	<div class="container">
 	<br>
-	<h1>Kedama数据查询</h1>
+	<h1 class="text-center">NyaaStats 玩家数据查询</h1>
+	<br>
 	<form method="post">
   <div class="form-group">
     <label>请输入用户名</label>
@@ -144,6 +146,66 @@
     </div>
     <div class="card">
       <div class="card-header">
+        <a class="collapsed card-link" data-toggle="collapse" href="#collapseN">
+          统计信息
+        </a>
+      </div>
+      <div id="collapseN" class="collapse" data-parent="#accordion">
+        <div class="card-body">
+         <table class="table-striped table-bordered" width="100%">
+         <tr><td><?php echo '游戏退出次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:leave_game']); ?> </td></tr>
+         <tr><td><?php echo '游戏时间(分钟):'.json_decode($dkjson['stats']['minecraft:custom/minecraft:play_one_minute']); ?> </td></tr>
+         <tr><td><?php echo '上次死亡时间:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:time_since_death']); ?> </td></tr>
+         <tr><td><?php echo '潜行时间	:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:sneak_time']); ?> </td></tr>
+         <tr><td><?php echo '行走距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:walk_one_cm']); ?> </td></tr>
+         <tr><td><?php echo '潜行距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:crouch_one_cm']); ?> </td></tr>
+         <tr><td><?php echo '疾跑距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:sprint_one_cm']); ?> </td></tr>
+         <tr><td><?php echo '游泳距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:swim_one_cm']); ?> </td></tr>
+         <tr><td><?php echo '掉落高度:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:fall_one_cm']); ?> </td></tr>
+         <tr><td><?php echo '攀爬高度:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:climb_one_cm']); ?> </td></tr>
+         <tr><td><?php echo '飞行距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:fly_one_cm']); ?> </td></tr>
+         <tr><td><?php echo '水下移动距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:walk_on_water_one_cm']); ?> </td></tr>
+         <tr><td><?php echo '坐矿车移动距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:minecart_one_cm']); ?> </td></tr>
+         <tr><td><?php echo '坐船移动距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:boat_one_cm']); ?> </td></tr>
+         <tr><td><?php echo '骑马移动距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:horse_one_cm']); ?> </td></tr>
+         <tr><td><?php echo '鞘翅飞行距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:aviate_one_cm']); ?> </td></tr>
+         <tr><td><?php echo '跳跃次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:jump']); ?> </td></tr>
+         <tr><td><?php echo '造成伤害:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:damage_dealt']); ?> </td></tr>
+         <tr><td><?php echo '受到伤害:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:damage_taken']); ?> </td></tr>
+         <tr><td><?php echo '总死亡次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:deaths']); ?> </td></tr>
+         <tr><td><?php echo '生物击杀次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:mob_kills']); ?> </td></tr>
+         <tr><td><?php echo '玩家击杀次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:player_kills']); ?> </td></tr>
+         <tr><td><?php echo '物品掉落次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:drop']); ?> </td></tr>
+         <tr><td><?php echo '物品附魔次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:enchant_item']); ?> </td></tr>
+         <tr><td><?php echo '生物繁殖次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:animals_bred']); ?> </td></tr>
+         <tr><td><?php echo '捕鱼次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:fish_caught']); ?> </td></tr>
+         <tr><td><?php echo '村民对话次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:talked_to_villager']); ?> </td></tr>
+         <tr><td><?php echo '村民交易次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:traded_with_villager']); ?> </td></tr>
+         <tr><td><?php echo '吃掉的蛋糕片数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:eat_cake_slice']); ?> </td></tr>
+         <tr><td><?php echo '炼药锅装水次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:fill_cauldron']); ?> </td></tr>
+         <tr><td><?php echo '炼药锅取水次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:use_cauldron']); ?> </td></tr>
+         <tr><td><?php echo '酿造台互动次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:interact_with_brewingstand']); ?> </td></tr>
+         <tr><td><?php echo '信标互动次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:interact_with_beacon']); ?> </td></tr>
+         <tr><td><?php echo '工作台互动次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:interact_with_crafting_table']); ?> </td></tr>
+         <tr><td><?php echo '熔炉互动次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:interact_with_furnace']); ?> </td></tr>
+         <tr><td><?php echo '搜查发射器次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:inspect_dispenser']); ?> </td></tr>
+         <tr><td><?php echo '搜查投掷器次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:inspect_dropper']); ?> </td></tr>
+         <tr><td><?php echo '搜查漏斗次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:inspect_hopper']); ?> </td></tr>
+         <tr><td><?php echo '打开箱子次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:open_chest']); ?> </td></tr>
+         <tr><td><?php echo '陷阱箱触发次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:trigger_trapped_chest']); ?> </td></tr>
+         <tr><td><?php echo '打开末影箱次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:open_enderchest']); ?> </td></tr>
+         <tr><td><?php echo '音符盒播放次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:play_noteblock']); ?> </td></tr>
+         <tr><td><?php echo '音符盒调整次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:tune_noteblock']); ?> </td></tr>
+         <tr><td><?php echo '盆栽种植次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:pot_flower']); ?> </td></tr>
+         <tr><td><?php echo '播放唱片次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:play_record']); ?> </td></tr>
+         <tr><td><?php echo '躺在床上的次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:sleep_in_bed']); ?> </td></tr>
+         <tr><td><?php echo '打开潜影盒次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:open_shulker_box']); ?> </td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
         <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
         被杀死次数
       </a>
@@ -151,17 +213,41 @@
       <div id="collapseTwo" class="collapse" data-parent="#accordion">
         <div class="card-body">
           <table class="table-striped table-bordered" width="100%">
-    <tr><td><?php echo '河豚:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:pufferfish']); ?> </td></tr>
-    <tr><td><?php echo '骷髅:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:skeleton']); ?> </td></tr>
-    <tr><td><?php echo '卫道士:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:vindicator']); ?> </td></tr>
-    <tr><td><?php echo '闹鬼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:vex']); ?> </td></tr>
-    <tr><td><?php echo '流髑:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:stray']); ?> </td></tr>
-    <tr><td><?php echo '史莱姆:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:slime']); ?> </td></tr>
+    <tr><td><?php echo '烈焰人:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:blaze']); ?> </td></tr>
+    <tr><td><?php echo '洞穴蜘蛛:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:cave_spider']); ?> </td></tr>
     <tr><td><?php echo '爬行者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:creeper']); ?> </td></tr>
-    <tr><td><?php echo '末影螨:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:endermite']); ?> </td></tr>
-    <tr><td><?php echo '玩家:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:player']); ?> </td></tr>
+    <tr><td><?php echo '溺尸:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:drowned']); ?> </td></tr>
+    <tr><td><?php echo '远古守卫者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:elder_guardian']); ?> </td></tr>
+    <tr><td><?php echo '末影龙:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:ender_dragon']); ?> </td></tr>
     <tr><td><?php echo '末影人:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:enderman']); ?> </td></tr>
+    <tr><td><?php echo '末影螨:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:endermite']); ?> </td></tr>
+    <tr><td><?php echo '唤魔者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:evoker']); ?> </td></tr>
+    <tr><td><?php echo '恶魂:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:ghast']); ?> </td></tr>
+    <tr><td><?php echo '守卫者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:guardian']); ?> </td></tr>
+    <tr><td><?php echo '尸壳:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:husk']); ?> </td></tr>
+    <tr><td><?php echo '幻术师:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:illusioner']); ?> </td></tr>
+    <tr><td><?php echo '岩浆怪:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:magma_cube']); ?> </td></tr>
     <tr><td><?php echo '幻翼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:phantom']); ?> </td></tr>
+    <tr><td><?php echo '河豚:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:pufferfish']); ?> </td></tr>
+    <tr><td><?php echo '潜影贝:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:shulker']); ?> </td></tr>
+    <tr><td><?php echo '蠹虫:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:silverfish']); ?> </td></tr>
+    <tr><td><?php echo '骷髅:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:skeleton']); ?> </td></tr>
+    <tr><td><?php echo '史莱姆:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:slime']); ?> </td></tr>
+    <tr><td><?php echo '蜘蛛:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:spider']); ?> </td></tr>
+    <tr><td><?php echo '流浪者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:stray']); ?> </td></tr>
+    <tr><td><?php echo '恼鬼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:vex']); ?> </td></tr>
+    <tr><td><?php echo '卫道士:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:vindicator']); ?> </td></tr>
+    <tr><td><?php echo '女巫:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:witch']); ?> </td></tr>
+    <tr><td><?php echo '凋零:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:wither']); ?> </td></tr>
+    <tr><td><?php echo '凋零骷髅:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:wither_skeleton']); ?> </td></tr>
+    <tr><td><?php echo '僵尸:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:zombie']); ?> </td></tr>
+    <tr><td><?php echo '僵尸猪人:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:zombie_pigman']); ?> </td></tr>
+    <tr><td><?php echo '僵尸村民:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:zombie_villager']); ?> </td></tr>
+    <tr><td><?php echo '羊驼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:llama']); ?> </td></tr>
+    <tr><td><?php echo '北极熊:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:polar_bear']); ?> </td></tr>
+    <tr><td><?php echo '狼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:wolf']); ?> </td></tr>
+    <tr><td><?php echo '玩家:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:player']); ?> </td></tr>
+
 	</table>
         </div>
       </div>

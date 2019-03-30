@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="zh">
 	<head>
-		<title>Kedama数据查询</title>
+		<title>NyaaStats 玩家数据查询</title>
 	 <meta name="Description" content="Kedama Stats Search">
  <meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />

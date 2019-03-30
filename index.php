@@ -5,35 +5,51 @@
 	 <meta name="Description" content="Kedama Stats Search">
  <meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
-<style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"><style>
 	* {font-family: "微软雅黑"}
-</style>
+		</style>
 </head>
 <body>
 	<div class="container">
 	<br>
-	<h1 class="text-center">毛玉线圈物语玩家数据查询</h1>
-	<br>
+	<h1>Kedama数据查询</h1>
 	<form method="post">
   <div class="form-group">
     <label>请输入用户名</label>
     <input type="text" class="form-control" name="post" placeholder="Enter username">
     <small id="emailHelp" class="form-text text-muted">&nbsp;不区分大小写</small>
-  </div>
+    <br>
+    <label>选择服务器</label>
+    <select class="form-control" name="select">
+        <option value="kedamapost">毛玉线圈物语</option>
+        <option value="nyaapost">Nyaacat 喵窝</option>
+      </select>
+      <br>
   <button type="submit" class="btn btn-primary">提交</button>
+  </div>
 </form>
   </div>
 	<br>
+
 	<?php
-if(!empty($_POST["post"])){
-$mcapiurl="https://api.mojang.com/users/profiles/minecraft/".$_POST["post"];
-$mcjson= file_get_contents($mcapiurl);
-$djson=json_decode($mcjson);
-$id=($djson->id);
-$kedamaurl=("https://stats.craft.moe/static/data/$id/stats.json");
-$kedamajson= file_get_contents($kedamaurl);
-$dkjson=json_decode($kedamajson,true);}?>
+    if(!empty($_POST["select"]) && !empty($_POST["post"])){
+    $mcapiurl="https://api.mojang.com/users/profiles/minecraft/".$_POST["post"];
+    $mcjson= file_get_contents($mcapiurl);
+    $djson=json_decode($mcjson);
+    $id=($djson->id);}
+    //多服务器支持
+    if(!empty($_POST["select"]) && !empty($_POST["post"]) && $_POST["select"] == 'kedamapost'){
+    $kedamaurl=("https://stats.craft.moe/static/data/$id/stats.json");
+    $kedamajson= file_get_contents($kedamaurl);
+    $dkjson=json_decode($kedamajson,true);}
+    $ban=json_decode($dkjson['data']['banned']);
+
+    if(!empty($_POST["select"]) && !empty($_POST["post"]) && $_POST["select"] == 'nyaapost'){
+    $nyaaurl=("https://i.nyaa.cat/static/data/$id/stats.json");
+    $nyaajson= file_get_contents($nyaaurl);
+    $dkjson=json_decode($nyaajson,true);}
+    $ban=json_decode($dkjson['data']['banned']);?>
+
 <div class="container">
   <p></p>
   <div id="accordion">
@@ -46,9 +62,82 @@ $dkjson=json_decode($kedamajson,true);}?>
       <div id="collapseOne" class="collapse show" data-parent="#accordion">
         <div class="card-body">
          <table class="table-striped table-bordered" width="100%">
-          <tr><td><?php echo '玩家名:'.json_decode(json_encode($dkjson['data']['playername']));?></td></tr>
-          <tr><td><?php echo 'UUID:'.json_decode(json_encode($dkjson['data']['uuid'])); ?> </td></tr>
-          <!--<tr><td><?php //echo '是否被ban:'.json_decode(json_encode($dkjson['data']['ban'])); ?> </td></tr>-->
+          <tr><td>玩家名:<?php echo json_decode(json_encode($dkjson['data']['playername']));?></td></tr>
+          <tr><td>UUID:<?php echo json_decode(json_encode($dkjson['data']['uuid'])); ?> </td></tr>
+          <tr><td>是否被ban:<?php if(!empty($_POST["post"])){ echo $ban ? '是':'否'; }?> </td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <a class="collapsed card-link" data-toggle="collapse" href="#collapseO">
+          成就信息
+        </a>
+      </div>
+      <div id="collapseO" class="collapse" data-parent="#accordion">
+        <div class="card-body">
+         <table class="table-striped table-bordered" width="100%">
+
+         <tr><td>Minecraft</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/root']['criteria']['crafting_table'],true),true));?></td></tr>
+         <tr><td>石器时代</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/mine_stone']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/mine_stone']['criteria']['get_stone'],true),true));?></td></tr>
+         <tr><td>获得升级</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/upgrade_tools']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/upgrade_tools']['criteria']['stone_pickaxe'],true),true));?></td></tr>
+         <tr><td>来硬的</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/smelt_iron']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/smelt_iron']['criteria']['iron'],true),true));?></td></tr>
+         <tr><td>整装上阵</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/obtain_armor']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/obtain_armor']['criteria']['iron_chestplate'],true),true));?></td></tr>
+         <tr><td>热腾腾的</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/lava_bucket']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/lava_bucket']['criteria']['lava_bucket'],true),true));?></td></tr>
+         <tr><td>这不是铁镐么</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/iron_tools']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/iron_tools']['criteria']['iron_pickaxe'],true),true));?></td></tr>
+         <tr><td>抱歉，今天不行</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/deflect_arrow']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/deflect_arrow']['criteria']['deflected_projectile'],true),true));?></td></tr>
+         <tr><td>冰桶挑战</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/form_obsidian']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/form_obsidian']['criteria']['obsidian'],true),true));?></td></tr>
+         <tr><td>钻石！</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/mine_diamond']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/mine_diamond']['criteria']['diamond'],true),true));?></td></tr>
+         <tr><td>我们需要再深入些</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/enter_the_nether']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/enter_the_nether']['criteria']['entered_nether'],true),true));?></td></tr>
+         <tr><td>用钻石包裹我</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/shiny_gear']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/shiny_gear']['criteria']['diamond_boots'],true),true));?></td></tr>
+         <tr><td>附魔师</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/enchant_item']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/enchant_item']['criteria']['enchanted_item'],true),true));?></td></tr>
+         <tr><td>僵尸科医生</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/cure_zombie_villager']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/cure_zombie_villager']['criteria']['cured_zombie'],true),true));?></td></tr>
+         <tr><td>隔墙有眼</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/follow_ender_eye']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/follow_ender_eye']['criteria']['in_stronghold'],true),true));?></td></tr>
+         <tr><td>结束了？</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/enter_the_end']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/enter_the_end']['criteria']['entered_end'],true),true));?></td></tr>
+         <tr><td>下界</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/root']['criteria']['entered_nether'],true),true));?></td></tr>
+         <tr><td>子空间泡泡</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/fast_travel']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/fast_travel']['criteria']['travelled'],true),true));?></td></tr>
+         <tr><td>可怕的要塞</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/find_fortress']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/find_fortress']['criteria']['fortress'],true),true));?></td></tr>
+         <tr><td>见鬼去吧</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/return_to_sender']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/return_to_sender']['criteria']['killed_ghast'],true),true));?></td></tr>
+         <tr><td>与火共舞</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/obtain_blaze_rod']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/obtain_blaze_rod']['criteria']['blaze_rod'],true),true));?></td></tr>
+         <tr><td>诡异又可怕的骷髅</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/get_wither_skull']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/get_wither_skull']['criteria']['wither_skull'],true),true));?></td></tr>
+         <tr><td>不稳定的同盟</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/uneasy_alliance']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/uneasy_alliance']['criteria']['killed_ghast'],true),true));?></td></tr>
+         <tr><td>本地的酿造厂</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/brew_potion']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/brew_potion']['criteria']['potion'],true),true));?></td></tr>
+         <tr><td>凋零山庄</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/summon_wither']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/summon_wither']['criteria']['summoned'],true),true));?></td></tr>
+         <tr><td>狂乱的鸡尾酒</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/all_potions']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/all_potions']['criteria']['all_effects'],true),true));?></td></tr>
+         <tr><td>带信标回家</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/create_beacon']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/create_beacon']['criteria']['beacon'],true),true));?></td></tr>
+         <tr><td>为什么会变成这样呢？</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/all_effects']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/all_effects']['criteria']['all_effects'],true),true));?></td></tr>
+         <tr><td>信标工程师</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/create_full_beacon']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/create_full_beacon']['criteria']['beacon'],true),true));?></td></tr>
+         <tr><td>末地</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/root']['criteria']['entered_end'],true),true));?></td></tr>
+         <tr><td>解放末地</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/kill_dragon']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/kill_dragon']['criteria']['killed_dragon'],true),true));?></td></tr>
+         <tr><td>下一世代</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/dragon_egg']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/dragon_egg']['criteria']['dragon_egg'],true),true));?></td></tr>
+         <tr><td>结束了...再一次...</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/respawn_dragon']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/respawn_dragon']['criteria']['summoned_dragon'],true),true));?></td></tr>
+         <tr><td>你需要来点薄荷糖</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/dragon_breath']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/dragon_breath']['criteria']['dragon_breath'],true),true));?></td></tr>
+         <tr><td>在游戏尽头的城市</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/find_end_city']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/find_end_city']['criteria']['in_city'],true),true));?></td></tr>
+         <tr><td>天空即为极限</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/elytra']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/elytra']['criteria']['elytra'],true),true));?></td></tr>
+         <tr><td>这上面的风景不错</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/levitate']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/levitate']['criteria']['levitated'],true),true));?></td></tr>
+         <tr><td>冒险</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/root']['criteria']['killed_something'],true),true));?></td></tr>
+         <tr><td>怪物猎人</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/kill_a_mob']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/kill_a_mob']['criteria']['minecraft:zombie'],true),true));?></td></tr>
+         <tr><td>这交易不错！</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/trade']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/trade']['criteria']['traded'],true),true));?></td></tr>
+         <tr><td>甜蜜的梦</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/sleep_in_bed']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/sleep_in_bed']['criteria']['slept_in_bed'],true),true));?></td></tr>
+         <tr><td>抖包袱</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/throw_trident']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/throw_trident']['criteria']['shot_trident'],true),true));?></td></tr>
+         <tr><td>瞄准目标</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/shoot_arrow']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/shoot_arrow']['criteria']['shot_arrow'],true),true));?></td></tr>
+         <tr><td>怪物狩猎完成</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/kill_all_mobs']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/kill_all_mobs']['done'])))){ echo "时间无法确定"; } ?></td></tr>
+         <tr><td>超越生死</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/totem_of_undying']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/totem_of_undying']['criteria']['used_totem'],true),true));?></td></tr>
+         <tr><td>招募援兵</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/summon_iron_golem']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/summon_iron_golem']['criteria']['summoned_golem'],true),true));?></td></tr>
+         <tr><td>探索的时光</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/adventuring_time']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/adventuring_time']['done'])))){ echo "时间无法确定"; } ?> </td></tr>
+         <tr><td>不战而栗</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/very_very_frightening']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/very_very_frightening']['criteria']['struck_villager'],true),true));?></td></tr>
+         <tr><td>狙击手间的对决</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/sniper_duel']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/sniper_duel']['criteria']['killed_skeleton'],true),true));?></td></tr>
+         <tr><td>农牧业</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/root']['criteria']['consumed_item'],true),true));?></td></tr>
+         <tr><td>我从哪儿来？</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/breed_an_animal']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/breed_an_animal']['criteria']['bred'],true),true));?></td></tr>
+         <tr><td>永恒的伙伴</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tame_an_animal']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tame_an_animal']['criteria']['tamed_animal'],true),true));?></td></tr>
+         <tr><td>开荒垦地</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/plant_seed']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/plant_seed']['criteria']['wheat'],true),true));?></td></tr>
+         <tr><td>腥味十足的生意</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/fishy_business']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/fishy_business']['criteria']['cod'],true),true));?></td></tr>
+         <tr><td>成双成对</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/bred_all_animals']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/bred_all_animals']['done'])))){ echo "时间无法确定"; } ?> </td></tr>
+         <tr><td>均衡饮食</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/balanced_diet']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/balanced_diet']['done'])))){ echo "时间无法确定"; } ?></td></tr>
+         <tr><td>终极奉献</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/break_diamond_hoe']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/break_diamond_hoe']['criteria']['broke_hoe'],true),true));?></td></tr>
+         <tr><td>战术性钓鱼</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tactical_fishing']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tactical_fishing']['criteria']['pufferfish_bucket'],true),true));?></td></tr>
+         
           </table>
         </div>
       </div>
@@ -3095,7 +3184,7 @@ $dkjson=json_decode($kedamajson,true);}?>
   </div>
   </div>
 
-<footer>
+  <footer>
 	<br><br><br>
 	<div class="container">
 <small class="form-text text-muted text-center">Data Sources: <a href="https://api.mojang.com">Mojang Public API</a> & <a href="https://stats.craft.moe">NyaaStats️</a></small>

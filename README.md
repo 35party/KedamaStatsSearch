@@ -12,7 +12,7 @@
 3.Crafted(已完成)
 4.Mined(已完成)
 5.Used(已完成)
-6.Custom
+6.Custom(已完成)
 7.Advancement(已完成)
 8.Delete meaningless output
 9.Multi-server(已完成)

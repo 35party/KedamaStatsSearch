@@ -9,6 +9,7 @@
   <style>
 	* {font-family: "微软雅黑"}
 		</style>
+	<script src='https://www.recaptcha.net/recaptcha/api.js'></script>
 </head>
 <body>
 	<div class="container">
@@ -27,13 +28,45 @@
         <option value="nyaapost">Nyaacat 喵窝</option>
       </select>
       <br>
+      
+<span style="font-size:14px;">    <div class="g-recaptcha" data-sitekey="6Lepdp0UAAAAAOTpvGgZsCVBo3h3iG8exP1n1bGJ"></div></span>  
+
+      <br>
   <button type="submit" class="btn btn-primary">提交</button>
   </div>
 </form>
   </div>
 	<br>
+ <?php  
+function send_post($url, $post_data)  
+{  
+    $postdata = http_build_query($post_data);  
+    $options = array(  
+        'http' => array(  
+            'method' => 'POST',  
+            'header' => 'Content-type:application/x-www-form-urlencoded',  
+            'content' => $postdata,  
+            'timeout' => 15 * 60 // 超时时间（单位:s）  
+        )  
+    );  
+    $context = stream_context_create($options);  
+    $result = file_get_contents($url, false, $context);  
+    return $result;  
+}  
+              
+$post_data = array(          
+'secret' => '6Lepdp0UAAAAAODLNyy-SGMG60WncYlUORC0-unJ',          
+'response' => $_POST["g-recaptcha-response"]    );  
+  $recaptcha_json_result = send_post('https://www.recaptcha.net/recaptcha/api/siteverify', $post_data);     
+ $recaptcha_result = json_decode($recaptcha_json_result,true);     
+?>  
+
+<div class="container">
 
 	<?php
+	if(!empty($_POST["post"])){
+	if(!empty(json_decode($recaptcha_result['success'])))
+	{
     if(!empty($_POST["select"]) && !empty($_POST["post"])){
     $mcapiurl="https://api.mojang.com/users/profiles/minecraft/".$_POST["post"];
     $mcjson= file_get_contents($mcapiurl);
@@ -50,8 +83,10 @@
     $nyaaurl=("https://i.nyaa.cat/static/data/$id/stats.json");
     $nyaajson= file_get_contents($nyaaurl);
     $dkjson=json_decode($nyaajson,true);}
-    $ban=json_decode($dkjson['data']['banned']);?>
-
+    $ban=json_decode($dkjson['data']['banned']);}
+    else { echo "请确认您不是机器人";}}
+    ?>
+</div>
 <div class="container">
   <p></p>
   <div id="accordion">

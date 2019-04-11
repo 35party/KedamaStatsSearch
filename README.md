@@ -16,4 +16,5 @@
 7.Advancement(已完成)
 8.Delete meaningless output
 9.Multi-server(已完成)
+10.reCaptcha(已完成)
 ```

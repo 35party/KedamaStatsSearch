@@ -29,14 +29,12 @@
       </select>
       <br>
       
-<span style="font-size:14px;">    <div class="g-recaptcha" data-sitekey="6Lepdp0UAAAAAOTpvGgZsCVBo3h3iG8exP1n1bGJ"></div></span>  
+<span style="font-size:14px;">    <div class="g-recaptcha" data-sitekey="6LfTeJ0UAAAAAGbaGdFFBTJNF8CuvnISdDrQMhfn"></div></span>  
 
       <br>
   <button type="submit" class="btn btn-primary">提交</button>
   </div>
 </form>
-  </div>
-	<br>
  <?php  
 function send_post($url, $post_data)  
 {  
@@ -55,13 +53,11 @@ function send_post($url, $post_data)
 }  
               
 $post_data = array(          
-'secret' => '6Lepdp0UAAAAAODLNyy-SGMG60WncYlUORC0-unJ',          
+'secret' => '6LfTeJ0UAAAAAH33GK51qB5vPLt_oY5Kl-a-I5N7',          
 'response' => $_POST["g-recaptcha-response"]    );  
   $recaptcha_json_result = send_post('https://www.recaptcha.net/recaptcha/api/siteverify', $post_data);     
  $recaptcha_result = json_decode($recaptcha_json_result,true);     
 ?>  
-
-<div class="container">
 
 	<?php
 	if(!empty($_POST["post"])){
@@ -84,11 +80,13 @@ $post_data = array(
     $nyaajson= file_get_contents($nyaaurl);
     $dkjson=json_decode($nyaajson,true);}
     $ban=json_decode($dkjson['data']['banned']);}
-    else { echo "请确认您不是机器人";}}
+    else { $ban="notpass"; echo '<div class="alert alert-danger alert-dismissible fade show">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>等等！</strong>请确认您不是机器人</div>';}}
     ?>
-</div>
+  </div>
+
 <div class="container">
-  <p></p>
   <div id="accordion">
     <div class="card">
       <div class="card-header">
@@ -101,7 +99,7 @@ $post_data = array(
          <table class="table-striped table-bordered" width="100%">
           <tr><td>玩家名:<?php echo json_decode(json_encode($dkjson['data']['playername']));?></td></tr>
           <tr><td>UUID:<?php echo json_decode(json_encode($dkjson['data']['uuid'])); ?> </td></tr>
-          <tr><td>是否被ban:<?php if(!empty($_POST["post"])){ echo $ban ? '是':'否'; }?> </td></tr>
+          <tr><td>是否被ban:<?php if($ban != "notpass"){ if(!empty($_POST["post"])){ echo $ban ? '是':'否'; }}?> </td></tr>
           </table>
         </div>
       </div>

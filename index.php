@@ -29,7 +29,7 @@
       </select>
       <br>
       
-<span style="font-size:14px;">    <div class="g-recaptcha" data-sitekey="6LfTeJ0UAAAAAGbaGdFFBTJNF8CuvnISdDrQMhfn"></div></span>  
+<span style="font-size:14px;">    <div class="g-recaptcha" data-sitekey="6LdEkZ0UAAAAAJzuUU23iv_o2269yyJfPq8P4tu3"></div></span>  
 
       <br>
   <button type="submit" class="btn btn-primary">提交</button>
@@ -53,7 +53,7 @@ function send_post($url, $post_data)
 }  
               
 $post_data = array(          
-'secret' => '6LfTeJ0UAAAAAH33GK51qB5vPLt_oY5Kl-a-I5N7',          
+'secret' => '6LdEkZ0UAAAAAO9IpJKpdFTD_OuQRPMmg17X3wm-',          
 'response' => $_POST["g-recaptcha-response"]    );  
   $recaptcha_json_result = send_post('https://www.recaptcha.net/recaptcha/api/siteverify', $post_data);     
  $recaptcha_result = json_decode($recaptcha_json_result,true);     
@@ -3301,6 +3301,16 @@ $post_data = array(
       </div>
     </div>
   </div>
+  <br>
+  	<?php
+	if(!empty($_POST["post"])){
+	if(!empty(json_decode($recaptcha_result['success'])))
+	{
+    if(!empty($_POST["select"]) && !empty($_POST["post"]) && $_POST["select"] == 'kedamapost'){
+    echo '<a class="btn btn-primary" href="'.$kedamaurl.'">Raw数据下载</a>';}
+    if(!empty($_POST["select"]) && !empty($_POST["post"]) && $_POST["select"] == 'nyaapost'){
+    echo '<a class="btn btn-primary" href="'.$nyaaurl.'">Raw数据下载</a>';}
+    }} ?>
   </div>
 
   <footer>

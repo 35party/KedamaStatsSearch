@@ -29,7 +29,7 @@
       </select>
       <br>
       
-<span style="font-size:14px;">    <div class="g-recaptcha" data-sitekey="6LdEkZ0UAAAAAJzuUU23iv_o2269yyJfPq8P4tu3"></div></span>  
+<span style="font-size:14px;">    <div class="g-recaptcha" data-sitekey="6LedJJ4UAAAAAHWasWnzTXZ1d_xPr-MmuwgW2bFW"></div></span>  
 
       <br>
   <button type="submit" class="btn btn-primary">提交</button>
@@ -53,7 +53,7 @@ function send_post($url, $post_data)
 }  
               
 $post_data = array(          
-'secret' => '6LdEkZ0UAAAAAO9IpJKpdFTD_OuQRPMmg17X3wm-',          
+'secret' => '6LedJJ4UAAAAAClNQIGXrCmzGvil09EU6sRMZ9X4',          
 'response' => $_POST["g-recaptcha-response"]    );  
   $recaptcha_json_result = send_post('https://www.recaptcha.net/recaptcha/api/siteverify', $post_data);     
  $recaptcha_result = json_decode($recaptcha_json_result,true);     
@@ -87,6 +87,17 @@ $post_data = array(
   </div>
 
 <div class="container">
+<?php //$mjstats = file_get_contents("https://status.mojang.com/check"); 
+//$dmjstats = json_decode($mjstats,true);
+//$mjarray = array();
+//foreach ($dmjstats as $key => $valves){
+//  foreach ($valves as $k => $v){
+//    $mjarray [$k] = $v;
+//  }
+//}
+//$emjarray = json_encode($mjarray,true);
+//Check Mojang status. Not finished.
+?>
   <div id="accordion">
     <div class="card">
       <div class="card-header">
@@ -96,10 +107,14 @@ $post_data = array(
       </div>
       <div id="collapseOne" class="collapse show" data-parent="#accordion">
         <div class="card-body">
-         <table class="table-striped table-bordered" width="100%">
-          <tr><td>玩家名:<?php echo json_decode(json_encode($dkjson['data']['playername']));?></td></tr>
-          <tr><td>UUID:<?php echo json_decode(json_encode($dkjson['data']['uuid'])); ?> </td></tr>
-          <tr><td>是否被ban:<?php if($ban != "notpass"){ if(!empty($_POST["post"])){ echo $ban ? '是':'否'; }}?> </td></tr>
+        
+         <table class="table-bordered" width="100%"> 
+          <tr><td height="30px">玩家名:<?php echo json_decode(json_encode($dkjson['data']['playername']));?></td></tr>
+          <tr><td height="30px">UUID:<?php echo json_decode(json_encode($dkjson['data']['uuid'])); ?> </td></tr>
+          <tr><td height="30px">加入服务器时间:<?php $join = json_decode(json_encode($dkjson['data']['time_start'])); if(!empty($join)){echo date('Y-m-d H:i:s', $join / 1000);} ?> </td></tr>
+          <tr><td height="30px">上次在线时间:<?php $seen = json_decode(json_encode($dkjson['data']['time_last'])); if(!empty($seen)){echo date('Y-m-d H:i:s', $seen / 1000);} ?> </td></tr>
+          <tr><td height="30px">是否被ban:<?php if($ban != "notpass"){ if(!empty($_POST["post"])){ echo $ban ? '是':'否'; }}?> </td></tr>
+          <tr><td height="30px">数据更新时间:<?php $update = json_decode(json_encode($dkjson['data']['lastUpdate'])); if(!empty($update)){echo date('Y-m-d H:i:s', $update / 1000);} ?> </td></tr>
           </table>
         </div>
       </div>
@@ -112,66 +127,66 @@ $post_data = array(
       </div>
       <div id="collapseO" class="collapse" data-parent="#accordion">
         <div class="card-body">
-         <table class="table-striped table-bordered" width="100%">
+         <table class="table-bordered" width="100%">
 
-         <tr><td>Minecraft</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/root']['criteria']['crafting_table'],true),true));?></td></tr>
-         <tr><td>石器时代</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/mine_stone']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/mine_stone']['criteria']['get_stone'],true),true));?></td></tr>
-         <tr><td>获得升级</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/upgrade_tools']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/upgrade_tools']['criteria']['stone_pickaxe'],true),true));?></td></tr>
-         <tr><td>来硬的</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/smelt_iron']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/smelt_iron']['criteria']['iron'],true),true));?></td></tr>
-         <tr><td>整装上阵</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/obtain_armor']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/obtain_armor']['criteria']['iron_chestplate'],true),true));?></td></tr>
-         <tr><td>热腾腾的</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/lava_bucket']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/lava_bucket']['criteria']['lava_bucket'],true),true));?></td></tr>
-         <tr><td>这不是铁镐么</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/iron_tools']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/iron_tools']['criteria']['iron_pickaxe'],true),true));?></td></tr>
-         <tr><td>抱歉，今天不行</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/deflect_arrow']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/deflect_arrow']['criteria']['deflected_projectile'],true),true));?></td></tr>
-         <tr><td>冰桶挑战</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/form_obsidian']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/form_obsidian']['criteria']['obsidian'],true),true));?></td></tr>
-         <tr><td>钻石！</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/mine_diamond']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/mine_diamond']['criteria']['diamond'],true),true));?></td></tr>
-         <tr><td>我们需要再深入些</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/enter_the_nether']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/enter_the_nether']['criteria']['entered_nether'],true),true));?></td></tr>
-         <tr><td>用钻石包裹我</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/shiny_gear']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/shiny_gear']['criteria']['diamond_boots'],true),true));?></td></tr>
-         <tr><td>附魔师</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/enchant_item']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/enchant_item']['criteria']['enchanted_item'],true),true));?></td></tr>
-         <tr><td>僵尸科医生</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/cure_zombie_villager']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/cure_zombie_villager']['criteria']['cured_zombie'],true),true));?></td></tr>
-         <tr><td>隔墙有眼</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/follow_ender_eye']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/follow_ender_eye']['criteria']['in_stronghold'],true),true));?></td></tr>
-         <tr><td>结束了？</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/enter_the_end']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/enter_the_end']['criteria']['entered_end'],true),true));?></td></tr>
-         <tr><td>下界</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/root']['criteria']['entered_nether'],true),true));?></td></tr>
-         <tr><td>子空间泡泡</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/fast_travel']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/fast_travel']['criteria']['travelled'],true),true));?></td></tr>
-         <tr><td>可怕的要塞</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/find_fortress']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/find_fortress']['criteria']['fortress'],true),true));?></td></tr>
-         <tr><td>见鬼去吧</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/return_to_sender']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/return_to_sender']['criteria']['killed_ghast'],true),true));?></td></tr>
-         <tr><td>与火共舞</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/obtain_blaze_rod']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/obtain_blaze_rod']['criteria']['blaze_rod'],true),true));?></td></tr>
-         <tr><td>诡异又可怕的骷髅</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/get_wither_skull']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/get_wither_skull']['criteria']['wither_skull'],true),true));?></td></tr>
-         <tr><td>不稳定的同盟</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/uneasy_alliance']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/uneasy_alliance']['criteria']['killed_ghast'],true),true));?></td></tr>
-         <tr><td>本地的酿造厂</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/brew_potion']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/brew_potion']['criteria']['potion'],true),true));?></td></tr>
-         <tr><td>凋零山庄</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/summon_wither']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/summon_wither']['criteria']['summoned'],true),true));?></td></tr>
-         <tr><td>狂乱的鸡尾酒</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/all_potions']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/all_potions']['criteria']['all_effects'],true),true));?></td></tr>
-         <tr><td>带信标回家</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/create_beacon']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/create_beacon']['criteria']['beacon'],true),true));?></td></tr>
-         <tr><td>为什么会变成这样呢？</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/all_effects']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/all_effects']['criteria']['all_effects'],true),true));?></td></tr>
-         <tr><td>信标工程师</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/create_full_beacon']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/create_full_beacon']['criteria']['beacon'],true),true));?></td></tr>
-         <tr><td>末地</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/root']['criteria']['entered_end'],true),true));?></td></tr>
-         <tr><td>解放末地</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/kill_dragon']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/kill_dragon']['criteria']['killed_dragon'],true),true));?></td></tr>
-         <tr><td>下一世代</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/dragon_egg']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/dragon_egg']['criteria']['dragon_egg'],true),true));?></td></tr>
-         <tr><td>结束了...再一次...</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/respawn_dragon']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/respawn_dragon']['criteria']['summoned_dragon'],true),true));?></td></tr>
-         <tr><td>你需要来点薄荷糖</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/dragon_breath']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/dragon_breath']['criteria']['dragon_breath'],true),true));?></td></tr>
-         <tr><td>在游戏尽头的城市</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/find_end_city']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/find_end_city']['criteria']['in_city'],true),true));?></td></tr>
-         <tr><td>天空即为极限</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/elytra']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/elytra']['criteria']['elytra'],true),true));?></td></tr>
-         <tr><td>这上面的风景不错</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/levitate']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/levitate']['criteria']['levitated'],true),true));?></td></tr>
-         <tr><td>冒险</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/root']['criteria']['killed_something'],true),true));?></td></tr>
-         <tr><td>怪物猎人</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/kill_a_mob']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/kill_a_mob']['criteria']['minecraft:zombie'],true),true));?></td></tr>
-         <tr><td>这交易不错！</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/trade']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/trade']['criteria']['traded'],true),true));?></td></tr>
-         <tr><td>甜蜜的梦</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/sleep_in_bed']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/sleep_in_bed']['criteria']['slept_in_bed'],true),true));?></td></tr>
-         <tr><td>抖包袱</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/throw_trident']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/throw_trident']['criteria']['shot_trident'],true),true));?></td></tr>
-         <tr><td>瞄准目标</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/shoot_arrow']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/shoot_arrow']['criteria']['shot_arrow'],true),true));?></td></tr>
-         <tr><td>怪物狩猎完成</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/kill_all_mobs']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/kill_all_mobs']['done'])))){ echo "时间无法确定"; } ?></td></tr>
-         <tr><td>超越生死</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/totem_of_undying']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/totem_of_undying']['criteria']['used_totem'],true),true));?></td></tr>
-         <tr><td>招募援兵</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/summon_iron_golem']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/summon_iron_golem']['criteria']['summoned_golem'],true),true));?></td></tr>
-         <tr><td>探索的时光</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/adventuring_time']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/adventuring_time']['done'])))){ echo "时间无法确定"; } ?> </td></tr>
-         <tr><td>不战而栗</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/very_very_frightening']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/very_very_frightening']['criteria']['struck_villager'],true),true));?></td></tr>
-         <tr><td>狙击手间的对决</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/sniper_duel']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/sniper_duel']['criteria']['killed_skeleton'],true),true));?></td></tr>
-         <tr><td>农牧业</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/root']['criteria']['consumed_item'],true),true));?></td></tr>
-         <tr><td>我从哪儿来？</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/breed_an_animal']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/breed_an_animal']['criteria']['bred'],true),true));?></td></tr>
-         <tr><td>永恒的伙伴</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tame_an_animal']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tame_an_animal']['criteria']['tamed_animal'],true),true));?></td></tr>
-         <tr><td>开荒垦地</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/plant_seed']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/plant_seed']['criteria']['wheat'],true),true));?></td></tr>
-         <tr><td>腥味十足的生意</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/fishy_business']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/fishy_business']['criteria']['cod'],true),true));?></td></tr>
-         <tr><td>成双成对</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/bred_all_animals']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/bred_all_animals']['done'])))){ echo "时间无法确定"; } ?> </td></tr>
-         <tr><td>均衡饮食</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/balanced_diet']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/balanced_diet']['done'])))){ echo "时间无法确定"; } ?></td></tr>
-         <tr><td>终极奉献</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/break_diamond_hoe']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/break_diamond_hoe']['criteria']['broke_hoe'],true),true));?></td></tr>
-         <tr><td>战术性钓鱼</td><td><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tactical_fishing']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tactical_fishing']['criteria']['pufferfish_bucket'],true),true));?></td></tr>
+         <tr><td height="30px">Minecraft</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/root']['criteria']['crafting_table'],true),true));?></td></tr>
+         <tr><td height="30px">石器时代</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/mine_stone']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/mine_stone']['criteria']['get_stone'],true),true));?></td></tr>
+         <tr><td height="30px">获得升级</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/upgrade_tools']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/upgrade_tools']['criteria']['stone_pickaxe'],true),true));?></td></tr>
+         <tr><td height="30px">来硬的</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/smelt_iron']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/smelt_iron']['criteria']['iron'],true),true));?></td></tr>
+         <tr><td height="30px">整装上阵</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/obtain_armor']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/obtain_armor']['criteria']['iron_chestplate'],true),true));?></td></tr>
+         <tr><td height="30px">热腾腾的</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/lava_bucket']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/lava_bucket']['criteria']['lava_bucket'],true),true));?></td></tr>
+         <tr><td height="30px">这不是铁镐么</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/iron_tools']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/iron_tools']['criteria']['iron_pickaxe'],true),true));?></td></tr>
+         <tr><td height="30px">抱歉，今天不行</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/deflect_arrow']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/deflect_arrow']['criteria']['deflected_projectile'],true),true));?></td></tr>
+         <tr><td height="30px">冰桶挑战</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/form_obsidian']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/form_obsidian']['criteria']['obsidian'],true),true));?></td></tr>
+         <tr><td height="30px">钻石！</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/mine_diamond']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/mine_diamond']['criteria']['diamond'],true),true));?></td></tr>
+         <tr><td height="30px">我们需要再深入些</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/enter_the_nether']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/enter_the_nether']['criteria']['entered_nether'],true),true));?></td></tr>
+         <tr><td height="30px">用钻石包裹我</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/shiny_gear']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/shiny_gear']['criteria']['diamond_boots'],true),true));?></td></tr>
+         <tr><td height="30px">附魔师</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/enchant_item']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/enchant_item']['criteria']['enchanted_item'],true),true));?></td></tr>
+         <tr><td height="30px">僵尸科医生</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/cure_zombie_villager']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/cure_zombie_villager']['criteria']['cured_zombie'],true),true));?></td></tr>
+         <tr><td height="30px">隔墙有眼</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/follow_ender_eye']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/follow_ender_eye']['criteria']['in_stronghold'],true),true));?></td></tr>
+         <tr><td height="30px">结束了？</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:story/enter_the_end']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:story/enter_the_end']['criteria']['entered_end'],true),true));?></td></tr>
+         <tr><td height="30px">下界</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/root']['criteria']['entered_nether'],true),true));?></td></tr>
+         <tr><td height="30px">子空间泡泡</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/fast_travel']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/fast_travel']['criteria']['travelled'],true),true));?></td></tr>
+         <tr><td height="30px">可怕的要塞</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/find_fortress']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/find_fortress']['criteria']['fortress'],true),true));?></td></tr>
+         <tr><td height="30px">见鬼去吧</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/return_to_sender']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/return_to_sender']['criteria']['killed_ghast'],true),true));?></td></tr>
+         <tr><td height="30px">与火共舞</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/obtain_blaze_rod']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/obtain_blaze_rod']['criteria']['blaze_rod'],true),true));?></td></tr>
+         <tr><td height="30px">诡异又可怕的骷髅</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/get_wither_skull']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/get_wither_skull']['criteria']['wither_skull'],true),true));?></td></tr>
+         <tr><td height="30px">不稳定的同盟</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/uneasy_alliance']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/uneasy_alliance']['criteria']['killed_ghast'],true),true));?></td></tr>
+         <tr><td height="30px">本地的酿造厂</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/brew_potion']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/brew_potion']['criteria']['potion'],true),true));?></td></tr>
+         <tr><td height="30px">凋零山庄</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/summon_wither']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/summon_wither']['criteria']['summoned'],true),true));?></td></tr>
+         <tr><td height="30px">狂乱的鸡尾酒</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/all_potions']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/all_potions']['criteria']['all_effects'],true),true));?></td></tr>
+         <tr><td height="30px">带信标回家</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/create_beacon']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/create_beacon']['criteria']['beacon'],true),true));?></td></tr>
+         <tr><td height="30px">为什么会变成这样呢？</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/all_effects']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/all_effects']['criteria']['all_effects'],true),true));?></td></tr>
+         <tr><td height="30px">信标工程师</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:nether/create_full_beacon']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:nether/create_full_beacon']['criteria']['beacon'],true),true));?></td></tr>
+         <tr><td height="30px">末地</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/root']['criteria']['entered_end'],true),true));?></td></tr>
+         <tr><td height="30px">解放末地</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/kill_dragon']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/kill_dragon']['criteria']['killed_dragon'],true),true));?></td></tr>
+         <tr><td height="30px">下一世代</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/dragon_egg']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/dragon_egg']['criteria']['dragon_egg'],true),true));?></td></tr>
+         <tr><td height="30px">结束了...再一次...</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/respawn_dragon']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/respawn_dragon']['criteria']['summoned_dragon'],true),true));?></td></tr>
+         <tr><td height="30px">你需要来点薄荷糖</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/dragon_breath']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/dragon_breath']['criteria']['dragon_breath'],true),true));?></td></tr>
+         <tr><td height="30px">在游戏尽头的城市</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/find_end_city']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/find_end_city']['criteria']['in_city'],true),true));?></td></tr>
+         <tr><td height="30px">天空即为极限</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/elytra']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/elytra']['criteria']['elytra'],true),true));?></td></tr>
+         <tr><td height="30px">这上面的风景不错</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:end/levitate']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:end/levitate']['criteria']['levitated'],true),true));?></td></tr>
+         <tr><td height="30px">冒险</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/root']['criteria']['killed_something'],true),true));?></td></tr>
+         <tr><td height="30px">怪物猎人</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/kill_a_mob']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/kill_a_mob']['criteria']['minecraft:zombie'],true),true));?></td></tr>
+         <tr><td height="30px">这交易不错！</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/trade']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/trade']['criteria']['traded'],true),true));?></td></tr>
+         <tr><td height="30px">甜蜜的梦</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/sleep_in_bed']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/sleep_in_bed']['criteria']['slept_in_bed'],true),true));?></td></tr>
+         <tr><td height="30px">抖包袱</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/throw_trident']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/throw_trident']['criteria']['shot_trident'],true),true));?></td></tr>
+         <tr><td height="30px">瞄准目标</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/shoot_arrow']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/shoot_arrow']['criteria']['shot_arrow'],true),true));?></td></tr>
+         <tr><td height="30px">怪物狩猎完成</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/kill_all_mobs']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/kill_all_mobs']['done'])))){ echo "时间无法确定"; } ?></td></tr>
+         <tr><td height="30px">超越生死</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/totem_of_undying']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/totem_of_undying']['criteria']['used_totem'],true),true));?></td></tr>
+         <tr><td height="30px">招募援兵</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/summon_iron_golem']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/summon_iron_golem']['criteria']['summoned_golem'],true),true));?></td></tr>
+         <tr><td height="30px">探索的时光</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/adventuring_time']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/adventuring_time']['done'])))){ echo "时间无法确定"; } ?> </td></tr>
+         <tr><td height="30px">不战而栗</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/very_very_frightening']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/very_very_frightening']['criteria']['struck_villager'],true),true));?></td></tr>
+         <tr><td height="30px">狙击手间的对决</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:adventure/sniper_duel']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:adventure/sniper_duel']['criteria']['killed_skeleton'],true),true));?></td></tr>
+         <tr><td height="30px">农牧业</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/root']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/root']['criteria']['consumed_item'],true),true));?></td></tr>
+         <tr><td height="30px">我从哪儿来？</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/breed_an_animal']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/breed_an_animal']['criteria']['bred'],true),true));?></td></tr>
+         <tr><td height="30px">永恒的伙伴</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tame_an_animal']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tame_an_animal']['criteria']['tamed_animal'],true),true));?></td></tr>
+         <tr><td height="30px">开荒垦地</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/plant_seed']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/plant_seed']['criteria']['wheat'],true),true));?></td></tr>
+         <tr><td height="30px">腥味十足的生意</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/fishy_business']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/fishy_business']['criteria']['cod'],true),true));?></td></tr>
+         <tr><td height="30px">成双成对</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/bred_all_animals']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/bred_all_animals']['done'])))){ echo "时间无法确定"; } ?> </td></tr>
+         <tr><td height="30px">均衡饮食</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/balanced_diet']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/balanced_diet']['done'])))){ echo "时间无法确定"; } ?></td></tr>
+         <tr><td height="30px">终极奉献</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/break_diamond_hoe']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/break_diamond_hoe']['criteria']['broke_hoe'],true),true));?></td></tr>
+         <tr><td height="30px">战术性钓鱼</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tactical_fishing']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tactical_fishing']['criteria']['pufferfish_bucket'],true),true));?></td></tr>
          
           </table>
         </div>
@@ -185,54 +200,54 @@ $post_data = array(
       </div>
       <div id="collapseN" class="collapse" data-parent="#accordion">
         <div class="card-body">
-         <table class="table-striped table-bordered" width="100%">
-         <tr><td><?php echo '游戏退出次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:leave_game']); ?> </td></tr>
-         <tr><td><?php echo '游戏时间(分钟):'.json_decode($dkjson['stats']['minecraft:custom/minecraft:play_one_minute']); ?> </td></tr>
-         <tr><td><?php echo '上次死亡时间:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:time_since_death']); ?> </td></tr>
-         <tr><td><?php echo '潜行时间	:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:sneak_time']); ?> </td></tr>
-         <tr><td><?php echo '行走距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:walk_one_cm']); ?> </td></tr>
-         <tr><td><?php echo '潜行距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:crouch_one_cm']); ?> </td></tr>
-         <tr><td><?php echo '疾跑距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:sprint_one_cm']); ?> </td></tr>
-         <tr><td><?php echo '游泳距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:swim_one_cm']); ?> </td></tr>
-         <tr><td><?php echo '掉落高度:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:fall_one_cm']); ?> </td></tr>
-         <tr><td><?php echo '攀爬高度:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:climb_one_cm']); ?> </td></tr>
-         <tr><td><?php echo '飞行距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:fly_one_cm']); ?> </td></tr>
-         <tr><td><?php echo '水下移动距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:walk_on_water_one_cm']); ?> </td></tr>
-         <tr><td><?php echo '坐矿车移动距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:minecart_one_cm']); ?> </td></tr>
-         <tr><td><?php echo '坐船移动距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:boat_one_cm']); ?> </td></tr>
-         <tr><td><?php echo '骑马移动距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:horse_one_cm']); ?> </td></tr>
-         <tr><td><?php echo '鞘翅飞行距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:aviate_one_cm']); ?> </td></tr>
-         <tr><td><?php echo '跳跃次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:jump']); ?> </td></tr>
-         <tr><td><?php echo '造成伤害:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:damage_dealt']); ?> </td></tr>
-         <tr><td><?php echo '受到伤害:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:damage_taken']); ?> </td></tr>
-         <tr><td><?php echo '总死亡次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:deaths']); ?> </td></tr>
-         <tr><td><?php echo '生物击杀次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:mob_kills']); ?> </td></tr>
-         <tr><td><?php echo '玩家击杀次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:player_kills']); ?> </td></tr>
-         <tr><td><?php echo '物品掉落次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:drop']); ?> </td></tr>
-         <tr><td><?php echo '物品附魔次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:enchant_item']); ?> </td></tr>
-         <tr><td><?php echo '生物繁殖次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:animals_bred']); ?> </td></tr>
-         <tr><td><?php echo '捕鱼次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:fish_caught']); ?> </td></tr>
-         <tr><td><?php echo '村民对话次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:talked_to_villager']); ?> </td></tr>
-         <tr><td><?php echo '村民交易次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:traded_with_villager']); ?> </td></tr>
-         <tr><td><?php echo '吃掉的蛋糕片数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:eat_cake_slice']); ?> </td></tr>
-         <tr><td><?php echo '炼药锅装水次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:fill_cauldron']); ?> </td></tr>
-         <tr><td><?php echo '炼药锅取水次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:use_cauldron']); ?> </td></tr>
-         <tr><td><?php echo '酿造台互动次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:interact_with_brewingstand']); ?> </td></tr>
-         <tr><td><?php echo '信标互动次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:interact_with_beacon']); ?> </td></tr>
-         <tr><td><?php echo '工作台互动次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:interact_with_crafting_table']); ?> </td></tr>
-         <tr><td><?php echo '熔炉互动次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:interact_with_furnace']); ?> </td></tr>
-         <tr><td><?php echo '搜查发射器次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:inspect_dispenser']); ?> </td></tr>
-         <tr><td><?php echo '搜查投掷器次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:inspect_dropper']); ?> </td></tr>
-         <tr><td><?php echo '搜查漏斗次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:inspect_hopper']); ?> </td></tr>
-         <tr><td><?php echo '打开箱子次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:open_chest']); ?> </td></tr>
-         <tr><td><?php echo '陷阱箱触发次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:trigger_trapped_chest']); ?> </td></tr>
-         <tr><td><?php echo '打开末影箱次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:open_enderchest']); ?> </td></tr>
-         <tr><td><?php echo '音符盒播放次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:play_noteblock']); ?> </td></tr>
-         <tr><td><?php echo '音符盒调整次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:tune_noteblock']); ?> </td></tr>
-         <tr><td><?php echo '盆栽种植次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:pot_flower']); ?> </td></tr>
-         <tr><td><?php echo '播放唱片次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:play_record']); ?> </td></tr>
-         <tr><td><?php echo '躺在床上的次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:sleep_in_bed']); ?> </td></tr>
-         <tr><td><?php echo '打开潜影盒次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:open_shulker_box']); ?> </td></tr>
+         <table class="table-bordered" width="100%">
+         <tr><td height="30px"><?php echo '游戏退出次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:leave_game']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '游戏时间(分钟):'.json_decode($dkjson['stats']['minecraft:custom/minecraft:play_one_minute']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '上次死亡时间:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:time_since_death']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '潜行时间	:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:sneak_time']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '行走距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:walk_one_cm']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '潜行距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:crouch_one_cm']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '疾跑距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:sprint_one_cm']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '游泳距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:swim_one_cm']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '掉落高度:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:fall_one_cm']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '攀爬高度:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:climb_one_cm']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '飞行距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:fly_one_cm']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '水下移动距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:walk_on_water_one_cm']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '坐矿车移动距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:minecart_one_cm']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '坐船移动距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:boat_one_cm']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '骑马移动距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:horse_one_cm']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '鞘翅飞行距离:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:aviate_one_cm']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '跳跃次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:jump']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '造成伤害:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:damage_dealt']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '受到伤害:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:damage_taken']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '总死亡次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:deaths']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '生物击杀次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:mob_kills']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '玩家击杀次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:player_kills']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '物品掉落次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:drop']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '物品附魔次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:enchant_item']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '生物繁殖次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:animals_bred']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '捕鱼次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:fish_caught']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '村民对话次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:talked_to_villager']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '村民交易次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:traded_with_villager']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '吃掉的蛋糕片数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:eat_cake_slice']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '炼药锅装水次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:fill_cauldron']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '炼药锅取水次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:use_cauldron']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '酿造台互动次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:interact_with_brewingstand']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '信标互动次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:interact_with_beacon']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '工作台互动次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:interact_with_crafting_table']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '熔炉互动次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:interact_with_furnace']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '搜查发射器次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:inspect_dispenser']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '搜查投掷器次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:inspect_dropper']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '搜查漏斗次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:inspect_hopper']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '打开箱子次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:open_chest']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '陷阱箱触发次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:trigger_trapped_chest']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '打开末影箱次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:open_enderchest']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '音符盒播放次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:play_noteblock']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '音符盒调整次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:tune_noteblock']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '盆栽种植次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:pot_flower']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '播放唱片次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:play_record']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '躺在床上的次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:sleep_in_bed']); ?> </td></tr>
+         <tr><td height="30px"><?php echo '打开潜影盒次数:'.json_decode($dkjson['stats']['minecraft:custom/minecraft:open_shulker_box']); ?> </td></tr>
           </table>
         </div>
       </div>
@@ -245,41 +260,41 @@ $post_data = array(
       </div>
       <div id="collapseTwo" class="collapse" data-parent="#accordion">
         <div class="card-body">
-          <table class="table-striped table-bordered" width="100%">
-    <tr><td><?php echo '烈焰人:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:blaze']); ?> </td></tr>
-    <tr><td><?php echo '洞穴蜘蛛:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:cave_spider']); ?> </td></tr>
-    <tr><td><?php echo '爬行者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:creeper']); ?> </td></tr>
-    <tr><td><?php echo '溺尸:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:drowned']); ?> </td></tr>
-    <tr><td><?php echo '远古守卫者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:elder_guardian']); ?> </td></tr>
-    <tr><td><?php echo '末影龙:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:ender_dragon']); ?> </td></tr>
-    <tr><td><?php echo '末影人:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:enderman']); ?> </td></tr>
-    <tr><td><?php echo '末影螨:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:endermite']); ?> </td></tr>
-    <tr><td><?php echo '唤魔者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:evoker']); ?> </td></tr>
-    <tr><td><?php echo '恶魂:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:ghast']); ?> </td></tr>
-    <tr><td><?php echo '守卫者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:guardian']); ?> </td></tr>
-    <tr><td><?php echo '尸壳:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:husk']); ?> </td></tr>
-    <tr><td><?php echo '幻术师:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:illusioner']); ?> </td></tr>
-    <tr><td><?php echo '岩浆怪:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:magma_cube']); ?> </td></tr>
-    <tr><td><?php echo '幻翼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:phantom']); ?> </td></tr>
-    <tr><td><?php echo '河豚:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:pufferfish']); ?> </td></tr>
-    <tr><td><?php echo '潜影贝:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:shulker']); ?> </td></tr>
-    <tr><td><?php echo '蠹虫:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:silverfish']); ?> </td></tr>
-    <tr><td><?php echo '骷髅:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:skeleton']); ?> </td></tr>
-    <tr><td><?php echo '史莱姆:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:slime']); ?> </td></tr>
-    <tr><td><?php echo '蜘蛛:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:spider']); ?> </td></tr>
-    <tr><td><?php echo '流浪者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:stray']); ?> </td></tr>
-    <tr><td><?php echo '恼鬼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:vex']); ?> </td></tr>
-    <tr><td><?php echo '卫道士:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:vindicator']); ?> </td></tr>
-    <tr><td><?php echo '女巫:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:witch']); ?> </td></tr>
-    <tr><td><?php echo '凋零:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:wither']); ?> </td></tr>
-    <tr><td><?php echo '凋零骷髅:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:wither_skeleton']); ?> </td></tr>
-    <tr><td><?php echo '僵尸:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:zombie']); ?> </td></tr>
-    <tr><td><?php echo '僵尸猪人:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:zombie_pigman']); ?> </td></tr>
-    <tr><td><?php echo '僵尸村民:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:zombie_villager']); ?> </td></tr>
-    <tr><td><?php echo '羊驼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:llama']); ?> </td></tr>
-    <tr><td><?php echo '北极熊:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:polar_bear']); ?> </td></tr>
-    <tr><td><?php echo '狼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:wolf']); ?> </td></tr>
-    <tr><td><?php echo '玩家:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:player']); ?> </td></tr>
+          <table class="table-bordered" width="100%">
+    <tr><td height="30px"><?php echo '烈焰人:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:blaze']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '洞穴蜘蛛:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:cave_spider']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '爬行者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:creeper']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '溺尸:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:drowned']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '远古守卫者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:elder_guardian']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '末影龙:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:ender_dragon']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '末影人:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:enderman']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '末影螨:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:endermite']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '唤魔者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:evoker']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '恶魂:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:ghast']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '守卫者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:guardian']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '尸壳:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:husk']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '幻术师:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:illusioner']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '岩浆怪:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:magma_cube']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '幻翼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:phantom']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '河豚:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:pufferfish']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '潜影贝:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:shulker']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '蠹虫:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:silverfish']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '骷髅:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:skeleton']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '史莱姆:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:slime']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '蜘蛛:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:spider']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '流浪者:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:stray']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '恼鬼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:vex']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '卫道士:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:vindicator']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '女巫:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:witch']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '凋零:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:wither']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '凋零骷髅:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:wither_skeleton']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '僵尸:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:zombie']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '僵尸猪人:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:zombie_pigman']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '僵尸村民:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:zombie_villager']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '羊驼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:llama']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '北极熊:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:polar_bear']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '狼:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:wolf']); ?> </td></tr>
+    <tr><td height="30px"><?php echo '玩家:'.json_decode($dkjson['stats']['minecraft:killed_by/minecraft:player']); ?> </td></tr>
 
 	</table>
         </div>
@@ -293,597 +308,597 @@ $post_data = array(
       </div>
       <div id="collapseThree" class="collapse" data-parent="#accordion">
         <div class="card-body">
-          <table class="table-striped table-bordered" width="100%">
-              <tr><td><?php echo '石头:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone']); ?> </td></tr>
-              <tr><td><?php echo '花岗岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:granite']); ?> </td></tr>
-              <tr><td><?php echo '磨制花岗岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:polished_granite']); ?> </td></tr>
-              <tr><td><?php echo '闪长岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:diorite']); ?> </td></tr>
-              <tr><td><?php echo '磨制闪长岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:polished_diorite']); ?> </td></tr>
-              <tr><td><?php echo '安山岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:andesite']); ?> </td></tr>
-              <tr><td><?php echo '磨制安山岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:polished_andesite']); ?> </td></tr>
-              <tr><td><?php echo '草方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:grass_block']); ?> </td></tr>
-              <tr><td><?php echo '泥土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dirt']); ?> </td></tr>
-              <tr><td><?php echo '砂土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:coarse_dirt']); ?> </td></tr>
-              <tr><td><?php echo '灰化土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:podzol']); ?> </td></tr>
-              <tr><td><?php echo '圆石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '橡木木板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_planks']); ?> </td></tr>
-              <tr><td><?php echo '云杉木板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_planks']); ?> </td></tr>
-              <tr><td><?php echo '白桦木板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_planks']); ?> </td></tr>
-              <tr><td><?php echo '丛林木板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_planks']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_planks']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木木板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_planks']); ?> </td></tr>
-              <tr><td><?php echo '橡树树苗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '云杉树苗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_sapling']); ?> </td></tr>
-              <tr><td><?php echo '白桦树苗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_sapling']); ?> </td></tr>
-              <tr><td><?php echo '丛林树苗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_sapling']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树苗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_sapling']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树苗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '水:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:water']); ?> </td></tr>
-              <tr><td><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bubble_column']); ?> </td></tr>
-              <tr><td><?php echo '熔岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lava']); ?> </td></tr>
-              <tr><td><?php echo '基岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bedrock']); ?> </td></tr>
-              <tr><td><?php echo '沙子:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sand']); ?> </td></tr>
-              <tr><td><?php echo '红沙:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_sand']); ?> </td></tr>
-              <tr><td><?php echo '沙砾:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gravel']); ?> </td></tr>
-              <tr><td><?php echo '金矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gold_ore']); ?> </td></tr>
-              <tr><td><?php echo '铁矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:iron_ore']); ?> </td></tr>
-              <tr><td><?php echo '煤矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:coal_ore']); ?> </td></tr>
-              <tr><td><?php echo '橡木原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_log']); ?> </td></tr>
-              <tr><td><?php echo '云杉原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_log']); ?> </td></tr>
-              <tr><td><?php echo '白桦原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_log']); ?> </td></tr>
-              <tr><td><?php echo '丛林原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_log']); ?> </td></tr>
-              <tr><td><?php echo '金合欢原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_log']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮橡木原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮云杉原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_spruce_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮白桦原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_birch_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮丛林原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_jungle_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮金合欢原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_acacia_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮深色橡木原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_dark_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮橡木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮云杉木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_spruce_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮白桦木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_birch_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮丛林木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_jungle_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮金合欢木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_acacia_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮深色橡木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_dark_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '橡木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '云杉木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_wood']); ?> </td></tr>
-              <tr><td><?php echo '白桦木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_wood']); ?> </td></tr>
-              <tr><td><?php echo '丛林木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_wood']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_wood']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '橡树树叶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_leaves']); ?> </td></tr>
-              <tr><td><?php echo '云杉树叶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_leaves']); ?> </td></tr>
-              <tr><td><?php echo '白桦树叶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_leaves']); ?> </td></tr>
-              <tr><td><?php echo '丛林树叶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_leaves']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树叶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_leaves']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树叶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_leaves']); ?> </td></tr>
-              <tr><td><?php echo '海绵:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sponge']); ?> </td></tr>
-              <tr><td><?php echo '湿海绵:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:wet_sponge']); ?> </td></tr>
-              <tr><td><?php echo '玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:glass']); ?> </td></tr>
-              <tr><td><?php echo '青金石矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lapis_ore']); ?> </td></tr>
-              <tr><td><?php echo '青金石块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lapis_block']); ?> </td></tr>
-              <tr><td><?php echo '发射器:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dispenser']); ?> </td></tr>
-              <tr><td><?php echo '砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sandstone']); ?> </td></tr>
-              <tr><td><?php echo '錾制砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chiseled_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '切制砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cut_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '音符盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:note_block']); ?> </td></tr>
-              <tr><td><?php echo '充能铁轨:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:powered_rail']); ?> </td></tr>
-              <tr><td><?php echo '探测铁轨:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:detector_rail']); ?> </td></tr>
-              <tr><td><?php echo '粘性活塞:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sticky_piston']); ?> </td></tr>
-              <tr><td><?php echo '蜘蛛网:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cobweb']); ?> </td></tr>
-              <tr><td><?php echo '草丛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:grass']); ?> </td></tr>
-              <tr><td><?php echo '蕨:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:fern']); ?> </td></tr>
-              <tr><td><?php echo '枯萎的灌木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_bush']); ?> </td></tr>
-              <tr><td><?php echo '海草:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:seagrass']); ?> </td></tr>
-              <tr><td><?php echo '高海草:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tall_seagrass']); ?> </td></tr>
-              <tr><td><?php echo '海泡菜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sea_pickle']); ?> </td></tr>
-              <tr><td><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:piston']); ?> </td></tr>
-              <tr><td><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_wool']); ?> </td></tr>
-              <tr><td><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_wool']); ?> </td></tr>
-              <tr><td><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_wool']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_wool']); ?> </td></tr>
-              <tr><td><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_wool']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_wool']); ?> </td></tr>
-              <tr><td><?php echo '粉红色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_wool']); ?> </td></tr>
-              <tr><td><?php echo '灰色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_wool']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_wool']); ?> </td></tr>
-              <tr><td><?php echo '青色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_wool']); ?> </td></tr>
-              <tr><td><?php echo '紫色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_wool']); ?> </td></tr>
-              <tr><td><?php echo '蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_wool']); ?> </td></tr>
-              <tr><td><?php echo '棕色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_wool']); ?> </td></tr>
-              <tr><td><?php echo '绿色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_wool']); ?> </td></tr>
-              <tr><td><?php echo '红色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_wool']); ?> </td></tr>
-              <tr><td><?php echo '黑色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_wool']); ?> </td></tr>
-              <tr><td><?php echo '蒲公英:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dandelion']); ?> </td></tr>
-              <tr><td><?php echo '虞美人:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:poppy']); ?> </td></tr>
-              <tr><td><?php echo '兰花:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_orchid']); ?> </td></tr>
-              <tr><td><?php echo '绒球葱:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:allium']); ?> </td></tr>
-              <tr><td><?php echo '茜草花:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:azure_bluet']); ?> </td></tr>
-              <tr><td><?php echo '红色郁金香:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_tulip']); ?> </td></tr>
-              <tr><td><?php echo '橙色郁金香:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_tulip']); ?> </td></tr>
-              <tr><td><?php echo '白色郁金香:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_tulip']); ?> </td></tr>
-              <tr><td><?php echo '粉红色郁金香:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_tulip']); ?> </td></tr>
-              <tr><td><?php echo '滨菊:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oxeye_daisy']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '金块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gold_block']); ?> </td></tr>
-              <tr><td><?php echo '铁块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:iron_block']); ?> </td></tr>
-              <tr><td><?php echo '橡木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '云杉木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_slab']); ?> </td></tr>
-              <tr><td><?php echo '白桦木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_slab']); ?> </td></tr>
-              <tr><td><?php echo '丛林木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_slab']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_slab']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '石台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone_slab']); ?> </td></tr>
-              <tr><td><?php echo '砂岩台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sandstone_slab']); ?> </td></tr>
-              <tr><td><?php echo '石质木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:petrified_oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '圆石台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cobblestone_slab']); ?> </td></tr>
-              <tr><td><?php echo '砖块台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '石砖台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '石英台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:quartz_slab']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_sandstone_slab']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purpur_slab']); ?> </td></tr>
-              <tr><td><?php echo '海晶石台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:prismarine_slab']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:prismarine_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_prismarine_slab']); ?> </td></tr>
-              <tr><td><?php echo '平滑石英块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:smooth_quartz']); ?> </td></tr>
-              <tr><td><?php echo '平滑红砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:smooth_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '平滑砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:smooth_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '平滑石头:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:smooth_stone']); ?> </td></tr>
-              <tr><td><?php echo '砖块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bricks']); ?> </td></tr>
-              <tr><td><?php echo 'TNT:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tnt']); ?> </td></tr>
-              <tr><td><?php echo '书架:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bookshelf']); ?> </td></tr>
-              <tr><td><?php echo '苔石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:mossy_cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '黑曜石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:obsidian']); ?> </td></tr>
-              <tr><td><?php echo '火把:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:torch']); ?> </td></tr>
-              <tr><td><?php echo '墙上的火把:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:wall_torch']); ?> </td></tr>
-              <tr><td><?php echo '末地烛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:end_rod']); ?> </td></tr>
-              <tr><td><?php echo '紫颂植物:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chorus_plant']); ?> </td></tr>
-              <tr><td><?php echo '紫颂花:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chorus_flower']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purpur_block']); ?> </td></tr>
-              <tr><td><?php echo '竖纹紫珀块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purpur_pillar']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purpur_stairs']); ?> </td></tr>
-              <tr><td><?php echo '橡木楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_stairs']); ?> </td></tr>
-              <tr><td><?php echo '云杉木楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_stairs']); ?> </td></tr>
-              <tr><td><?php echo '白桦木楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_stairs']); ?> </td></tr>
-              <tr><td><?php echo '丛林木楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_stairs']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_stairs']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_stairs']); ?> </td></tr>
-              <tr><td><?php echo '箱子:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chest']); ?> </td></tr>
-              <tr><td><?php echo '钻石矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:diamond_ore']); ?> </td></tr>
-              <tr><td><?php echo '钻石块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:diamond_block']); ?> </td></tr>
-              <tr><td><?php echo '工作台:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:crafting_table']); ?> </td></tr>
-              <tr><td><?php echo '耕地:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:farmland']); ?> </td></tr>
-              <tr><td><?php echo '熔炉:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:furnace']); ?> </td></tr>
-              <tr><td><?php echo '梯子:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:ladder']); ?> </td></tr>
-              <tr><td><?php echo '铁轨:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:rail']); ?> </td></tr>
-              <tr><td><?php echo '圆石楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cobblestone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '拉杆:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lever']); ?> </td></tr>
-              <tr><td><?php echo '石质压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '橡木压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '云杉木压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '白桦木压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '丛林木压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '红石矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:redstone_ore']); ?> </td></tr>
-              <tr><td><?php echo '红石火把:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:redstone_torch']); ?> </td></tr>
-              <tr><td><?php echo '墙上的红石火把:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:redstone_wall_torch']); ?> </td></tr>
-              <tr><td><?php echo '石质按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone_button']); ?> </td></tr>
-              <tr><td><?php echo '雪:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:snow']); ?> </td></tr>
-              <tr><td><?php echo '冰:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:ice']); ?> </td></tr>
-              <tr><td><?php echo '雪块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:snow_block']); ?> </td></tr>
-              <tr><td><?php echo '仙人掌:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cactus']); ?> </td></tr>
-              <tr><td><?php echo '粘土块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:clay']); ?> </td></tr>
-              <tr><td><?php echo '唱片机:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jukebox']); ?> </td></tr>
-              <tr><td><?php echo '橡木栅栏:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_fence']); ?> </td></tr>
-              <tr><td><?php echo '云杉木栅栏:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_fence']); ?> </td></tr>
-              <tr><td><?php echo '白桦木栅栏:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_fence']); ?> </td></tr>
-              <tr><td><?php echo '丛林木栅栏:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_fence']); ?> </td></tr>
-              <tr><td><?php echo '金合欢栅栏:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_fence']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木栅栏:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_fence']); ?> </td></tr>
-              <tr><td><?php echo '南瓜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pumpkin']); ?> </td></tr>
-              <tr><td><?php echo '雕刻过的南瓜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:carved_pumpkin']); ?> </td></tr>
-              <tr><td><?php echo '地狱岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:netherrack']); ?> </td></tr>
-              <tr><td><?php echo '灵魂沙:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:soul_sand']); ?> </td></tr>
-              <tr><td><?php echo '荧石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:glowstone']); ?> </td></tr>
-              <tr><td><?php echo '南瓜灯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jack_o_lantern']); ?> </td></tr>
-              <tr><td><?php echo '橡木活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '云杉木活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '白桦木活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '丛林木活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的石头:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:infested_stone']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的圆石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:infested_cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:infested_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的苔石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:infested_mossy_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的裂石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:infested_cracked_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的錾制石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:infested_chiseled_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '苔石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:mossy_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '裂石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cracked_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '錾制石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chiseled_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_mushroom_block']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_mushroom_block']); ?> </td></tr>
-              <tr><td><?php echo '蘑菇柄:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:mushroom_stem']); ?> </td></tr>
-              <tr><td><?php echo '铁栏杆:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:iron_bars']); ?> </td></tr>
-              <tr><td><?php echo '玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '西瓜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:melon']); ?> </td></tr>
-              <tr><td><?php echo '藤蔓:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:vine']); ?> </td></tr>
-              <tr><td><?php echo '橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '云杉木栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '白桦木栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '丛林木栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '砖块楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '石砖楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '菌丝:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:mycelium']); ?> </td></tr>
-              <tr><td><?php echo '睡莲:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lily_pad']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_bricks']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_brick_fence']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '附魔台:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:enchanting_table']); ?> </td></tr>
-              <tr><td><?php echo '末地传送门框架:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:end_portal_frame']); ?> </td></tr>
-              <tr><td><?php echo '末地石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:end_stone']); ?> </td></tr>
-              <tr><td><?php echo '末地石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:end_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '红石灯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:redstone_lamp']); ?> </td></tr>
-              <tr><td><?php echo '砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sandstone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '绿宝石矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:emerald_ore']); ?> </td></tr>
-              <tr><td><?php echo '末地箱:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:ender_chest']); ?> </td></tr>
-              <tr><td><?php echo '绊线钩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tripwire_hook']); ?> </td></tr>
-              <tr><td><?php echo '绊线:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tripwire']); ?> </td></tr>
-              <tr><td><?php echo '绿宝石块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:emerald_block']); ?> </td></tr>
-              <tr><td><?php echo '信标:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:beacon']); ?> </td></tr>
-              <tr><td><?php echo '圆石墙:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cobblestone_wall']); ?> </td></tr>
-              <tr><td><?php echo '苔石墙:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:mossy_cobblestone_wall']); ?> </td></tr>
-              <tr><td><?php echo '橡木按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_button']); ?> </td></tr>
-              <tr><td><?php echo '云杉木按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_button']); ?> </td></tr>
-              <tr><td><?php echo '白桦木按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_button']); ?> </td></tr>
-              <tr><td><?php echo '丛林木按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_button']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_button']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_button']); ?> </td></tr>
-              <tr><td><?php echo '铁砧:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:anvil']); ?> </td></tr>
-              <tr><td><?php echo '开裂的铁砧:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chipped_anvil']); ?> </td></tr>
-              <tr><td><?php echo '损坏的铁砧:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:damaged_anvil']); ?> </td></tr>
-              <tr><td><?php echo '陷阱箱:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:trapped_chest']); ?> </td></tr>
-              <tr><td><?php echo '轻质测重压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_weighted_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '重质测重压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:heavy_weighted_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '阳光传感器:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:daylight_detector']); ?> </td></tr>
-              <tr><td><?php echo '红石块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:redstone_block']); ?> </td></tr>
-              <tr><td><?php echo '下界石英矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_quartz_ore']); ?> </td></tr>
-              <tr><td><?php echo '漏斗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:hopper']); ?> </td></tr>
-              <tr><td><?php echo '錾制石英块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chiseled_quartz_block']); ?> </td></tr>
-              <tr><td><?php echo '石英块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:quartz_block']); ?> </td></tr>
-              <tr><td><?php echo '竖纹石英块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:quartz_pillar']); ?> </td></tr>
-              <tr><td><?php echo '石英楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:quartz_stairs']); ?> </td></tr>
-              <tr><td><?php echo '激活铁轨:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:activator_rail']); ?> </td></tr>
-              <tr><td><?php echo '投掷器:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dropper']); ?> </td></tr>
-              <tr><td><?php echo '白色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '橙色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '品红色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '粉红色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '青色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '紫色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '棕色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '红色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黑色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '铁活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:iron_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '干草块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:hay_block']); ?> </td></tr>
-              <tr><td><?php echo '白色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_carpet']); ?> </td></tr>
-              <tr><td><?php echo '橙色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_carpet']); ?> </td></tr>
-              <tr><td><?php echo '品红色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_carpet']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黄色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_carpet']); ?> </td></tr>
-              <tr><td><?php echo '粉红色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_carpet']); ?> </td></tr>
-              <tr><td><?php echo '灰色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_carpet']); ?> </td></tr>
-              <tr><td><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_carpet']); ?> </td></tr>
-              <tr><td><?php echo '青色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_carpet']); ?> </td></tr>
-              <tr><td><?php echo '紫色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_carpet']); ?> </td></tr>
-              <tr><td><?php echo '蓝色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_carpet']); ?> </td></tr>
-              <tr><td><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_carpet']); ?> </td></tr>
-              <tr><td><?php echo '绿色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_carpet']); ?> </td></tr>
-              <tr><td><?php echo '红色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黑色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_carpet']); ?> </td></tr>
-              <tr><td><?php echo '陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:terracotta']); ?> </td></tr>
-              <tr><td><?php echo '煤炭块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:coal_block']); ?> </td></tr>
-              <tr><td><?php echo '浮冰:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:packed_ice']); ?> </td></tr>
-              <tr><td><?php echo '粘液块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:slime_block']); ?> </td></tr>
-              <tr><td><?php echo '草径:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:grass_path']); ?> </td></tr>
-              <tr><td><?php echo '向日葵:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sunflower']); ?> </td></tr>
-              <tr><td><?php echo '欧丁香:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lilac']); ?> </td></tr>
-              <tr><td><?php echo '玫瑰丛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:rose_bush']); ?> </td></tr>
-              <tr><td><?php echo '牡丹:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:peony']); ?> </td></tr>
-              <tr><td><?php echo '高草:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tall_grass']); ?> </td></tr>
-              <tr><td><?php echo '大型蕨:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:large_fern']); ?> </td></tr>
-              <tr><td><?php echo '白色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '橙色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '品红色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黄色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '粉红色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '灰色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '青色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '紫色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '棕色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '绿色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '红色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黑色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '白色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '橙色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '品红色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黄色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '粉红色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '青色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '紫色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '棕色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '红色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黑色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '海晶石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:prismarine']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:prismarine_bricks']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_prismarine']); ?> </td></tr>
-              <tr><td><?php echo '海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:prismarine_stairs']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:prismarine_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_prismarine_stairs']); ?> </td></tr>
-              <tr><td><?php echo '海晶灯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sea_lantern']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '錾制红砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chiseled_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '切制红砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cut_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_sandstone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '岩浆块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magma_block']); ?> </td></tr>
-              <tr><td><?php echo '地狱疣块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_wart_block']); ?> </td></tr>
-              <tr><td><?php echo '红色地狱砖块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_nether_bricks']); ?> </td></tr>
-              <tr><td><?php echo '骨块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bone_block']); ?> </td></tr>
-              <tr><td><?php echo '侦测器:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:observer']); ?> </td></tr>
-              <tr><td><?php echo '潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '品红色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黄色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '粉红色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '青色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '紫色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '棕色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '红色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黑色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '橙色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '品红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '粉红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '青色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '紫色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '棕色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黑色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '白色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_concrete']); ?> </td></tr>
-              <tr><td><?php echo '橙色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_concrete']); ?> </td></tr>
-              <tr><td><?php echo '品红色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_concrete']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黄色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_concrete']); ?> </td></tr>
-              <tr><td><?php echo '粉红色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_concrete']); ?> </td></tr>
-              <tr><td><?php echo '灰色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_concrete']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_concrete']); ?> </td></tr>
-              <tr><td><?php echo '青色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_concrete']); ?> </td></tr>
-              <tr><td><?php echo '紫色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_concrete']); ?> </td></tr>
-              <tr><td><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_concrete']); ?> </td></tr>
-              <tr><td><?php echo '棕色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_concrete']); ?> </td></tr>
-              <tr><td><?php echo '绿色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_concrete']); ?> </td></tr>
-              <tr><td><?php echo '红色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黑色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_concrete']); ?> </td></tr>
-              <tr><td><?php echo '白色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '橙色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '品红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黄色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '粉红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '青色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '紫色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '棕色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黑色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '海龟蛋:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:turtle_egg']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_tube_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_brain_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_bubble_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_fire_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_horn_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tube_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brain_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bubble_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:fire_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:horn_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tube_coral']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brain_coral']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bubble_coral']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:fire_coral']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:horn_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_tube_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_brain_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_bubble_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_fire_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_horn_coral']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tube_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tube_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brain_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brain_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bubble_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bubble_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:fire_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:fire_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:horn_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:horn_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_tube_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_tube_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_brain_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_brain_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_bubble_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_bubble_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_fire_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_fire_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_horn_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '蓝冰:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_ice']); ?> </td></tr>
-              <tr><td><?php echo '潮涌核心:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:conduit']); ?> </td></tr>
-              <tr><td><?php echo '橡木门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_door']); ?> </td></tr>
-              <tr><td><?php echo '铁门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:iron_door']); ?> </td></tr>
-              <tr><td><?php echo '云杉木门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_door']); ?> </td></tr>
-              <tr><td><?php echo '白桦木门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_door']); ?> </td></tr>
-              <tr><td><?php echo '丛林木门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_door']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_door']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_door']); ?> </td></tr>
-              <tr><td><?php echo '红石中继器:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:repeater']); ?> </td></tr>
-              <tr><td><?php echo '红石比较器:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:comparator']); ?> </td></tr>
-              <tr><td><?php echo '火:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:fire']); ?> </td></tr>
-              <tr><td><?php echo '小麦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:wheat']); ?> </td></tr>
-              <tr><td><?php echo '红石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:redstone_wire']); ?> </td></tr>
-              <tr><td><?php echo '甘蔗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sugar_cane']); ?> </td></tr>
-              <tr><td><?php echo '海带:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:kelp']); ?> </td></tr>
-              <tr><td><?php echo '海带植物:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:kelp_plant']); ?> </td></tr>
-              <tr><td><?php echo '干海带块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dried_kelp_block']); ?> </td></tr>
-              <tr><td><?php echo '蛋糕:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cake']); ?> </td></tr>
-              <tr><td><?php echo '白色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_bed']); ?> </td></tr>
-              <tr><td><?php echo '橙色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_bed']); ?> </td></tr>
-              <tr><td><?php echo '品红色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_bed']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_bed']); ?> </td></tr>
-              <tr><td><?php echo '黄色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_bed']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_bed']); ?> </td></tr>
-              <tr><td><?php echo '粉红色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_bed']); ?> </td></tr>
-              <tr><td><?php echo '灰色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_bed']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_bed']); ?> </td></tr>
-              <tr><td><?php echo '青色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_bed']); ?> </td></tr>
-              <tr><td><?php echo '紫色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_bed']); ?> </td></tr>
-              <tr><td><?php echo '蓝色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_bed']); ?> </td></tr>
-              <tr><td><?php echo '棕色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_bed']); ?> </td></tr>
-              <tr><td><?php echo '绿色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_bed']); ?> </td></tr>
-              <tr><td><?php echo '红色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_bed']); ?> </td></tr>
-              <tr><td><?php echo '黑色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_bed']); ?> </td></tr>
-              <tr><td><?php echo '南瓜茎:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pumpkin_stem']); ?> </td></tr>
-              <tr><td><?php echo '结果的南瓜茎:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:attached_pumpkin_stem']); ?> </td></tr>
-              <tr><td><?php echo '西瓜茎:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:melon_stem']); ?> </td></tr>
-              <tr><td><?php echo '结果的西瓜茎:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:attached_melon_stem']); ?> </td></tr>
-              <tr><td><?php echo '地狱疣:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_wart']); ?> </td></tr>
-              <tr><td><?php echo '酿造台:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brewing_stand']); ?> </td></tr>
-              <tr><td><?php echo '炼药锅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cauldron']); ?> </td></tr>
-              <tr><td><?php echo '花盆:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:flower_pot']); ?> </td></tr>
-              <tr><td><?php echo '虞美人盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_poppy']); ?> </td></tr>
-              <tr><td><?php echo '蒲公英盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_dandelion']); ?> </td></tr>
-              <tr><td><?php echo '橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '云杉树苗盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_spruce_sapling']); ?> </td></tr>
-              <tr><td><?php echo '白桦树苗盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_birch_sapling']); ?> </td></tr>
-              <tr><td><?php echo '丛林树苗盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_jungle_sapling']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_red_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_brown_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '仙人掌盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_cactus']); ?> </td></tr>
-              <tr><td><?php echo '枯萎的灌木盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_dead_bush']); ?> </td></tr>
-              <tr><td><?php echo '蕨盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_fern']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树苗盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_acacia_sapling']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_dark_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '兰花盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_blue_orchid']); ?> </td></tr>
-              <tr><td><?php echo '绒球葱盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_allium']); ?> </td></tr>
-              <tr><td><?php echo '茜草花盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_azure_bluet']); ?> </td></tr>
-              <tr><td><?php echo '红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_red_tulip']); ?> </td></tr>
-              <tr><td><?php echo '橙色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_orange_tulip']); ?> </td></tr>
-              <tr><td><?php echo '白色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_white_tulip']); ?> </td></tr>
-              <tr><td><?php echo '粉红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_pink_tulip']); ?> </td></tr>
-              <tr><td><?php echo '滨菊盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_oxeye_daisy']); ?> </td></tr>
-              <tr><td><?php echo '胡萝卜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:carrots']); ?> </td></tr>
-              <tr><td><?php echo '马铃薯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potatoes']); ?> </td></tr>
-              <tr><td><?php echo '骷髅头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:skeleton_skull']); ?> </td></tr>
-              <tr><td><?php echo '墙上的骷髅头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:skeleton_wall_skull']); ?> </td></tr>
-              <tr><td><?php echo '凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:wither_skeleton_skull']); ?> </td></tr>
-              <tr><td><?php echo '墙上的凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:wither_skeleton_wall_skull']); ?> </td></tr>
-              <tr><td><?php echo '僵尸的头:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:zombie_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的僵尸头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:zombie_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '玩家头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:player_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的玩家头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:player_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '爬行者的头:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:creeper_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的爬行者头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:creeper_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '龙首:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dragon_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的龙首:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dragon_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '白色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_banner']); ?> </td></tr>
-              <tr><td><?php echo '橙色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_banner']); ?> </td></tr>
-              <tr><td><?php echo '品红色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_banner']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_banner']); ?> </td></tr>
-              <tr><td><?php echo '黄色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_banner']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_banner']); ?> </td></tr>
-              <tr><td><?php echo '粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_banner']); ?> </td></tr>
-              <tr><td><?php echo '灰色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_banner']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_banner']); ?> </td></tr>
-              <tr><td><?php echo '青色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_banner']); ?> </td></tr>
-              <tr><td><?php echo '紫色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_banner']); ?> </td></tr>
-              <tr><td><?php echo '蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_banner']); ?> </td></tr>
-              <tr><td><?php echo '棕色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_banner']); ?> </td></tr>
-              <tr><td><?php echo '绿色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_banner']); ?> </td></tr>
-              <tr><td><?php echo '红色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_banner']); ?> </td></tr>
-              <tr><td><?php echo '黑色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的品红色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黄色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的灰色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的青色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的紫色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的棕色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的绿色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的红色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黑色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '霜冰:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:frosted_ice']); ?> </td></tr>
-              <tr><td><?php echo '甜菜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:beetroots']); ?> </td></tr>
-              <tr><td><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bubble_column']); ?> </td></tr>
-              <tr><td><?php echo '刷怪箱:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spawner']); ?> </td></tr>
-              <tr><td><?php echo '下界传送门方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_portal']); ?> </td></tr>
-              <tr><td><?php echo '末地传送门方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:end_portal']); ?> </td></tr>
-              <tr><td><?php echo '末地折跃门方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:end_gateway']); ?> </td></tr>
-              <tr><td><?php echo '命令方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:command_block']); ?> </td></tr>
-              <tr><td><?php echo '连锁型命令方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chain_command_block']); ?> </td></tr>
-              <tr><td><?php echo '循环型命令方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:repeating_command_block']); ?> </td></tr>
-              <tr><td><?php echo '结构方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:structure_block']); ?> </td></tr>
-              <tr><td><?php echo '结构空位:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:structure_void']); ?> </td></tr>
-              <tr><td><?php echo '屏障:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:barrier']); ?> </td></tr>
+          <table class="table-bordered" width="100%">
+              <tr><td height="30px"><?php echo '石头:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '花岗岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:granite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制花岗岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:polished_granite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '闪长岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:diorite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制闪长岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:polished_diorite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '安山岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:andesite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制安山岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:polished_andesite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:grass_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '泥土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dirt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:coarse_dirt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰化土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:podzol']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木木板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木木板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树苗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树苗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树苗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树苗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树苗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树苗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '水:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:water']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bubble_column']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '熔岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lava']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '基岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bedrock']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '沙子:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红沙:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '沙砾:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gravel']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gold_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:iron_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '煤矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:coal_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮橡木原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮云杉原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_spruce_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮白桦原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_birch_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮丛林原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_jungle_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮金合欢原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_acacia_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮深色橡木原木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_dark_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮橡木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮云杉木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_spruce_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮白桦木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_birch_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮丛林木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_jungle_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮金合欢木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_acacia_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮深色橡木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stripped_dark_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树叶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树叶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树叶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树叶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树叶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树叶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海绵:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sponge']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '湿海绵:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:wet_sponge']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青金石矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lapis_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青金石块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lapis_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '发射器:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dispenser']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chiseled_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '切制砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cut_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '音符盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:note_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '充能铁轨:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:powered_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '探测铁轨:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:detector_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘性活塞:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sticky_piston']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蜘蛛网:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cobweb']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草丛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:grass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蕨:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '枯萎的灌木:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海草:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:seagrass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '高海草:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tall_seagrass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海泡菜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sea_pickle']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:piston']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色羊毛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蒲公英:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dandelion']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '虞美人:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:poppy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '兰花:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_orchid']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绒球葱:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:allium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '茜草花:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:azure_bluet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色郁金香:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色郁金香:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色郁金香:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色郁金香:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '滨菊:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oxeye_daisy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gold_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:iron_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sandstone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质木台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:petrified_oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cobblestone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:quartz_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_sandstone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purpur_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:prismarine_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:prismarine_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石台阶:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_prismarine_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑石英块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:smooth_quartz']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑红砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:smooth_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:smooth_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑石头:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:smooth_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo 'TNT:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tnt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '书架:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bookshelf']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:mossy_cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑曜石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:obsidian']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火把:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的火把:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:wall_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地烛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:end_rod']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫颂植物:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chorus_plant']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫颂花:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chorus_flower']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purpur_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '竖纹紫珀块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purpur_pillar']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purpur_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '箱子:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '钻石矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:diamond_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '钻石块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:diamond_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '工作台:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:crafting_table']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '耕地:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:farmland']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '熔炉:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:furnace']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '梯子:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:ladder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁轨:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cobblestone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '拉杆:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lever']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:redstone_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石火把:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:redstone_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的红石火把:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:redstone_wall_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雪:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:snow']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '冰:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雪块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:snow_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '仙人掌:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cactus']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘土块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:clay']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '唱片机:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jukebox']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木栅栏:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木栅栏:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木栅栏:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木栅栏:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢栅栏:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木栅栏:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pumpkin']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雕刻过的南瓜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:carved_pumpkin']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:netherrack']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灵魂沙:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:soul_sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '荧石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:glowstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜灯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jack_o_lantern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的石头:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:infested_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的圆石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:infested_cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:infested_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的苔石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:infested_mossy_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的裂石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:infested_cracked_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的錾制石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:infested_chiseled_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:mossy_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '裂石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cracked_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chiseled_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_mushroom_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_mushroom_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蘑菇柄:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:mushroom_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁栏杆:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:iron_bars']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '西瓜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:melon']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '藤蔓:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:vine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:stone_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '菌丝:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:mycelium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '睡莲:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lily_pad']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖栅栏门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_brick_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '附魔台:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:enchanting_table']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地传送门框架:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:end_portal_frame']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:end_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:end_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石灯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:redstone_lamp']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sandstone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿宝石矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:emerald_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地箱:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:ender_chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绊线钩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tripwire_hook']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绊线:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tripwire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿宝石块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:emerald_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '信标:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:beacon']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石墙:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cobblestone_wall']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石墙:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:mossy_cobblestone_wall']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木按钮:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁砧:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '开裂的铁砧:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chipped_anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '损坏的铁砧:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:damaged_anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '陷阱箱:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:trapped_chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '轻质测重压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_weighted_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '重质测重压力板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:heavy_weighted_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '阳光传感器:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:daylight_detector']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:redstone_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '下界石英矿石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_quartz_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '漏斗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:hopper']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制石英块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chiseled_quartz_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:quartz_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '竖纹石英块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:quartz_pillar']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:quartz_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '激活铁轨:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:activator_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '投掷器:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dropper']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁活板门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:iron_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '干草块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:hay_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色地毯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '煤炭块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:coal_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '浮冰:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:packed_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘液块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:slime_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草径:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:grass_path']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '向日葵:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sunflower']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '欧丁香:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lilac']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玫瑰丛:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:rose_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '牡丹:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:peony']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '高草:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tall_grass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '大型蕨:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:large_fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色玻璃:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色玻璃板:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:prismarine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:prismarine_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_prismarine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:prismarine_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:prismarine_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_prismarine_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶灯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sea_lantern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制红砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chiseled_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '切制红砂岩:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cut_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_sandstone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '岩浆块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magma_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱疣块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_wart_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色地狱砖块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_nether_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '骨块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bone_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '侦测器:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:observer']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色潜影盒:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海龟蛋:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:turtle_egg']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_tube_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_brain_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_bubble_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_fire_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_horn_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tube_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brain_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bubble_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:fire_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:horn_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tube_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brain_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bubble_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:fire_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:horn_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_tube_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_brain_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_bubble_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_fire_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_horn_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tube_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:tube_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brain_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brain_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bubble_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bubble_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:fire_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:fire_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:horn_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:horn_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_tube_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_tube_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_brain_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_brain_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_bubble_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_bubble_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_fire_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_fire_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_horn_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝冰:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '潮涌核心:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:conduit']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:oak_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:iron_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spruce_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:birch_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:jungle_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:acacia_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木门:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dark_oak_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石中继器:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:repeater']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石比较器:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:comparator']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:fire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '小麦:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:wheat']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:redstone_wire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '甘蔗:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:sugar_cane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海带:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:kelp']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海带植物:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:kelp_plant']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '干海带块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dried_kelp_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蛋糕:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cake']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色床:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜茎:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pumpkin_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结果的南瓜茎:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:attached_pumpkin_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '西瓜茎:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:melon_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结果的西瓜茎:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:attached_melon_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱疣:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_wart']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '酿造台:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brewing_stand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '炼药锅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cauldron']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '花盆:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:flower_pot']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '虞美人盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_poppy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蒲公英盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_dandelion']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树苗盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_spruce_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树苗盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_birch_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树苗盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_jungle_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_red_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_brown_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '仙人掌盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_cactus']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '枯萎的灌木盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_dead_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蕨盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树苗盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_acacia_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_dark_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '兰花盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_blue_orchid']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绒球葱盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_allium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '茜草花盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_azure_bluet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_red_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_orange_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_white_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_pink_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '滨菊盆栽:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potted_oxeye_daisy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '胡萝卜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:carrots']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '马铃薯:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:potatoes']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '骷髅头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:skeleton_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的骷髅头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:skeleton_wall_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:wither_skeleton_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:wither_skeleton_wall_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '僵尸的头:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:zombie_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的僵尸头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:zombie_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玩家头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:player_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的玩家头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:player_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '爬行者的头:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:creeper_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的爬行者头颅:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:creeper_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '龙首:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dragon_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的龙首:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:dragon_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:white_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:orange_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的品红色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:magenta_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_blue_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黄色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:yellow_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:lime_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:pink_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的灰色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:gray_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:light_gray_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的青色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:cyan_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的紫色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:purple_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:blue_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的棕色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:brown_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的绿色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:green_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的红色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:red_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黑色旗帜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:black_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '霜冰:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:frosted_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '甜菜:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:beetroots']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:bubble_column']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '刷怪箱:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:spawner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '下界传送门方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:nether_portal']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地传送门方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:end_portal']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地折跃门方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:end_gateway']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '命令方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '连锁型命令方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:chain_command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '循环型命令方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:repeating_command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结构方块:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:structure_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结构空位:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:structure_void']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '屏障:'.json_decode($dkjson['stats']['minecraft:picked_up/minecraft:barrier']); ?> </td></tr>
 </table>
         </div>
       </div>  
@@ -896,597 +911,597 @@ $post_data = array(
       </div>
       <div id="collapseFour" class="collapse" data-parent="#accordion">
         <div class="card-body">
-          <table class="table-striped table-bordered" width="100%">
-              <tr><td><?php echo '石头:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone']); ?> </td></tr>
-              <tr><td><?php echo '花岗岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:granite']); ?> </td></tr>
-              <tr><td><?php echo '磨制花岗岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:polished_granite']); ?> </td></tr>
-              <tr><td><?php echo '闪长岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:diorite']); ?> </td></tr>
-              <tr><td><?php echo '磨制闪长岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:polished_diorite']); ?> </td></tr>
-              <tr><td><?php echo '安山岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:andesite']); ?> </td></tr>
-              <tr><td><?php echo '磨制安山岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:polished_andesite']); ?> </td></tr>
-              <tr><td><?php echo '草方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:grass_block']); ?> </td></tr>
-              <tr><td><?php echo '泥土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dirt']); ?> </td></tr>
-              <tr><td><?php echo '砂土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:coarse_dirt']); ?> </td></tr>
-              <tr><td><?php echo '灰化土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:podzol']); ?> </td></tr>
-              <tr><td><?php echo '圆石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '橡木木板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_planks']); ?> </td></tr>
-              <tr><td><?php echo '云杉木板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_planks']); ?> </td></tr>
-              <tr><td><?php echo '白桦木板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_planks']); ?> </td></tr>
-              <tr><td><?php echo '丛林木板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_planks']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_planks']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木木板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_planks']); ?> </td></tr>
-              <tr><td><?php echo '橡树树苗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '云杉树苗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_sapling']); ?> </td></tr>
-              <tr><td><?php echo '白桦树苗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_sapling']); ?> </td></tr>
-              <tr><td><?php echo '丛林树苗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_sapling']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树苗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_sapling']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树苗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '水:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:water']); ?> </td></tr>
-              <tr><td><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bubble_column']); ?> </td></tr>
-              <tr><td><?php echo '熔岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lava']); ?> </td></tr>
-              <tr><td><?php echo '基岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bedrock']); ?> </td></tr>
-              <tr><td><?php echo '沙子:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sand']); ?> </td></tr>
-              <tr><td><?php echo '红沙:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_sand']); ?> </td></tr>
-              <tr><td><?php echo '沙砾:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gravel']); ?> </td></tr>
-              <tr><td><?php echo '金矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gold_ore']); ?> </td></tr>
-              <tr><td><?php echo '铁矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:iron_ore']); ?> </td></tr>
-              <tr><td><?php echo '煤矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:coal_ore']); ?> </td></tr>
-              <tr><td><?php echo '橡木原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_log']); ?> </td></tr>
-              <tr><td><?php echo '云杉原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_log']); ?> </td></tr>
-              <tr><td><?php echo '白桦原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_log']); ?> </td></tr>
-              <tr><td><?php echo '丛林原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_log']); ?> </td></tr>
-              <tr><td><?php echo '金合欢原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_log']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮橡木原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮云杉原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_spruce_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮白桦原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_birch_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮丛林原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_jungle_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮金合欢原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_acacia_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮深色橡木原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_dark_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮橡木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮云杉木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_spruce_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮白桦木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_birch_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮丛林木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_jungle_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮金合欢木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_acacia_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮深色橡木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_dark_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '橡木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '云杉木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_wood']); ?> </td></tr>
-              <tr><td><?php echo '白桦木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_wood']); ?> </td></tr>
-              <tr><td><?php echo '丛林木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_wood']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_wood']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '橡树树叶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_leaves']); ?> </td></tr>
-              <tr><td><?php echo '云杉树叶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_leaves']); ?> </td></tr>
-              <tr><td><?php echo '白桦树叶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_leaves']); ?> </td></tr>
-              <tr><td><?php echo '丛林树叶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_leaves']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树叶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_leaves']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树叶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_leaves']); ?> </td></tr>
-              <tr><td><?php echo '海绵:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sponge']); ?> </td></tr>
-              <tr><td><?php echo '湿海绵:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:wet_sponge']); ?> </td></tr>
-              <tr><td><?php echo '玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:glass']); ?> </td></tr>
-              <tr><td><?php echo '青金石矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lapis_ore']); ?> </td></tr>
-              <tr><td><?php echo '青金石块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lapis_block']); ?> </td></tr>
-              <tr><td><?php echo '发射器:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dispenser']); ?> </td></tr>
-              <tr><td><?php echo '砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sandstone']); ?> </td></tr>
-              <tr><td><?php echo '錾制砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chiseled_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '切制砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cut_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '音符盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:note_block']); ?> </td></tr>
-              <tr><td><?php echo '充能铁轨:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:powered_rail']); ?> </td></tr>
-              <tr><td><?php echo '探测铁轨:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:detector_rail']); ?> </td></tr>
-              <tr><td><?php echo '粘性活塞:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sticky_piston']); ?> </td></tr>
-              <tr><td><?php echo '蜘蛛网:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cobweb']); ?> </td></tr>
-              <tr><td><?php echo '草丛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:grass']); ?> </td></tr>
-              <tr><td><?php echo '蕨:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:fern']); ?> </td></tr>
-              <tr><td><?php echo '枯萎的灌木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_bush']); ?> </td></tr>
-              <tr><td><?php echo '海草:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:seagrass']); ?> </td></tr>
-              <tr><td><?php echo '高海草:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tall_seagrass']); ?> </td></tr>
-              <tr><td><?php echo '海泡菜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sea_pickle']); ?> </td></tr>
-              <tr><td><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:piston']); ?> </td></tr>
-              <tr><td><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_wool']); ?> </td></tr>
-              <tr><td><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_wool']); ?> </td></tr>
-              <tr><td><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_wool']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_wool']); ?> </td></tr>
-              <tr><td><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_wool']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_wool']); ?> </td></tr>
-              <tr><td><?php echo '粉红色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_wool']); ?> </td></tr>
-              <tr><td><?php echo '灰色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_wool']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_wool']); ?> </td></tr>
-              <tr><td><?php echo '青色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_wool']); ?> </td></tr>
-              <tr><td><?php echo '紫色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_wool']); ?> </td></tr>
-              <tr><td><?php echo '蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_wool']); ?> </td></tr>
-              <tr><td><?php echo '棕色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_wool']); ?> </td></tr>
-              <tr><td><?php echo '绿色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_wool']); ?> </td></tr>
-              <tr><td><?php echo '红色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_wool']); ?> </td></tr>
-              <tr><td><?php echo '黑色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_wool']); ?> </td></tr>
-              <tr><td><?php echo '蒲公英:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dandelion']); ?> </td></tr>
-              <tr><td><?php echo '虞美人:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:poppy']); ?> </td></tr>
-              <tr><td><?php echo '兰花:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_orchid']); ?> </td></tr>
-              <tr><td><?php echo '绒球葱:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:allium']); ?> </td></tr>
-              <tr><td><?php echo '茜草花:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:azure_bluet']); ?> </td></tr>
-              <tr><td><?php echo '红色郁金香:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_tulip']); ?> </td></tr>
-              <tr><td><?php echo '橙色郁金香:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_tulip']); ?> </td></tr>
-              <tr><td><?php echo '白色郁金香:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_tulip']); ?> </td></tr>
-              <tr><td><?php echo '粉红色郁金香:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_tulip']); ?> </td></tr>
-              <tr><td><?php echo '滨菊:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oxeye_daisy']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '金块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gold_block']); ?> </td></tr>
-              <tr><td><?php echo '铁块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:iron_block']); ?> </td></tr>
-              <tr><td><?php echo '橡木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '云杉木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_slab']); ?> </td></tr>
-              <tr><td><?php echo '白桦木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_slab']); ?> </td></tr>
-              <tr><td><?php echo '丛林木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_slab']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_slab']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '石台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone_slab']); ?> </td></tr>
-              <tr><td><?php echo '砂岩台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sandstone_slab']); ?> </td></tr>
-              <tr><td><?php echo '石质木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:petrified_oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '圆石台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cobblestone_slab']); ?> </td></tr>
-              <tr><td><?php echo '砖块台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '石砖台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '石英台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:quartz_slab']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_sandstone_slab']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purpur_slab']); ?> </td></tr>
-              <tr><td><?php echo '海晶石台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:prismarine_slab']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:prismarine_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_prismarine_slab']); ?> </td></tr>
-              <tr><td><?php echo '平滑石英块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:smooth_quartz']); ?> </td></tr>
-              <tr><td><?php echo '平滑红砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:smooth_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '平滑砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:smooth_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '平滑石头:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:smooth_stone']); ?> </td></tr>
-              <tr><td><?php echo '砖块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bricks']); ?> </td></tr>
-              <tr><td><?php echo 'TNT:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tnt']); ?> </td></tr>
-              <tr><td><?php echo '书架:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bookshelf']); ?> </td></tr>
-              <tr><td><?php echo '苔石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:mossy_cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '黑曜石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:obsidian']); ?> </td></tr>
-              <tr><td><?php echo '火把:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:torch']); ?> </td></tr>
-              <tr><td><?php echo '墙上的火把:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:wall_torch']); ?> </td></tr>
-              <tr><td><?php echo '末地烛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:end_rod']); ?> </td></tr>
-              <tr><td><?php echo '紫颂植物:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chorus_plant']); ?> </td></tr>
-              <tr><td><?php echo '紫颂花:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chorus_flower']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purpur_block']); ?> </td></tr>
-              <tr><td><?php echo '竖纹紫珀块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purpur_pillar']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purpur_stairs']); ?> </td></tr>
-              <tr><td><?php echo '橡木楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_stairs']); ?> </td></tr>
-              <tr><td><?php echo '云杉木楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_stairs']); ?> </td></tr>
-              <tr><td><?php echo '白桦木楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_stairs']); ?> </td></tr>
-              <tr><td><?php echo '丛林木楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_stairs']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_stairs']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_stairs']); ?> </td></tr>
-              <tr><td><?php echo '箱子:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chest']); ?> </td></tr>
-              <tr><td><?php echo '钻石矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:diamond_ore']); ?> </td></tr>
-              <tr><td><?php echo '钻石块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:diamond_block']); ?> </td></tr>
-              <tr><td><?php echo '工作台:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:crafting_table']); ?> </td></tr>
-              <tr><td><?php echo '耕地:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:farmland']); ?> </td></tr>
-              <tr><td><?php echo '熔炉:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:furnace']); ?> </td></tr>
-              <tr><td><?php echo '梯子:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:ladder']); ?> </td></tr>
-              <tr><td><?php echo '铁轨:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:rail']); ?> </td></tr>
-              <tr><td><?php echo '圆石楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cobblestone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '拉杆:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lever']); ?> </td></tr>
-              <tr><td><?php echo '石质压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '橡木压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '云杉木压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '白桦木压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '丛林木压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '红石矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:redstone_ore']); ?> </td></tr>
-              <tr><td><?php echo '红石火把:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:redstone_torch']); ?> </td></tr>
-              <tr><td><?php echo '墙上的红石火把:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:redstone_wall_torch']); ?> </td></tr>
-              <tr><td><?php echo '石质按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone_button']); ?> </td></tr>
-              <tr><td><?php echo '雪:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:snow']); ?> </td></tr>
-              <tr><td><?php echo '冰:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:ice']); ?> </td></tr>
-              <tr><td><?php echo '雪块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:snow_block']); ?> </td></tr>
-              <tr><td><?php echo '仙人掌:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cactus']); ?> </td></tr>
-              <tr><td><?php echo '粘土块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:clay']); ?> </td></tr>
-              <tr><td><?php echo '唱片机:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jukebox']); ?> </td></tr>
-              <tr><td><?php echo '橡木栅栏:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_fence']); ?> </td></tr>
-              <tr><td><?php echo '云杉木栅栏:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_fence']); ?> </td></tr>
-              <tr><td><?php echo '白桦木栅栏:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_fence']); ?> </td></tr>
-              <tr><td><?php echo '丛林木栅栏:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_fence']); ?> </td></tr>
-              <tr><td><?php echo '金合欢栅栏:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_fence']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木栅栏:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_fence']); ?> </td></tr>
-              <tr><td><?php echo '南瓜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pumpkin']); ?> </td></tr>
-              <tr><td><?php echo '雕刻过的南瓜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:carved_pumpkin']); ?> </td></tr>
-              <tr><td><?php echo '地狱岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:netherrack']); ?> </td></tr>
-              <tr><td><?php echo '灵魂沙:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:soul_sand']); ?> </td></tr>
-              <tr><td><?php echo '荧石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:glowstone']); ?> </td></tr>
-              <tr><td><?php echo '南瓜灯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jack_o_lantern']); ?> </td></tr>
-              <tr><td><?php echo '橡木活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '云杉木活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '白桦木活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '丛林木活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的石头:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:infested_stone']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的圆石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:infested_cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:infested_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的苔石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:infested_mossy_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的裂石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:infested_cracked_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的錾制石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:infested_chiseled_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '苔石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:mossy_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '裂石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cracked_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '錾制石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chiseled_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_mushroom_block']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_mushroom_block']); ?> </td></tr>
-              <tr><td><?php echo '蘑菇柄:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:mushroom_stem']); ?> </td></tr>
-              <tr><td><?php echo '铁栏杆:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:iron_bars']); ?> </td></tr>
-              <tr><td><?php echo '玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '西瓜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:melon']); ?> </td></tr>
-              <tr><td><?php echo '藤蔓:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:vine']); ?> </td></tr>
-              <tr><td><?php echo '橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '云杉木栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '白桦木栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '丛林木栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '砖块楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '石砖楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '菌丝:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:mycelium']); ?> </td></tr>
-              <tr><td><?php echo '睡莲:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lily_pad']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_bricks']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_brick_fence']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '附魔台:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:enchanting_table']); ?> </td></tr>
-              <tr><td><?php echo '末地传送门框架:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:end_portal_frame']); ?> </td></tr>
-              <tr><td><?php echo '末地石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:end_stone']); ?> </td></tr>
-              <tr><td><?php echo '末地石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:end_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '红石灯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:redstone_lamp']); ?> </td></tr>
-              <tr><td><?php echo '砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sandstone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '绿宝石矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:emerald_ore']); ?> </td></tr>
-              <tr><td><?php echo '末地箱:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:ender_chest']); ?> </td></tr>
-              <tr><td><?php echo '绊线钩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tripwire_hook']); ?> </td></tr>
-              <tr><td><?php echo '绊线:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tripwire']); ?> </td></tr>
-              <tr><td><?php echo '绿宝石块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:emerald_block']); ?> </td></tr>
-              <tr><td><?php echo '信标:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:beacon']); ?> </td></tr>
-              <tr><td><?php echo '圆石墙:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cobblestone_wall']); ?> </td></tr>
-              <tr><td><?php echo '苔石墙:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:mossy_cobblestone_wall']); ?> </td></tr>
-              <tr><td><?php echo '橡木按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_button']); ?> </td></tr>
-              <tr><td><?php echo '云杉木按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_button']); ?> </td></tr>
-              <tr><td><?php echo '白桦木按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_button']); ?> </td></tr>
-              <tr><td><?php echo '丛林木按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_button']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_button']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_button']); ?> </td></tr>
-              <tr><td><?php echo '铁砧:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:anvil']); ?> </td></tr>
-              <tr><td><?php echo '开裂的铁砧:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chipped_anvil']); ?> </td></tr>
-              <tr><td><?php echo '损坏的铁砧:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:damaged_anvil']); ?> </td></tr>
-              <tr><td><?php echo '陷阱箱:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:trapped_chest']); ?> </td></tr>
-              <tr><td><?php echo '轻质测重压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_weighted_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '重质测重压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:heavy_weighted_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '阳光传感器:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:daylight_detector']); ?> </td></tr>
-              <tr><td><?php echo '红石块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:redstone_block']); ?> </td></tr>
-              <tr><td><?php echo '下界石英矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_quartz_ore']); ?> </td></tr>
-              <tr><td><?php echo '漏斗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:hopper']); ?> </td></tr>
-              <tr><td><?php echo '錾制石英块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chiseled_quartz_block']); ?> </td></tr>
-              <tr><td><?php echo '石英块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:quartz_block']); ?> </td></tr>
-              <tr><td><?php echo '竖纹石英块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:quartz_pillar']); ?> </td></tr>
-              <tr><td><?php echo '石英楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:quartz_stairs']); ?> </td></tr>
-              <tr><td><?php echo '激活铁轨:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:activator_rail']); ?> </td></tr>
-              <tr><td><?php echo '投掷器:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dropper']); ?> </td></tr>
-              <tr><td><?php echo '白色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '橙色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '品红色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '粉红色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '青色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '紫色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '棕色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '红色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黑色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '铁活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:iron_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '干草块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:hay_block']); ?> </td></tr>
-              <tr><td><?php echo '白色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_carpet']); ?> </td></tr>
-              <tr><td><?php echo '橙色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_carpet']); ?> </td></tr>
-              <tr><td><?php echo '品红色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_carpet']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黄色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_carpet']); ?> </td></tr>
-              <tr><td><?php echo '粉红色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_carpet']); ?> </td></tr>
-              <tr><td><?php echo '灰色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_carpet']); ?> </td></tr>
-              <tr><td><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_carpet']); ?> </td></tr>
-              <tr><td><?php echo '青色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_carpet']); ?> </td></tr>
-              <tr><td><?php echo '紫色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_carpet']); ?> </td></tr>
-              <tr><td><?php echo '蓝色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_carpet']); ?> </td></tr>
-              <tr><td><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_carpet']); ?> </td></tr>
-              <tr><td><?php echo '绿色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_carpet']); ?> </td></tr>
-              <tr><td><?php echo '红色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黑色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_carpet']); ?> </td></tr>
-              <tr><td><?php echo '陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:terracotta']); ?> </td></tr>
-              <tr><td><?php echo '煤炭块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:coal_block']); ?> </td></tr>
-              <tr><td><?php echo '浮冰:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:packed_ice']); ?> </td></tr>
-              <tr><td><?php echo '粘液块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:slime_block']); ?> </td></tr>
-              <tr><td><?php echo '草径:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:grass_path']); ?> </td></tr>
-              <tr><td><?php echo '向日葵:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sunflower']); ?> </td></tr>
-              <tr><td><?php echo '欧丁香:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lilac']); ?> </td></tr>
-              <tr><td><?php echo '玫瑰丛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:rose_bush']); ?> </td></tr>
-              <tr><td><?php echo '牡丹:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:peony']); ?> </td></tr>
-              <tr><td><?php echo '高草:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tall_grass']); ?> </td></tr>
-              <tr><td><?php echo '大型蕨:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:large_fern']); ?> </td></tr>
-              <tr><td><?php echo '白色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '橙色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '品红色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黄色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '粉红色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '灰色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '青色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '紫色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '棕色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '绿色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '红色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黑色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '白色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '橙色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '品红色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黄色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '粉红色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '青色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '紫色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '棕色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '红色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黑色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '海晶石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:prismarine']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:prismarine_bricks']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_prismarine']); ?> </td></tr>
-              <tr><td><?php echo '海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:prismarine_stairs']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:prismarine_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_prismarine_stairs']); ?> </td></tr>
-              <tr><td><?php echo '海晶灯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sea_lantern']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '錾制红砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chiseled_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '切制红砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cut_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_sandstone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '岩浆块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magma_block']); ?> </td></tr>
-              <tr><td><?php echo '地狱疣块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_wart_block']); ?> </td></tr>
-              <tr><td><?php echo '红色地狱砖块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_nether_bricks']); ?> </td></tr>
-              <tr><td><?php echo '骨块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bone_block']); ?> </td></tr>
-              <tr><td><?php echo '侦测器:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:observer']); ?> </td></tr>
-              <tr><td><?php echo '潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '品红色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黄色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '粉红色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '青色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '紫色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '棕色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '红色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黑色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '橙色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '品红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '粉红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '青色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '紫色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '棕色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黑色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '白色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_concrete']); ?> </td></tr>
-              <tr><td><?php echo '橙色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_concrete']); ?> </td></tr>
-              <tr><td><?php echo '品红色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_concrete']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黄色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_concrete']); ?> </td></tr>
-              <tr><td><?php echo '粉红色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_concrete']); ?> </td></tr>
-              <tr><td><?php echo '灰色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_concrete']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_concrete']); ?> </td></tr>
-              <tr><td><?php echo '青色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_concrete']); ?> </td></tr>
-              <tr><td><?php echo '紫色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_concrete']); ?> </td></tr>
-              <tr><td><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_concrete']); ?> </td></tr>
-              <tr><td><?php echo '棕色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_concrete']); ?> </td></tr>
-              <tr><td><?php echo '绿色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_concrete']); ?> </td></tr>
-              <tr><td><?php echo '红色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黑色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_concrete']); ?> </td></tr>
-              <tr><td><?php echo '白色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '橙色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '品红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黄色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '粉红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '青色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '紫色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '棕色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黑色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '海龟蛋:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:turtle_egg']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_tube_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_brain_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_bubble_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_fire_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_horn_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tube_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brain_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bubble_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:fire_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:horn_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tube_coral']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brain_coral']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bubble_coral']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:fire_coral']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:horn_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_tube_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_brain_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_bubble_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_fire_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_horn_coral']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tube_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tube_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brain_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brain_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bubble_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bubble_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:fire_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:fire_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:horn_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:horn_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_tube_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_tube_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_brain_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_brain_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_bubble_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_bubble_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_fire_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_fire_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_horn_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '蓝冰:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_ice']); ?> </td></tr>
-              <tr><td><?php echo '潮涌核心:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:conduit']); ?> </td></tr>
-              <tr><td><?php echo '橡木门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_door']); ?> </td></tr>
-              <tr><td><?php echo '铁门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:iron_door']); ?> </td></tr>
-              <tr><td><?php echo '云杉木门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_door']); ?> </td></tr>
-              <tr><td><?php echo '白桦木门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_door']); ?> </td></tr>
-              <tr><td><?php echo '丛林木门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_door']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_door']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_door']); ?> </td></tr>
-              <tr><td><?php echo '红石中继器:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:repeater']); ?> </td></tr>
-              <tr><td><?php echo '红石比较器:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:comparator']); ?> </td></tr>
-              <tr><td><?php echo '火:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:fire']); ?> </td></tr>
-              <tr><td><?php echo '小麦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:wheat']); ?> </td></tr>
-              <tr><td><?php echo '红石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:redstone_wire']); ?> </td></tr>
-              <tr><td><?php echo '甘蔗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sugar_cane']); ?> </td></tr>
-              <tr><td><?php echo '海带:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:kelp']); ?> </td></tr>
-              <tr><td><?php echo '海带植物:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:kelp_plant']); ?> </td></tr>
-              <tr><td><?php echo '干海带块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dried_kelp_block']); ?> </td></tr>
-              <tr><td><?php echo '蛋糕:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cake']); ?> </td></tr>
-              <tr><td><?php echo '白色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_bed']); ?> </td></tr>
-              <tr><td><?php echo '橙色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_bed']); ?> </td></tr>
-              <tr><td><?php echo '品红色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_bed']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_bed']); ?> </td></tr>
-              <tr><td><?php echo '黄色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_bed']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_bed']); ?> </td></tr>
-              <tr><td><?php echo '粉红色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_bed']); ?> </td></tr>
-              <tr><td><?php echo '灰色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_bed']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_bed']); ?> </td></tr>
-              <tr><td><?php echo '青色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_bed']); ?> </td></tr>
-              <tr><td><?php echo '紫色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_bed']); ?> </td></tr>
-              <tr><td><?php echo '蓝色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_bed']); ?> </td></tr>
-              <tr><td><?php echo '棕色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_bed']); ?> </td></tr>
-              <tr><td><?php echo '绿色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_bed']); ?> </td></tr>
-              <tr><td><?php echo '红色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_bed']); ?> </td></tr>
-              <tr><td><?php echo '黑色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_bed']); ?> </td></tr>
-              <tr><td><?php echo '南瓜茎:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pumpkin_stem']); ?> </td></tr>
-              <tr><td><?php echo '结果的南瓜茎:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:attached_pumpkin_stem']); ?> </td></tr>
-              <tr><td><?php echo '西瓜茎:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:melon_stem']); ?> </td></tr>
-              <tr><td><?php echo '结果的西瓜茎:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:attached_melon_stem']); ?> </td></tr>
-              <tr><td><?php echo '地狱疣:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_wart']); ?> </td></tr>
-              <tr><td><?php echo '酿造台:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brewing_stand']); ?> </td></tr>
-              <tr><td><?php echo '炼药锅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cauldron']); ?> </td></tr>
-              <tr><td><?php echo '花盆:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:flower_pot']); ?> </td></tr>
-              <tr><td><?php echo '虞美人盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_poppy']); ?> </td></tr>
-              <tr><td><?php echo '蒲公英盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_dandelion']); ?> </td></tr>
-              <tr><td><?php echo '橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '云杉树苗盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_spruce_sapling']); ?> </td></tr>
-              <tr><td><?php echo '白桦树苗盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_birch_sapling']); ?> </td></tr>
-              <tr><td><?php echo '丛林树苗盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_jungle_sapling']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_red_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_brown_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '仙人掌盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_cactus']); ?> </td></tr>
-              <tr><td><?php echo '枯萎的灌木盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_dead_bush']); ?> </td></tr>
-              <tr><td><?php echo '蕨盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_fern']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树苗盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_acacia_sapling']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_dark_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '兰花盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_blue_orchid']); ?> </td></tr>
-              <tr><td><?php echo '绒球葱盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_allium']); ?> </td></tr>
-              <tr><td><?php echo '茜草花盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_azure_bluet']); ?> </td></tr>
-              <tr><td><?php echo '红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_red_tulip']); ?> </td></tr>
-              <tr><td><?php echo '橙色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_orange_tulip']); ?> </td></tr>
-              <tr><td><?php echo '白色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_white_tulip']); ?> </td></tr>
-              <tr><td><?php echo '粉红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_pink_tulip']); ?> </td></tr>
-              <tr><td><?php echo '滨菊盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_oxeye_daisy']); ?> </td></tr>
-              <tr><td><?php echo '胡萝卜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:carrots']); ?> </td></tr>
-              <tr><td><?php echo '马铃薯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potatoes']); ?> </td></tr>
-              <tr><td><?php echo '骷髅头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:skeleton_skull']); ?> </td></tr>
-              <tr><td><?php echo '墙上的骷髅头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:skeleton_wall_skull']); ?> </td></tr>
-              <tr><td><?php echo '凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:wither_skeleton_skull']); ?> </td></tr>
-              <tr><td><?php echo '墙上的凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:wither_skeleton_wall_skull']); ?> </td></tr>
-              <tr><td><?php echo '僵尸的头:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:zombie_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的僵尸头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:zombie_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '玩家头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:player_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的玩家头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:player_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '爬行者的头:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:creeper_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的爬行者头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:creeper_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '龙首:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dragon_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的龙首:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dragon_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '白色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_banner']); ?> </td></tr>
-              <tr><td><?php echo '橙色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_banner']); ?> </td></tr>
-              <tr><td><?php echo '品红色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_banner']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_banner']); ?> </td></tr>
-              <tr><td><?php echo '黄色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_banner']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_banner']); ?> </td></tr>
-              <tr><td><?php echo '粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_banner']); ?> </td></tr>
-              <tr><td><?php echo '灰色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_banner']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_banner']); ?> </td></tr>
-              <tr><td><?php echo '青色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_banner']); ?> </td></tr>
-              <tr><td><?php echo '紫色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_banner']); ?> </td></tr>
-              <tr><td><?php echo '蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_banner']); ?> </td></tr>
-              <tr><td><?php echo '棕色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_banner']); ?> </td></tr>
-              <tr><td><?php echo '绿色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_banner']); ?> </td></tr>
-              <tr><td><?php echo '红色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_banner']); ?> </td></tr>
-              <tr><td><?php echo '黑色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的品红色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黄色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的灰色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的青色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的紫色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的棕色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的绿色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的红色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黑色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '霜冰:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:frosted_ice']); ?> </td></tr>
-              <tr><td><?php echo '甜菜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:beetroots']); ?> </td></tr>
-              <tr><td><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bubble_column']); ?> </td></tr>
-              <tr><td><?php echo '刷怪箱:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spawner']); ?> </td></tr>
-              <tr><td><?php echo '下界传送门方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_portal']); ?> </td></tr>
-              <tr><td><?php echo '末地传送门方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:end_portal']); ?> </td></tr>
-              <tr><td><?php echo '末地折跃门方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:end_gateway']); ?> </td></tr>
-              <tr><td><?php echo '命令方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:command_block']); ?> </td></tr>
-              <tr><td><?php echo '连锁型命令方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chain_command_block']); ?> </td></tr>
-              <tr><td><?php echo '循环型命令方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:repeating_command_block']); ?> </td></tr>
-              <tr><td><?php echo '结构方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:structure_block']); ?> </td></tr>
-              <tr><td><?php echo '结构空位:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:structure_void']); ?> </td></tr>
-              <tr><td><?php echo '屏障:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:barrier']); ?> </td></tr>
+          <table class="table-bordered" width="100%">
+              <tr><td height="30px"><?php echo '石头:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '花岗岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:granite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制花岗岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:polished_granite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '闪长岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:diorite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制闪长岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:polished_diorite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '安山岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:andesite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制安山岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:polished_andesite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:grass_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '泥土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dirt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:coarse_dirt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰化土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:podzol']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木木板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木木板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树苗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树苗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树苗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树苗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树苗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树苗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '水:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:water']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bubble_column']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '熔岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lava']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '基岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bedrock']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '沙子:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红沙:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '沙砾:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gravel']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gold_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:iron_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '煤矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:coal_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮橡木原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮云杉原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_spruce_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮白桦原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_birch_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮丛林原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_jungle_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮金合欢原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_acacia_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮深色橡木原木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_dark_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮橡木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮云杉木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_spruce_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮白桦木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_birch_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮丛林木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_jungle_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮金合欢木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_acacia_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮深色橡木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stripped_dark_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树叶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树叶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树叶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树叶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树叶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树叶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海绵:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sponge']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '湿海绵:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:wet_sponge']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青金石矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lapis_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青金石块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lapis_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '发射器:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dispenser']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chiseled_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '切制砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cut_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '音符盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:note_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '充能铁轨:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:powered_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '探测铁轨:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:detector_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘性活塞:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sticky_piston']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蜘蛛网:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cobweb']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草丛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:grass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蕨:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '枯萎的灌木:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海草:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:seagrass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '高海草:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tall_seagrass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海泡菜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sea_pickle']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:piston']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色羊毛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蒲公英:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dandelion']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '虞美人:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:poppy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '兰花:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_orchid']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绒球葱:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:allium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '茜草花:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:azure_bluet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色郁金香:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色郁金香:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色郁金香:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色郁金香:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '滨菊:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oxeye_daisy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gold_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:iron_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sandstone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质木台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:petrified_oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cobblestone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:quartz_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_sandstone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purpur_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:prismarine_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:prismarine_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石台阶:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_prismarine_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑石英块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:smooth_quartz']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑红砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:smooth_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:smooth_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑石头:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:smooth_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo 'TNT:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tnt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '书架:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bookshelf']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:mossy_cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑曜石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:obsidian']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火把:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的火把:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:wall_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地烛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:end_rod']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫颂植物:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chorus_plant']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫颂花:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chorus_flower']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purpur_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '竖纹紫珀块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purpur_pillar']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purpur_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '箱子:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '钻石矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:diamond_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '钻石块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:diamond_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '工作台:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:crafting_table']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '耕地:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:farmland']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '熔炉:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:furnace']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '梯子:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:ladder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁轨:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cobblestone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '拉杆:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lever']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:redstone_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石火把:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:redstone_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的红石火把:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:redstone_wall_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雪:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:snow']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '冰:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雪块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:snow_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '仙人掌:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cactus']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘土块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:clay']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '唱片机:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jukebox']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木栅栏:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木栅栏:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木栅栏:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木栅栏:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢栅栏:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木栅栏:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pumpkin']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雕刻过的南瓜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:carved_pumpkin']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:netherrack']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灵魂沙:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:soul_sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '荧石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:glowstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜灯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jack_o_lantern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的石头:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:infested_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的圆石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:infested_cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:infested_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的苔石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:infested_mossy_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的裂石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:infested_cracked_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的錾制石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:infested_chiseled_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:mossy_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '裂石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cracked_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chiseled_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_mushroom_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_mushroom_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蘑菇柄:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:mushroom_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁栏杆:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:iron_bars']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '西瓜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:melon']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '藤蔓:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:vine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:stone_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '菌丝:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:mycelium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '睡莲:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lily_pad']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖栅栏门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_brick_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '附魔台:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:enchanting_table']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地传送门框架:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:end_portal_frame']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:end_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:end_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石灯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:redstone_lamp']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sandstone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿宝石矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:emerald_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地箱:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:ender_chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绊线钩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tripwire_hook']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绊线:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tripwire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿宝石块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:emerald_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '信标:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:beacon']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石墙:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cobblestone_wall']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石墙:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:mossy_cobblestone_wall']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木按钮:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁砧:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '开裂的铁砧:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chipped_anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '损坏的铁砧:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:damaged_anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '陷阱箱:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:trapped_chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '轻质测重压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_weighted_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '重质测重压力板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:heavy_weighted_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '阳光传感器:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:daylight_detector']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:redstone_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '下界石英矿石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_quartz_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '漏斗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:hopper']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制石英块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chiseled_quartz_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:quartz_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '竖纹石英块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:quartz_pillar']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:quartz_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '激活铁轨:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:activator_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '投掷器:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dropper']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁活板门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:iron_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '干草块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:hay_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色地毯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '煤炭块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:coal_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '浮冰:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:packed_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘液块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:slime_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草径:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:grass_path']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '向日葵:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sunflower']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '欧丁香:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lilac']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玫瑰丛:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:rose_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '牡丹:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:peony']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '高草:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tall_grass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '大型蕨:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:large_fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色玻璃:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色玻璃板:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:prismarine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:prismarine_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_prismarine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:prismarine_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:prismarine_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_prismarine_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶灯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sea_lantern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制红砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chiseled_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '切制红砂岩:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cut_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_sandstone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '岩浆块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magma_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱疣块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_wart_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色地狱砖块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_nether_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '骨块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bone_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '侦测器:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:observer']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色潜影盒:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海龟蛋:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:turtle_egg']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_tube_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_brain_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_bubble_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_fire_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_horn_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tube_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brain_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bubble_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:fire_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:horn_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tube_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brain_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bubble_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:fire_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:horn_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_tube_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_brain_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_bubble_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_fire_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_horn_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tube_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:tube_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brain_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brain_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bubble_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bubble_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:fire_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:fire_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:horn_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:horn_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_tube_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_tube_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_brain_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_brain_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_bubble_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_bubble_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_fire_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_fire_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_horn_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝冰:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '潮涌核心:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:conduit']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:oak_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:iron_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spruce_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:birch_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:jungle_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:acacia_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木门:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dark_oak_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石中继器:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:repeater']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石比较器:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:comparator']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:fire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '小麦:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:wheat']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:redstone_wire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '甘蔗:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:sugar_cane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海带:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:kelp']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海带植物:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:kelp_plant']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '干海带块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dried_kelp_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蛋糕:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cake']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色床:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜茎:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pumpkin_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结果的南瓜茎:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:attached_pumpkin_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '西瓜茎:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:melon_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结果的西瓜茎:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:attached_melon_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱疣:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_wart']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '酿造台:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brewing_stand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '炼药锅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cauldron']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '花盆:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:flower_pot']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '虞美人盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_poppy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蒲公英盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_dandelion']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树苗盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_spruce_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树苗盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_birch_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树苗盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_jungle_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_red_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_brown_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '仙人掌盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_cactus']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '枯萎的灌木盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_dead_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蕨盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树苗盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_acacia_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_dark_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '兰花盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_blue_orchid']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绒球葱盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_allium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '茜草花盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_azure_bluet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_red_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_orange_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_white_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_pink_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '滨菊盆栽:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potted_oxeye_daisy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '胡萝卜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:carrots']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '马铃薯:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:potatoes']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '骷髅头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:skeleton_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的骷髅头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:skeleton_wall_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:wither_skeleton_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:wither_skeleton_wall_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '僵尸的头:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:zombie_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的僵尸头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:zombie_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玩家头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:player_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的玩家头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:player_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '爬行者的头:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:creeper_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的爬行者头颅:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:creeper_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '龙首:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dragon_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的龙首:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:dragon_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:white_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:orange_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的品红色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:magenta_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_blue_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黄色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:yellow_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:lime_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:pink_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的灰色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:gray_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:light_gray_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的青色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:cyan_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的紫色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:purple_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:blue_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的棕色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:brown_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的绿色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:green_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的红色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:red_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黑色旗帜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:black_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '霜冰:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:frosted_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '甜菜:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:beetroots']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:bubble_column']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '刷怪箱:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:spawner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '下界传送门方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:nether_portal']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地传送门方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:end_portal']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地折跃门方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:end_gateway']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '命令方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '连锁型命令方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:chain_command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '循环型命令方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:repeating_command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结构方块:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:structure_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结构空位:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:structure_void']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '屏障:'.json_decode($dkjson['stats']['minecraft:dropped/minecraft:barrier']); ?> </td></tr>
 </table>
         </div>
       </div>
@@ -1499,597 +1514,597 @@ $post_data = array(
       </div>
       <div id="collapseFive" class="collapse" data-parent="#accordion">
         <div class="card-body">
-          <table class="table-striped table-bordered" width="100%">
-              <tr><td><?php echo '石头:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone']); ?> </td></tr>
-              <tr><td><?php echo '花岗岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:granite']); ?> </td></tr>
-              <tr><td><?php echo '磨制花岗岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:polished_granite']); ?> </td></tr>
-              <tr><td><?php echo '闪长岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:diorite']); ?> </td></tr>
-              <tr><td><?php echo '磨制闪长岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:polished_diorite']); ?> </td></tr>
-              <tr><td><?php echo '安山岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:andesite']); ?> </td></tr>
-              <tr><td><?php echo '磨制安山岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:polished_andesite']); ?> </td></tr>
-              <tr><td><?php echo '草方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:grass_block']); ?> </td></tr>
-              <tr><td><?php echo '泥土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dirt']); ?> </td></tr>
-              <tr><td><?php echo '砂土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:coarse_dirt']); ?> </td></tr>
-              <tr><td><?php echo '灰化土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:podzol']); ?> </td></tr>
-              <tr><td><?php echo '圆石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '橡木木板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_planks']); ?> </td></tr>
-              <tr><td><?php echo '云杉木板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_planks']); ?> </td></tr>
-              <tr><td><?php echo '白桦木板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_planks']); ?> </td></tr>
-              <tr><td><?php echo '丛林木板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_planks']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_planks']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木木板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_planks']); ?> </td></tr>
-              <tr><td><?php echo '橡树树苗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '云杉树苗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_sapling']); ?> </td></tr>
-              <tr><td><?php echo '白桦树苗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_sapling']); ?> </td></tr>
-              <tr><td><?php echo '丛林树苗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_sapling']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树苗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_sapling']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树苗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '水:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:water']); ?> </td></tr>
-              <tr><td><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bubble_column']); ?> </td></tr>
-              <tr><td><?php echo '熔岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lava']); ?> </td></tr>
-              <tr><td><?php echo '基岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bedrock']); ?> </td></tr>
-              <tr><td><?php echo '沙子:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sand']); ?> </td></tr>
-              <tr><td><?php echo '红沙:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_sand']); ?> </td></tr>
-              <tr><td><?php echo '沙砾:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gravel']); ?> </td></tr>
-              <tr><td><?php echo '金矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gold_ore']); ?> </td></tr>
-              <tr><td><?php echo '铁矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_ore']); ?> </td></tr>
-              <tr><td><?php echo '煤矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:coal_ore']); ?> </td></tr>
-              <tr><td><?php echo '橡木原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_log']); ?> </td></tr>
-              <tr><td><?php echo '云杉原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_log']); ?> </td></tr>
-              <tr><td><?php echo '白桦原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_log']); ?> </td></tr>
-              <tr><td><?php echo '丛林原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_log']); ?> </td></tr>
-              <tr><td><?php echo '金合欢原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_log']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮橡木原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮云杉原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_spruce_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮白桦原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_birch_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮丛林原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_jungle_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮金合欢原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_acacia_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮深色橡木原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_dark_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮橡木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮云杉木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_spruce_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮白桦木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_birch_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮丛林木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_jungle_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮金合欢木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_acacia_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮深色橡木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_dark_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '橡木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '云杉木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_wood']); ?> </td></tr>
-              <tr><td><?php echo '白桦木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_wood']); ?> </td></tr>
-              <tr><td><?php echo '丛林木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_wood']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_wood']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '橡树树叶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_leaves']); ?> </td></tr>
-              <tr><td><?php echo '云杉树叶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_leaves']); ?> </td></tr>
-              <tr><td><?php echo '白桦树叶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_leaves']); ?> </td></tr>
-              <tr><td><?php echo '丛林树叶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_leaves']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树叶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_leaves']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树叶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_leaves']); ?> </td></tr>
-              <tr><td><?php echo '海绵:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sponge']); ?> </td></tr>
-              <tr><td><?php echo '湿海绵:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:wet_sponge']); ?> </td></tr>
-              <tr><td><?php echo '玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:glass']); ?> </td></tr>
-              <tr><td><?php echo '青金石矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lapis_ore']); ?> </td></tr>
-              <tr><td><?php echo '青金石块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lapis_block']); ?> </td></tr>
-              <tr><td><?php echo '发射器:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dispenser']); ?> </td></tr>
-              <tr><td><?php echo '砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sandstone']); ?> </td></tr>
-              <tr><td><?php echo '錾制砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chiseled_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '切制砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cut_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '音符盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:note_block']); ?> </td></tr>
-              <tr><td><?php echo '充能铁轨:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:powered_rail']); ?> </td></tr>
-              <tr><td><?php echo '探测铁轨:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:detector_rail']); ?> </td></tr>
-              <tr><td><?php echo '粘性活塞:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sticky_piston']); ?> </td></tr>
-              <tr><td><?php echo '蜘蛛网:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cobweb']); ?> </td></tr>
-              <tr><td><?php echo '草丛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:grass']); ?> </td></tr>
-              <tr><td><?php echo '蕨:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:fern']); ?> </td></tr>
-              <tr><td><?php echo '枯萎的灌木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_bush']); ?> </td></tr>
-              <tr><td><?php echo '海草:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:seagrass']); ?> </td></tr>
-              <tr><td><?php echo '高海草:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tall_seagrass']); ?> </td></tr>
-              <tr><td><?php echo '海泡菜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sea_pickle']); ?> </td></tr>
-              <tr><td><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:piston']); ?> </td></tr>
-              <tr><td><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_wool']); ?> </td></tr>
-              <tr><td><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_wool']); ?> </td></tr>
-              <tr><td><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_wool']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_wool']); ?> </td></tr>
-              <tr><td><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_wool']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_wool']); ?> </td></tr>
-              <tr><td><?php echo '粉红色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_wool']); ?> </td></tr>
-              <tr><td><?php echo '灰色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_wool']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_wool']); ?> </td></tr>
-              <tr><td><?php echo '青色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_wool']); ?> </td></tr>
-              <tr><td><?php echo '紫色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_wool']); ?> </td></tr>
-              <tr><td><?php echo '蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_wool']); ?> </td></tr>
-              <tr><td><?php echo '棕色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_wool']); ?> </td></tr>
-              <tr><td><?php echo '绿色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_wool']); ?> </td></tr>
-              <tr><td><?php echo '红色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_wool']); ?> </td></tr>
-              <tr><td><?php echo '黑色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_wool']); ?> </td></tr>
-              <tr><td><?php echo '蒲公英:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dandelion']); ?> </td></tr>
-              <tr><td><?php echo '虞美人:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:poppy']); ?> </td></tr>
-              <tr><td><?php echo '兰花:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_orchid']); ?> </td></tr>
-              <tr><td><?php echo '绒球葱:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:allium']); ?> </td></tr>
-              <tr><td><?php echo '茜草花:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:azure_bluet']); ?> </td></tr>
-              <tr><td><?php echo '红色郁金香:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_tulip']); ?> </td></tr>
-              <tr><td><?php echo '橙色郁金香:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_tulip']); ?> </td></tr>
-              <tr><td><?php echo '白色郁金香:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_tulip']); ?> </td></tr>
-              <tr><td><?php echo '粉红色郁金香:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_tulip']); ?> </td></tr>
-              <tr><td><?php echo '滨菊:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oxeye_daisy']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '金块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gold_block']); ?> </td></tr>
-              <tr><td><?php echo '铁块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_block']); ?> </td></tr>
-              <tr><td><?php echo '橡木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '云杉木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_slab']); ?> </td></tr>
-              <tr><td><?php echo '白桦木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_slab']); ?> </td></tr>
-              <tr><td><?php echo '丛林木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_slab']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_slab']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '石台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone_slab']); ?> </td></tr>
-              <tr><td><?php echo '砂岩台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sandstone_slab']); ?> </td></tr>
-              <tr><td><?php echo '石质木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:petrified_oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '圆石台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cobblestone_slab']); ?> </td></tr>
-              <tr><td><?php echo '砖块台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '石砖台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '石英台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:quartz_slab']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_sandstone_slab']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purpur_slab']); ?> </td></tr>
-              <tr><td><?php echo '海晶石台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:prismarine_slab']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:prismarine_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_prismarine_slab']); ?> </td></tr>
-              <tr><td><?php echo '平滑石英块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:smooth_quartz']); ?> </td></tr>
-              <tr><td><?php echo '平滑红砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:smooth_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '平滑砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:smooth_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '平滑石头:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:smooth_stone']); ?> </td></tr>
-              <tr><td><?php echo '砖块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bricks']); ?> </td></tr>
-              <tr><td><?php echo 'TNT:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tnt']); ?> </td></tr>
-              <tr><td><?php echo '书架:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bookshelf']); ?> </td></tr>
-              <tr><td><?php echo '苔石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:mossy_cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '黑曜石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:obsidian']); ?> </td></tr>
-              <tr><td><?php echo '火把:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:torch']); ?> </td></tr>
-              <tr><td><?php echo '墙上的火把:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:wall_torch']); ?> </td></tr>
-              <tr><td><?php echo '末地烛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:end_rod']); ?> </td></tr>
-              <tr><td><?php echo '紫颂植物:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chorus_plant']); ?> </td></tr>
-              <tr><td><?php echo '紫颂花:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chorus_flower']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purpur_block']); ?> </td></tr>
-              <tr><td><?php echo '竖纹紫珀块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purpur_pillar']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purpur_stairs']); ?> </td></tr>
-              <tr><td><?php echo '橡木楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_stairs']); ?> </td></tr>
-              <tr><td><?php echo '云杉木楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_stairs']); ?> </td></tr>
-              <tr><td><?php echo '白桦木楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_stairs']); ?> </td></tr>
-              <tr><td><?php echo '丛林木楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_stairs']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_stairs']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_stairs']); ?> </td></tr>
-              <tr><td><?php echo '箱子:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chest']); ?> </td></tr>
-              <tr><td><?php echo '钻石矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']); ?> </td></tr>
-              <tr><td><?php echo '钻石块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_block']); ?> </td></tr>
-              <tr><td><?php echo '工作台:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:crafting_table']); ?> </td></tr>
-              <tr><td><?php echo '耕地:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:farmland']); ?> </td></tr>
-              <tr><td><?php echo '熔炉:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:furnace']); ?> </td></tr>
-              <tr><td><?php echo '梯子:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:ladder']); ?> </td></tr>
-              <tr><td><?php echo '铁轨:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:rail']); ?> </td></tr>
-              <tr><td><?php echo '圆石楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cobblestone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '拉杆:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lever']); ?> </td></tr>
-              <tr><td><?php echo '石质压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '橡木压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '云杉木压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '白桦木压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '丛林木压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '红石矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_ore']); ?> </td></tr>
-              <tr><td><?php echo '红石火把:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_torch']); ?> </td></tr>
-              <tr><td><?php echo '墙上的红石火把:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_wall_torch']); ?> </td></tr>
-              <tr><td><?php echo '石质按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone_button']); ?> </td></tr>
-              <tr><td><?php echo '雪:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:snow']); ?> </td></tr>
-              <tr><td><?php echo '冰:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:ice']); ?> </td></tr>
-              <tr><td><?php echo '雪块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:snow_block']); ?> </td></tr>
-              <tr><td><?php echo '仙人掌:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cactus']); ?> </td></tr>
-              <tr><td><?php echo '粘土块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:clay']); ?> </td></tr>
-              <tr><td><?php echo '唱片机:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jukebox']); ?> </td></tr>
-              <tr><td><?php echo '橡木栅栏:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_fence']); ?> </td></tr>
-              <tr><td><?php echo '云杉木栅栏:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_fence']); ?> </td></tr>
-              <tr><td><?php echo '白桦木栅栏:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_fence']); ?> </td></tr>
-              <tr><td><?php echo '丛林木栅栏:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_fence']); ?> </td></tr>
-              <tr><td><?php echo '金合欢栅栏:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_fence']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木栅栏:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_fence']); ?> </td></tr>
-              <tr><td><?php echo '南瓜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pumpkin']); ?> </td></tr>
-              <tr><td><?php echo '雕刻过的南瓜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:carved_pumpkin']); ?> </td></tr>
-              <tr><td><?php echo '地狱岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:netherrack']); ?> </td></tr>
-              <tr><td><?php echo '灵魂沙:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:soul_sand']); ?> </td></tr>
-              <tr><td><?php echo '荧石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:glowstone']); ?> </td></tr>
-              <tr><td><?php echo '南瓜灯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jack_o_lantern']); ?> </td></tr>
-              <tr><td><?php echo '橡木活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '云杉木活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '白桦木活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '丛林木活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的石头:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:infested_stone']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的圆石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:infested_cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:infested_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的苔石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:infested_mossy_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的裂石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:infested_cracked_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的錾制石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:infested_chiseled_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '苔石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:mossy_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '裂石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cracked_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '錾制石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chiseled_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_mushroom_block']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_mushroom_block']); ?> </td></tr>
-              <tr><td><?php echo '蘑菇柄:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:mushroom_stem']); ?> </td></tr>
-              <tr><td><?php echo '铁栏杆:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_bars']); ?> </td></tr>
-              <tr><td><?php echo '玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '西瓜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:melon']); ?> </td></tr>
-              <tr><td><?php echo '藤蔓:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:vine']); ?> </td></tr>
-              <tr><td><?php echo '橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '云杉木栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '白桦木栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '丛林木栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '砖块楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '石砖楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '菌丝:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:mycelium']); ?> </td></tr>
-              <tr><td><?php echo '睡莲:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lily_pad']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_bricks']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_brick_fence']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '附魔台:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:enchanting_table']); ?> </td></tr>
-              <tr><td><?php echo '末地传送门框架:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:end_portal_frame']); ?> </td></tr>
-              <tr><td><?php echo '末地石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:end_stone']); ?> </td></tr>
-              <tr><td><?php echo '末地石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:end_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '红石灯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_lamp']); ?> </td></tr>
-              <tr><td><?php echo '砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sandstone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '绿宝石矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:emerald_ore']); ?> </td></tr>
-              <tr><td><?php echo '末地箱:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:ender_chest']); ?> </td></tr>
-              <tr><td><?php echo '绊线钩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tripwire_hook']); ?> </td></tr>
-              <tr><td><?php echo '绊线:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tripwire']); ?> </td></tr>
-              <tr><td><?php echo '绿宝石块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:emerald_block']); ?> </td></tr>
-              <tr><td><?php echo '信标:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:beacon']); ?> </td></tr>
-              <tr><td><?php echo '圆石墙:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cobblestone_wall']); ?> </td></tr>
-              <tr><td><?php echo '苔石墙:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:mossy_cobblestone_wall']); ?> </td></tr>
-              <tr><td><?php echo '橡木按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_button']); ?> </td></tr>
-              <tr><td><?php echo '云杉木按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_button']); ?> </td></tr>
-              <tr><td><?php echo '白桦木按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_button']); ?> </td></tr>
-              <tr><td><?php echo '丛林木按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_button']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_button']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_button']); ?> </td></tr>
-              <tr><td><?php echo '铁砧:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:anvil']); ?> </td></tr>
-              <tr><td><?php echo '开裂的铁砧:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chipped_anvil']); ?> </td></tr>
-              <tr><td><?php echo '损坏的铁砧:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:damaged_anvil']); ?> </td></tr>
-              <tr><td><?php echo '陷阱箱:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:trapped_chest']); ?> </td></tr>
-              <tr><td><?php echo '轻质测重压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_weighted_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '重质测重压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:heavy_weighted_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '阳光传感器:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:daylight_detector']); ?> </td></tr>
-              <tr><td><?php echo '红石块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_block']); ?> </td></tr>
-              <tr><td><?php echo '下界石英矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_quartz_ore']); ?> </td></tr>
-              <tr><td><?php echo '漏斗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:hopper']); ?> </td></tr>
-              <tr><td><?php echo '錾制石英块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chiseled_quartz_block']); ?> </td></tr>
-              <tr><td><?php echo '石英块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:quartz_block']); ?> </td></tr>
-              <tr><td><?php echo '竖纹石英块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:quartz_pillar']); ?> </td></tr>
-              <tr><td><?php echo '石英楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:quartz_stairs']); ?> </td></tr>
-              <tr><td><?php echo '激活铁轨:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:activator_rail']); ?> </td></tr>
-              <tr><td><?php echo '投掷器:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dropper']); ?> </td></tr>
-              <tr><td><?php echo '白色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '橙色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '品红色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '粉红色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '青色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '紫色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '棕色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '红色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黑色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '铁活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '干草块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:hay_block']); ?> </td></tr>
-              <tr><td><?php echo '白色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_carpet']); ?> </td></tr>
-              <tr><td><?php echo '橙色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_carpet']); ?> </td></tr>
-              <tr><td><?php echo '品红色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_carpet']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黄色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_carpet']); ?> </td></tr>
-              <tr><td><?php echo '粉红色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_carpet']); ?> </td></tr>
-              <tr><td><?php echo '灰色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_carpet']); ?> </td></tr>
-              <tr><td><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_carpet']); ?> </td></tr>
-              <tr><td><?php echo '青色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_carpet']); ?> </td></tr>
-              <tr><td><?php echo '紫色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_carpet']); ?> </td></tr>
-              <tr><td><?php echo '蓝色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_carpet']); ?> </td></tr>
-              <tr><td><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_carpet']); ?> </td></tr>
-              <tr><td><?php echo '绿色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_carpet']); ?> </td></tr>
-              <tr><td><?php echo '红色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黑色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_carpet']); ?> </td></tr>
-              <tr><td><?php echo '陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:terracotta']); ?> </td></tr>
-              <tr><td><?php echo '煤炭块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:coal_block']); ?> </td></tr>
-              <tr><td><?php echo '浮冰:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:packed_ice']); ?> </td></tr>
-              <tr><td><?php echo '粘液块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:slime_block']); ?> </td></tr>
-              <tr><td><?php echo '草径:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:grass_path']); ?> </td></tr>
-              <tr><td><?php echo '向日葵:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sunflower']); ?> </td></tr>
-              <tr><td><?php echo '欧丁香:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lilac']); ?> </td></tr>
-              <tr><td><?php echo '玫瑰丛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:rose_bush']); ?> </td></tr>
-              <tr><td><?php echo '牡丹:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:peony']); ?> </td></tr>
-              <tr><td><?php echo '高草:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tall_grass']); ?> </td></tr>
-              <tr><td><?php echo '大型蕨:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:large_fern']); ?> </td></tr>
-              <tr><td><?php echo '白色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '橙色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '品红色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黄色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '粉红色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '灰色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '青色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '紫色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '棕色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '绿色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '红色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黑色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '白色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '橙色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '品红色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黄色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '粉红色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '青色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '紫色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '棕色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '红色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黑色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '海晶石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:prismarine']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:prismarine_bricks']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_prismarine']); ?> </td></tr>
-              <tr><td><?php echo '海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:prismarine_stairs']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:prismarine_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_prismarine_stairs']); ?> </td></tr>
-              <tr><td><?php echo '海晶灯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sea_lantern']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '錾制红砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chiseled_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '切制红砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cut_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_sandstone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '岩浆块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magma_block']); ?> </td></tr>
-              <tr><td><?php echo '地狱疣块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_wart_block']); ?> </td></tr>
-              <tr><td><?php echo '红色地狱砖块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_nether_bricks']); ?> </td></tr>
-              <tr><td><?php echo '骨块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bone_block']); ?> </td></tr>
-              <tr><td><?php echo '侦测器:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:observer']); ?> </td></tr>
-              <tr><td><?php echo '潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '品红色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黄色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '粉红色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '青色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '紫色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '棕色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '红色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黑色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '橙色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '品红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '粉红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '青色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '紫色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '棕色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黑色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '白色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_concrete']); ?> </td></tr>
-              <tr><td><?php echo '橙色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_concrete']); ?> </td></tr>
-              <tr><td><?php echo '品红色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_concrete']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黄色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_concrete']); ?> </td></tr>
-              <tr><td><?php echo '粉红色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_concrete']); ?> </td></tr>
-              <tr><td><?php echo '灰色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_concrete']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_concrete']); ?> </td></tr>
-              <tr><td><?php echo '青色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_concrete']); ?> </td></tr>
-              <tr><td><?php echo '紫色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_concrete']); ?> </td></tr>
-              <tr><td><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_concrete']); ?> </td></tr>
-              <tr><td><?php echo '棕色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_concrete']); ?> </td></tr>
-              <tr><td><?php echo '绿色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_concrete']); ?> </td></tr>
-              <tr><td><?php echo '红色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黑色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_concrete']); ?> </td></tr>
-              <tr><td><?php echo '白色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '橙色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '品红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黄色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '粉红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '青色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '紫色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '棕色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黑色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '海龟蛋:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:turtle_egg']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_tube_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_brain_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_bubble_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_fire_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_horn_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tube_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brain_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bubble_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:fire_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:horn_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tube_coral']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brain_coral']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bubble_coral']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:fire_coral']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:horn_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_tube_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_brain_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_bubble_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_fire_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_horn_coral']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tube_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tube_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brain_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brain_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bubble_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bubble_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:fire_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:fire_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:horn_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:horn_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_tube_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_tube_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_brain_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_brain_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_bubble_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_bubble_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_fire_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_fire_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_horn_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '蓝冰:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_ice']); ?> </td></tr>
-              <tr><td><?php echo '潮涌核心:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:conduit']); ?> </td></tr>
-              <tr><td><?php echo '橡木门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_door']); ?> </td></tr>
-              <tr><td><?php echo '铁门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_door']); ?> </td></tr>
-              <tr><td><?php echo '云杉木门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_door']); ?> </td></tr>
-              <tr><td><?php echo '白桦木门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_door']); ?> </td></tr>
-              <tr><td><?php echo '丛林木门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_door']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_door']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_door']); ?> </td></tr>
-              <tr><td><?php echo '红石中继器:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:repeater']); ?> </td></tr>
-              <tr><td><?php echo '红石比较器:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:comparator']); ?> </td></tr>
-              <tr><td><?php echo '火:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:fire']); ?> </td></tr>
-              <tr><td><?php echo '小麦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:wheat']); ?> </td></tr>
-              <tr><td><?php echo '红石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_wire']); ?> </td></tr>
-              <tr><td><?php echo '甘蔗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sugar_cane']); ?> </td></tr>
-              <tr><td><?php echo '海带:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:kelp']); ?> </td></tr>
-              <tr><td><?php echo '海带植物:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:kelp_plant']); ?> </td></tr>
-              <tr><td><?php echo '干海带块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dried_kelp_block']); ?> </td></tr>
-              <tr><td><?php echo '蛋糕:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cake']); ?> </td></tr>
-              <tr><td><?php echo '白色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_bed']); ?> </td></tr>
-              <tr><td><?php echo '橙色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_bed']); ?> </td></tr>
-              <tr><td><?php echo '品红色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_bed']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_bed']); ?> </td></tr>
-              <tr><td><?php echo '黄色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_bed']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_bed']); ?> </td></tr>
-              <tr><td><?php echo '粉红色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_bed']); ?> </td></tr>
-              <tr><td><?php echo '灰色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_bed']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_bed']); ?> </td></tr>
-              <tr><td><?php echo '青色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_bed']); ?> </td></tr>
-              <tr><td><?php echo '紫色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_bed']); ?> </td></tr>
-              <tr><td><?php echo '蓝色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_bed']); ?> </td></tr>
-              <tr><td><?php echo '棕色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_bed']); ?> </td></tr>
-              <tr><td><?php echo '绿色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_bed']); ?> </td></tr>
-              <tr><td><?php echo '红色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_bed']); ?> </td></tr>
-              <tr><td><?php echo '黑色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_bed']); ?> </td></tr>
-              <tr><td><?php echo '南瓜茎:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pumpkin_stem']); ?> </td></tr>
-              <tr><td><?php echo '结果的南瓜茎:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:attached_pumpkin_stem']); ?> </td></tr>
-              <tr><td><?php echo '西瓜茎:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:melon_stem']); ?> </td></tr>
-              <tr><td><?php echo '结果的西瓜茎:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:attached_melon_stem']); ?> </td></tr>
-              <tr><td><?php echo '地狱疣:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_wart']); ?> </td></tr>
-              <tr><td><?php echo '酿造台:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brewing_stand']); ?> </td></tr>
-              <tr><td><?php echo '炼药锅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cauldron']); ?> </td></tr>
-              <tr><td><?php echo '花盆:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:flower_pot']); ?> </td></tr>
-              <tr><td><?php echo '虞美人盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_poppy']); ?> </td></tr>
-              <tr><td><?php echo '蒲公英盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_dandelion']); ?> </td></tr>
-              <tr><td><?php echo '橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '云杉树苗盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_spruce_sapling']); ?> </td></tr>
-              <tr><td><?php echo '白桦树苗盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_birch_sapling']); ?> </td></tr>
-              <tr><td><?php echo '丛林树苗盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_jungle_sapling']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_red_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_brown_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '仙人掌盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_cactus']); ?> </td></tr>
-              <tr><td><?php echo '枯萎的灌木盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_dead_bush']); ?> </td></tr>
-              <tr><td><?php echo '蕨盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_fern']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树苗盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_acacia_sapling']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_dark_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '兰花盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_blue_orchid']); ?> </td></tr>
-              <tr><td><?php echo '绒球葱盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_allium']); ?> </td></tr>
-              <tr><td><?php echo '茜草花盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_azure_bluet']); ?> </td></tr>
-              <tr><td><?php echo '红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_red_tulip']); ?> </td></tr>
-              <tr><td><?php echo '橙色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_orange_tulip']); ?> </td></tr>
-              <tr><td><?php echo '白色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_white_tulip']); ?> </td></tr>
-              <tr><td><?php echo '粉红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_pink_tulip']); ?> </td></tr>
-              <tr><td><?php echo '滨菊盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_oxeye_daisy']); ?> </td></tr>
-              <tr><td><?php echo '胡萝卜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:carrots']); ?> </td></tr>
-              <tr><td><?php echo '马铃薯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potatoes']); ?> </td></tr>
-              <tr><td><?php echo '骷髅头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:skeleton_skull']); ?> </td></tr>
-              <tr><td><?php echo '墙上的骷髅头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:skeleton_wall_skull']); ?> </td></tr>
-              <tr><td><?php echo '凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:wither_skeleton_skull']); ?> </td></tr>
-              <tr><td><?php echo '墙上的凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:wither_skeleton_wall_skull']); ?> </td></tr>
-              <tr><td><?php echo '僵尸的头:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:zombie_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的僵尸头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:zombie_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '玩家头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:player_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的玩家头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:player_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '爬行者的头:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:creeper_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的爬行者头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:creeper_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '龙首:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dragon_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的龙首:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dragon_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '白色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_banner']); ?> </td></tr>
-              <tr><td><?php echo '橙色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_banner']); ?> </td></tr>
-              <tr><td><?php echo '品红色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_banner']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_banner']); ?> </td></tr>
-              <tr><td><?php echo '黄色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_banner']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_banner']); ?> </td></tr>
-              <tr><td><?php echo '粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_banner']); ?> </td></tr>
-              <tr><td><?php echo '灰色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_banner']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_banner']); ?> </td></tr>
-              <tr><td><?php echo '青色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_banner']); ?> </td></tr>
-              <tr><td><?php echo '紫色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_banner']); ?> </td></tr>
-              <tr><td><?php echo '蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_banner']); ?> </td></tr>
-              <tr><td><?php echo '棕色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_banner']); ?> </td></tr>
-              <tr><td><?php echo '绿色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_banner']); ?> </td></tr>
-              <tr><td><?php echo '红色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_banner']); ?> </td></tr>
-              <tr><td><?php echo '黑色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的品红色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黄色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的灰色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的青色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的紫色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的棕色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的绿色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的红色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黑色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '霜冰:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:frosted_ice']); ?> </td></tr>
-              <tr><td><?php echo '甜菜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:beetroots']); ?> </td></tr>
-              <tr><td><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bubble_column']); ?> </td></tr>
-              <tr><td><?php echo '刷怪箱:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spawner']); ?> </td></tr>
-              <tr><td><?php echo '下界传送门方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_portal']); ?> </td></tr>
-              <tr><td><?php echo '末地传送门方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:end_portal']); ?> </td></tr>
-              <tr><td><?php echo '末地折跃门方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:end_gateway']); ?> </td></tr>
-              <tr><td><?php echo '命令方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:command_block']); ?> </td></tr>
-              <tr><td><?php echo '连锁型命令方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chain_command_block']); ?> </td></tr>
-              <tr><td><?php echo '循环型命令方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:repeating_command_block']); ?> </td></tr>
-              <tr><td><?php echo '结构方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:structure_block']); ?> </td></tr>
-              <tr><td><?php echo '结构空位:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:structure_void']); ?> </td></tr>
-              <tr><td><?php echo '屏障:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:barrier']); ?> </td></tr>
+          <table class="table-bordered" width="100%">
+              <tr><td height="30px"><?php echo '石头:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '花岗岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:granite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制花岗岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:polished_granite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '闪长岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:diorite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制闪长岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:polished_diorite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '安山岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:andesite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制安山岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:polished_andesite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:grass_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '泥土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dirt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:coarse_dirt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰化土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:podzol']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木木板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木木板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树苗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树苗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树苗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树苗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树苗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树苗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '水:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:water']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bubble_column']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '熔岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lava']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '基岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bedrock']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '沙子:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红沙:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '沙砾:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gravel']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gold_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '煤矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:coal_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮橡木原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮云杉原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_spruce_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮白桦原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_birch_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮丛林原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_jungle_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮金合欢原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_acacia_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮深色橡木原木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_dark_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮橡木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮云杉木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_spruce_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮白桦木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_birch_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮丛林木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_jungle_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮金合欢木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_acacia_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮深色橡木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stripped_dark_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树叶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树叶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树叶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树叶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树叶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树叶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海绵:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sponge']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '湿海绵:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:wet_sponge']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青金石矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lapis_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青金石块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lapis_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '发射器:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dispenser']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chiseled_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '切制砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cut_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '音符盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:note_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '充能铁轨:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:powered_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '探测铁轨:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:detector_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘性活塞:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sticky_piston']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蜘蛛网:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cobweb']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草丛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:grass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蕨:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '枯萎的灌木:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海草:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:seagrass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '高海草:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tall_seagrass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海泡菜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sea_pickle']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:piston']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色羊毛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蒲公英:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dandelion']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '虞美人:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:poppy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '兰花:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_orchid']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绒球葱:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:allium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '茜草花:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:azure_bluet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色郁金香:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色郁金香:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色郁金香:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色郁金香:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '滨菊:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oxeye_daisy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gold_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sandstone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质木台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:petrified_oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cobblestone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:quartz_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_sandstone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purpur_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:prismarine_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:prismarine_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石台阶:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_prismarine_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑石英块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:smooth_quartz']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑红砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:smooth_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:smooth_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑石头:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:smooth_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo 'TNT:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tnt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '书架:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bookshelf']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:mossy_cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑曜石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:obsidian']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火把:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的火把:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:wall_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地烛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:end_rod']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫颂植物:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chorus_plant']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫颂花:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chorus_flower']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purpur_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '竖纹紫珀块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purpur_pillar']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purpur_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '箱子:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '钻石矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '钻石块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '工作台:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:crafting_table']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '耕地:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:farmland']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '熔炉:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:furnace']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '梯子:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:ladder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁轨:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cobblestone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '拉杆:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lever']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石火把:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的红石火把:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_wall_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雪:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:snow']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '冰:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雪块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:snow_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '仙人掌:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cactus']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘土块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:clay']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '唱片机:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jukebox']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木栅栏:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木栅栏:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木栅栏:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木栅栏:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢栅栏:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木栅栏:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pumpkin']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雕刻过的南瓜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:carved_pumpkin']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:netherrack']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灵魂沙:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:soul_sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '荧石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:glowstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜灯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jack_o_lantern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的石头:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:infested_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的圆石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:infested_cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:infested_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的苔石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:infested_mossy_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的裂石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:infested_cracked_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的錾制石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:infested_chiseled_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:mossy_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '裂石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cracked_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chiseled_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_mushroom_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_mushroom_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蘑菇柄:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:mushroom_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁栏杆:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_bars']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '西瓜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:melon']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '藤蔓:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:vine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '菌丝:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:mycelium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '睡莲:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lily_pad']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖栅栏门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_brick_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '附魔台:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:enchanting_table']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地传送门框架:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:end_portal_frame']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:end_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:end_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石灯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_lamp']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sandstone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿宝石矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:emerald_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地箱:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:ender_chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绊线钩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tripwire_hook']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绊线:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tripwire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿宝石块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:emerald_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '信标:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:beacon']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石墙:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cobblestone_wall']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石墙:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:mossy_cobblestone_wall']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木按钮:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁砧:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '开裂的铁砧:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chipped_anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '损坏的铁砧:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:damaged_anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '陷阱箱:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:trapped_chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '轻质测重压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_weighted_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '重质测重压力板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:heavy_weighted_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '阳光传感器:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:daylight_detector']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '下界石英矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_quartz_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '漏斗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:hopper']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制石英块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chiseled_quartz_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:quartz_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '竖纹石英块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:quartz_pillar']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:quartz_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '激活铁轨:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:activator_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '投掷器:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dropper']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁活板门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '干草块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:hay_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色地毯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '煤炭块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:coal_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '浮冰:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:packed_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘液块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:slime_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草径:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:grass_path']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '向日葵:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sunflower']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '欧丁香:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lilac']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玫瑰丛:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:rose_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '牡丹:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:peony']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '高草:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tall_grass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '大型蕨:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:large_fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色玻璃:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色玻璃板:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:prismarine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:prismarine_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_prismarine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:prismarine_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:prismarine_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_prismarine_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶灯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sea_lantern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制红砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chiseled_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '切制红砂岩:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cut_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_sandstone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '岩浆块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magma_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱疣块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_wart_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色地狱砖块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_nether_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '骨块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bone_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '侦测器:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:observer']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色潜影盒:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海龟蛋:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:turtle_egg']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_tube_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_brain_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_bubble_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_fire_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_horn_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tube_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brain_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bubble_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:fire_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:horn_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tube_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brain_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bubble_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:fire_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:horn_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_tube_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_brain_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_bubble_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_fire_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_horn_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tube_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:tube_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brain_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brain_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bubble_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bubble_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:fire_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:fire_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:horn_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:horn_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_tube_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_tube_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_brain_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_brain_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_bubble_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_bubble_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_fire_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_fire_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_horn_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝冰:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '潮涌核心:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:conduit']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:oak_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spruce_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:birch_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:jungle_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:acacia_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木门:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dark_oak_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石中继器:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:repeater']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石比较器:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:comparator']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:fire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '小麦:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:wheat']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_wire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '甘蔗:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:sugar_cane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海带:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:kelp']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海带植物:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:kelp_plant']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '干海带块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dried_kelp_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蛋糕:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cake']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色床:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜茎:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pumpkin_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结果的南瓜茎:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:attached_pumpkin_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '西瓜茎:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:melon_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结果的西瓜茎:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:attached_melon_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱疣:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_wart']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '酿造台:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brewing_stand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '炼药锅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cauldron']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '花盆:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:flower_pot']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '虞美人盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_poppy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蒲公英盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_dandelion']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树苗盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_spruce_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树苗盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_birch_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树苗盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_jungle_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_red_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_brown_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '仙人掌盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_cactus']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '枯萎的灌木盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_dead_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蕨盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树苗盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_acacia_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_dark_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '兰花盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_blue_orchid']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绒球葱盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_allium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '茜草花盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_azure_bluet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_red_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_orange_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_white_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_pink_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '滨菊盆栽:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potted_oxeye_daisy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '胡萝卜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:carrots']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '马铃薯:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:potatoes']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '骷髅头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:skeleton_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的骷髅头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:skeleton_wall_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:wither_skeleton_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:wither_skeleton_wall_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '僵尸的头:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:zombie_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的僵尸头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:zombie_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玩家头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:player_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的玩家头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:player_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '爬行者的头:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:creeper_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的爬行者头颅:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:creeper_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '龙首:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dragon_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的龙首:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:dragon_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:white_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:orange_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的品红色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:magenta_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_blue_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黄色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:yellow_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:lime_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:pink_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的灰色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gray_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:light_gray_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的青色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:cyan_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的紫色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:purple_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:blue_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的棕色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:brown_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的绿色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:green_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的红色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:red_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黑色旗帜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:black_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '霜冰:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:frosted_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '甜菜:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:beetroots']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:bubble_column']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '刷怪箱:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:spawner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '下界传送门方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:nether_portal']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地传送门方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:end_portal']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地折跃门方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:end_gateway']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '命令方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '连锁型命令方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:chain_command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '循环型命令方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:repeating_command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结构方块:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:structure_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结构空位:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:structure_void']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '屏障:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:barrier']); ?> </td></tr>
 </table>
         </div>
       </div>
@@ -2102,597 +2117,597 @@ $post_data = array(
       </div>
       <div id="collapseSix" class="collapse" data-parent="#accordion">
         <div class="card-body">
-          <table class="table-striped table-bordered" width="100%">
-              <tr><td><?php echo '石头:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone']); ?> </td></tr>
-              <tr><td><?php echo '花岗岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:granite']); ?> </td></tr>
-              <tr><td><?php echo '磨制花岗岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:polished_granite']); ?> </td></tr>
-              <tr><td><?php echo '闪长岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:diorite']); ?> </td></tr>
-              <tr><td><?php echo '磨制闪长岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:polished_diorite']); ?> </td></tr>
-              <tr><td><?php echo '安山岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:andesite']); ?> </td></tr>
-              <tr><td><?php echo '磨制安山岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:polished_andesite']); ?> </td></tr>
-              <tr><td><?php echo '草方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:grass_block']); ?> </td></tr>
-              <tr><td><?php echo '泥土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dirt']); ?> </td></tr>
-              <tr><td><?php echo '砂土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:coarse_dirt']); ?> </td></tr>
-              <tr><td><?php echo '灰化土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:podzol']); ?> </td></tr>
-              <tr><td><?php echo '圆石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '橡木木板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_planks']); ?> </td></tr>
-              <tr><td><?php echo '云杉木板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_planks']); ?> </td></tr>
-              <tr><td><?php echo '白桦木板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_planks']); ?> </td></tr>
-              <tr><td><?php echo '丛林木板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_planks']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_planks']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木木板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_planks']); ?> </td></tr>
-              <tr><td><?php echo '橡树树苗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '云杉树苗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_sapling']); ?> </td></tr>
-              <tr><td><?php echo '白桦树苗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_sapling']); ?> </td></tr>
-              <tr><td><?php echo '丛林树苗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_sapling']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树苗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_sapling']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树苗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '水:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:water']); ?> </td></tr>
-              <tr><td><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bubble_column']); ?> </td></tr>
-              <tr><td><?php echo '熔岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lava']); ?> </td></tr>
-              <tr><td><?php echo '基岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bedrock']); ?> </td></tr>
-              <tr><td><?php echo '沙子:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sand']); ?> </td></tr>
-              <tr><td><?php echo '红沙:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_sand']); ?> </td></tr>
-              <tr><td><?php echo '沙砾:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gravel']); ?> </td></tr>
-              <tr><td><?php echo '金矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gold_ore']); ?> </td></tr>
-              <tr><td><?php echo '铁矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:iron_ore']); ?> </td></tr>
-              <tr><td><?php echo '煤矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:coal_ore']); ?> </td></tr>
-              <tr><td><?php echo '橡木原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_log']); ?> </td></tr>
-              <tr><td><?php echo '云杉原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_log']); ?> </td></tr>
-              <tr><td><?php echo '白桦原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_log']); ?> </td></tr>
-              <tr><td><?php echo '丛林原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_log']); ?> </td></tr>
-              <tr><td><?php echo '金合欢原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_log']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮橡木原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮云杉原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_spruce_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮白桦原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_birch_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮丛林原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_jungle_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮金合欢原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_acacia_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮深色橡木原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_dark_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮橡木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮云杉木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_spruce_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮白桦木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_birch_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮丛林木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_jungle_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮金合欢木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_acacia_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮深色橡木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_dark_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '橡木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '云杉木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_wood']); ?> </td></tr>
-              <tr><td><?php echo '白桦木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_wood']); ?> </td></tr>
-              <tr><td><?php echo '丛林木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_wood']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_wood']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '橡树树叶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_leaves']); ?> </td></tr>
-              <tr><td><?php echo '云杉树叶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_leaves']); ?> </td></tr>
-              <tr><td><?php echo '白桦树叶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_leaves']); ?> </td></tr>
-              <tr><td><?php echo '丛林树叶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_leaves']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树叶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_leaves']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树叶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_leaves']); ?> </td></tr>
-              <tr><td><?php echo '海绵:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sponge']); ?> </td></tr>
-              <tr><td><?php echo '湿海绵:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:wet_sponge']); ?> </td></tr>
-              <tr><td><?php echo '玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:glass']); ?> </td></tr>
-              <tr><td><?php echo '青金石矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lapis_ore']); ?> </td></tr>
-              <tr><td><?php echo '青金石块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lapis_block']); ?> </td></tr>
-              <tr><td><?php echo '发射器:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dispenser']); ?> </td></tr>
-              <tr><td><?php echo '砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sandstone']); ?> </td></tr>
-              <tr><td><?php echo '錾制砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chiseled_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '切制砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cut_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '音符盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:note_block']); ?> </td></tr>
-              <tr><td><?php echo '充能铁轨:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:powered_rail']); ?> </td></tr>
-              <tr><td><?php echo '探测铁轨:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:detector_rail']); ?> </td></tr>
-              <tr><td><?php echo '粘性活塞:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sticky_piston']); ?> </td></tr>
-              <tr><td><?php echo '蜘蛛网:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cobweb']); ?> </td></tr>
-              <tr><td><?php echo '草丛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:grass']); ?> </td></tr>
-              <tr><td><?php echo '蕨:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:fern']); ?> </td></tr>
-              <tr><td><?php echo '枯萎的灌木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_bush']); ?> </td></tr>
-              <tr><td><?php echo '海草:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:seagrass']); ?> </td></tr>
-              <tr><td><?php echo '高海草:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tall_seagrass']); ?> </td></tr>
-              <tr><td><?php echo '海泡菜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sea_pickle']); ?> </td></tr>
-              <tr><td><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:piston']); ?> </td></tr>
-              <tr><td><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_wool']); ?> </td></tr>
-              <tr><td><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_wool']); ?> </td></tr>
-              <tr><td><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_wool']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_wool']); ?> </td></tr>
-              <tr><td><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_wool']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_wool']); ?> </td></tr>
-              <tr><td><?php echo '粉红色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_wool']); ?> </td></tr>
-              <tr><td><?php echo '灰色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_wool']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_wool']); ?> </td></tr>
-              <tr><td><?php echo '青色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_wool']); ?> </td></tr>
-              <tr><td><?php echo '紫色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_wool']); ?> </td></tr>
-              <tr><td><?php echo '蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_wool']); ?> </td></tr>
-              <tr><td><?php echo '棕色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_wool']); ?> </td></tr>
-              <tr><td><?php echo '绿色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_wool']); ?> </td></tr>
-              <tr><td><?php echo '红色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_wool']); ?> </td></tr>
-              <tr><td><?php echo '黑色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_wool']); ?> </td></tr>
-              <tr><td><?php echo '蒲公英:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dandelion']); ?> </td></tr>
-              <tr><td><?php echo '虞美人:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:poppy']); ?> </td></tr>
-              <tr><td><?php echo '兰花:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_orchid']); ?> </td></tr>
-              <tr><td><?php echo '绒球葱:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:allium']); ?> </td></tr>
-              <tr><td><?php echo '茜草花:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:azure_bluet']); ?> </td></tr>
-              <tr><td><?php echo '红色郁金香:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_tulip']); ?> </td></tr>
-              <tr><td><?php echo '橙色郁金香:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_tulip']); ?> </td></tr>
-              <tr><td><?php echo '白色郁金香:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_tulip']); ?> </td></tr>
-              <tr><td><?php echo '粉红色郁金香:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_tulip']); ?> </td></tr>
-              <tr><td><?php echo '滨菊:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oxeye_daisy']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '金块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gold_block']); ?> </td></tr>
-              <tr><td><?php echo '铁块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:iron_block']); ?> </td></tr>
-              <tr><td><?php echo '橡木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '云杉木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_slab']); ?> </td></tr>
-              <tr><td><?php echo '白桦木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_slab']); ?> </td></tr>
-              <tr><td><?php echo '丛林木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_slab']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_slab']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '石台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone_slab']); ?> </td></tr>
-              <tr><td><?php echo '砂岩台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sandstone_slab']); ?> </td></tr>
-              <tr><td><?php echo '石质木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:petrified_oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '圆石台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cobblestone_slab']); ?> </td></tr>
-              <tr><td><?php echo '砖块台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '石砖台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '石英台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:quartz_slab']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_sandstone_slab']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purpur_slab']); ?> </td></tr>
-              <tr><td><?php echo '海晶石台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:prismarine_slab']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:prismarine_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_prismarine_slab']); ?> </td></tr>
-              <tr><td><?php echo '平滑石英块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:smooth_quartz']); ?> </td></tr>
-              <tr><td><?php echo '平滑红砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:smooth_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '平滑砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:smooth_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '平滑石头:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:smooth_stone']); ?> </td></tr>
-              <tr><td><?php echo '砖块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bricks']); ?> </td></tr>
-              <tr><td><?php echo 'TNT:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tnt']); ?> </td></tr>
-              <tr><td><?php echo '书架:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bookshelf']); ?> </td></tr>
-              <tr><td><?php echo '苔石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:mossy_cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '黑曜石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:obsidian']); ?> </td></tr>
-              <tr><td><?php echo '火把:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:torch']); ?> </td></tr>
-              <tr><td><?php echo '墙上的火把:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:wall_torch']); ?> </td></tr>
-              <tr><td><?php echo '末地烛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:end_rod']); ?> </td></tr>
-              <tr><td><?php echo '紫颂植物:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chorus_plant']); ?> </td></tr>
-              <tr><td><?php echo '紫颂花:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chorus_flower']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purpur_block']); ?> </td></tr>
-              <tr><td><?php echo '竖纹紫珀块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purpur_pillar']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purpur_stairs']); ?> </td></tr>
-              <tr><td><?php echo '橡木楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_stairs']); ?> </td></tr>
-              <tr><td><?php echo '云杉木楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_stairs']); ?> </td></tr>
-              <tr><td><?php echo '白桦木楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_stairs']); ?> </td></tr>
-              <tr><td><?php echo '丛林木楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_stairs']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_stairs']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_stairs']); ?> </td></tr>
-              <tr><td><?php echo '箱子:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chest']); ?> </td></tr>
-              <tr><td><?php echo '钻石矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:diamond_ore']); ?> </td></tr>
-              <tr><td><?php echo '钻石块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:diamond_block']); ?> </td></tr>
-              <tr><td><?php echo '工作台:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:crafting_table']); ?> </td></tr>
-              <tr><td><?php echo '耕地:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:farmland']); ?> </td></tr>
-              <tr><td><?php echo '熔炉:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:furnace']); ?> </td></tr>
-              <tr><td><?php echo '梯子:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:ladder']); ?> </td></tr>
-              <tr><td><?php echo '铁轨:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:rail']); ?> </td></tr>
-              <tr><td><?php echo '圆石楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cobblestone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '拉杆:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lever']); ?> </td></tr>
-              <tr><td><?php echo '石质压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '橡木压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '云杉木压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '白桦木压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '丛林木压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '红石矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:redstone_ore']); ?> </td></tr>
-              <tr><td><?php echo '红石火把:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:redstone_torch']); ?> </td></tr>
-              <tr><td><?php echo '墙上的红石火把:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:redstone_wall_torch']); ?> </td></tr>
-              <tr><td><?php echo '石质按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone_button']); ?> </td></tr>
-              <tr><td><?php echo '雪:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:snow']); ?> </td></tr>
-              <tr><td><?php echo '冰:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:ice']); ?> </td></tr>
-              <tr><td><?php echo '雪块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:snow_block']); ?> </td></tr>
-              <tr><td><?php echo '仙人掌:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cactus']); ?> </td></tr>
-              <tr><td><?php echo '粘土块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:clay']); ?> </td></tr>
-              <tr><td><?php echo '唱片机:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jukebox']); ?> </td></tr>
-              <tr><td><?php echo '橡木栅栏:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_fence']); ?> </td></tr>
-              <tr><td><?php echo '云杉木栅栏:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_fence']); ?> </td></tr>
-              <tr><td><?php echo '白桦木栅栏:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_fence']); ?> </td></tr>
-              <tr><td><?php echo '丛林木栅栏:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_fence']); ?> </td></tr>
-              <tr><td><?php echo '金合欢栅栏:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_fence']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木栅栏:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_fence']); ?> </td></tr>
-              <tr><td><?php echo '南瓜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pumpkin']); ?> </td></tr>
-              <tr><td><?php echo '雕刻过的南瓜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:carved_pumpkin']); ?> </td></tr>
-              <tr><td><?php echo '地狱岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:netherrack']); ?> </td></tr>
-              <tr><td><?php echo '灵魂沙:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:soul_sand']); ?> </td></tr>
-              <tr><td><?php echo '荧石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:glowstone']); ?> </td></tr>
-              <tr><td><?php echo '南瓜灯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jack_o_lantern']); ?> </td></tr>
-              <tr><td><?php echo '橡木活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '云杉木活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '白桦木活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '丛林木活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的石头:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:infested_stone']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的圆石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:infested_cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:infested_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的苔石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:infested_mossy_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的裂石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:infested_cracked_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的錾制石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:infested_chiseled_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '苔石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:mossy_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '裂石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cracked_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '錾制石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chiseled_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_mushroom_block']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_mushroom_block']); ?> </td></tr>
-              <tr><td><?php echo '蘑菇柄:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:mushroom_stem']); ?> </td></tr>
-              <tr><td><?php echo '铁栏杆:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:iron_bars']); ?> </td></tr>
-              <tr><td><?php echo '玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '西瓜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:melon']); ?> </td></tr>
-              <tr><td><?php echo '藤蔓:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:vine']); ?> </td></tr>
-              <tr><td><?php echo '橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '云杉木栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '白桦木栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '丛林木栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '砖块楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '石砖楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '菌丝:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:mycelium']); ?> </td></tr>
-              <tr><td><?php echo '睡莲:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lily_pad']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_bricks']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_brick_fence']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '附魔台:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:enchanting_table']); ?> </td></tr>
-              <tr><td><?php echo '末地传送门框架:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:end_portal_frame']); ?> </td></tr>
-              <tr><td><?php echo '末地石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:end_stone']); ?> </td></tr>
-              <tr><td><?php echo '末地石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:end_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '红石灯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:redstone_lamp']); ?> </td></tr>
-              <tr><td><?php echo '砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sandstone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '绿宝石矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:emerald_ore']); ?> </td></tr>
-              <tr><td><?php echo '末地箱:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:ender_chest']); ?> </td></tr>
-              <tr><td><?php echo '绊线钩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tripwire_hook']); ?> </td></tr>
-              <tr><td><?php echo '绊线:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tripwire']); ?> </td></tr>
-              <tr><td><?php echo '绿宝石块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:emerald_block']); ?> </td></tr>
-              <tr><td><?php echo '信标:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:beacon']); ?> </td></tr>
-              <tr><td><?php echo '圆石墙:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cobblestone_wall']); ?> </td></tr>
-              <tr><td><?php echo '苔石墙:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:mossy_cobblestone_wall']); ?> </td></tr>
-              <tr><td><?php echo '橡木按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_button']); ?> </td></tr>
-              <tr><td><?php echo '云杉木按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_button']); ?> </td></tr>
-              <tr><td><?php echo '白桦木按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_button']); ?> </td></tr>
-              <tr><td><?php echo '丛林木按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_button']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_button']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_button']); ?> </td></tr>
-              <tr><td><?php echo '铁砧:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:anvil']); ?> </td></tr>
-              <tr><td><?php echo '开裂的铁砧:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chipped_anvil']); ?> </td></tr>
-              <tr><td><?php echo '损坏的铁砧:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:damaged_anvil']); ?> </td></tr>
-              <tr><td><?php echo '陷阱箱:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:trapped_chest']); ?> </td></tr>
-              <tr><td><?php echo '轻质测重压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_weighted_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '重质测重压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:heavy_weighted_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '阳光传感器:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:daylight_detector']); ?> </td></tr>
-              <tr><td><?php echo '红石块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:redstone_block']); ?> </td></tr>
-              <tr><td><?php echo '下界石英矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_quartz_ore']); ?> </td></tr>
-              <tr><td><?php echo '漏斗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:hopper']); ?> </td></tr>
-              <tr><td><?php echo '錾制石英块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chiseled_quartz_block']); ?> </td></tr>
-              <tr><td><?php echo '石英块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:quartz_block']); ?> </td></tr>
-              <tr><td><?php echo '竖纹石英块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:quartz_pillar']); ?> </td></tr>
-              <tr><td><?php echo '石英楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:quartz_stairs']); ?> </td></tr>
-              <tr><td><?php echo '激活铁轨:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:activator_rail']); ?> </td></tr>
-              <tr><td><?php echo '投掷器:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dropper']); ?> </td></tr>
-              <tr><td><?php echo '白色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '橙色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '品红色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '粉红色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '青色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '紫色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '棕色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '红色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黑色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '铁活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:iron_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '干草块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:hay_block']); ?> </td></tr>
-              <tr><td><?php echo '白色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_carpet']); ?> </td></tr>
-              <tr><td><?php echo '橙色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_carpet']); ?> </td></tr>
-              <tr><td><?php echo '品红色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_carpet']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黄色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_carpet']); ?> </td></tr>
-              <tr><td><?php echo '粉红色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_carpet']); ?> </td></tr>
-              <tr><td><?php echo '灰色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_carpet']); ?> </td></tr>
-              <tr><td><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_carpet']); ?> </td></tr>
-              <tr><td><?php echo '青色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_carpet']); ?> </td></tr>
-              <tr><td><?php echo '紫色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_carpet']); ?> </td></tr>
-              <tr><td><?php echo '蓝色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_carpet']); ?> </td></tr>
-              <tr><td><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_carpet']); ?> </td></tr>
-              <tr><td><?php echo '绿色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_carpet']); ?> </td></tr>
-              <tr><td><?php echo '红色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黑色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_carpet']); ?> </td></tr>
-              <tr><td><?php echo '陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:terracotta']); ?> </td></tr>
-              <tr><td><?php echo '煤炭块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:coal_block']); ?> </td></tr>
-              <tr><td><?php echo '浮冰:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:packed_ice']); ?> </td></tr>
-              <tr><td><?php echo '粘液块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:slime_block']); ?> </td></tr>
-              <tr><td><?php echo '草径:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:grass_path']); ?> </td></tr>
-              <tr><td><?php echo '向日葵:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sunflower']); ?> </td></tr>
-              <tr><td><?php echo '欧丁香:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lilac']); ?> </td></tr>
-              <tr><td><?php echo '玫瑰丛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:rose_bush']); ?> </td></tr>
-              <tr><td><?php echo '牡丹:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:peony']); ?> </td></tr>
-              <tr><td><?php echo '高草:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tall_grass']); ?> </td></tr>
-              <tr><td><?php echo '大型蕨:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:large_fern']); ?> </td></tr>
-              <tr><td><?php echo '白色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '橙色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '品红色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黄色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '粉红色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '灰色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '青色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '紫色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '棕色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '绿色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '红色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黑色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '白色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '橙色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '品红色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黄色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '粉红色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '青色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '紫色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '棕色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '红色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黑色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '海晶石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:prismarine']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:prismarine_bricks']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_prismarine']); ?> </td></tr>
-              <tr><td><?php echo '海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:prismarine_stairs']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:prismarine_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_prismarine_stairs']); ?> </td></tr>
-              <tr><td><?php echo '海晶灯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sea_lantern']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '錾制红砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chiseled_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '切制红砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cut_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_sandstone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '岩浆块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magma_block']); ?> </td></tr>
-              <tr><td><?php echo '地狱疣块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_wart_block']); ?> </td></tr>
-              <tr><td><?php echo '红色地狱砖块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_nether_bricks']); ?> </td></tr>
-              <tr><td><?php echo '骨块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bone_block']); ?> </td></tr>
-              <tr><td><?php echo '侦测器:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:observer']); ?> </td></tr>
-              <tr><td><?php echo '潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '品红色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黄色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '粉红色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '青色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '紫色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '棕色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '红色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黑色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '橙色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '品红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '粉红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '青色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '紫色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '棕色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黑色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '白色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_concrete']); ?> </td></tr>
-              <tr><td><?php echo '橙色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_concrete']); ?> </td></tr>
-              <tr><td><?php echo '品红色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_concrete']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黄色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_concrete']); ?> </td></tr>
-              <tr><td><?php echo '粉红色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_concrete']); ?> </td></tr>
-              <tr><td><?php echo '灰色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_concrete']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_concrete']); ?> </td></tr>
-              <tr><td><?php echo '青色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_concrete']); ?> </td></tr>
-              <tr><td><?php echo '紫色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_concrete']); ?> </td></tr>
-              <tr><td><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_concrete']); ?> </td></tr>
-              <tr><td><?php echo '棕色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_concrete']); ?> </td></tr>
-              <tr><td><?php echo '绿色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_concrete']); ?> </td></tr>
-              <tr><td><?php echo '红色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黑色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_concrete']); ?> </td></tr>
-              <tr><td><?php echo '白色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '橙色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '品红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黄色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '粉红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '青色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '紫色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '棕色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黑色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '海龟蛋:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:turtle_egg']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_tube_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_brain_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_bubble_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_fire_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tube_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brain_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bubble_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:fire_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:horn_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tube_coral']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brain_coral']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bubble_coral']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:fire_coral']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:horn_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_tube_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_brain_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_bubble_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_fire_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tube_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tube_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brain_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brain_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bubble_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bubble_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:fire_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:fire_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:horn_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:horn_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_tube_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_tube_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_brain_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_brain_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_bubble_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_bubble_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_fire_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_fire_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '蓝冰:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_ice']); ?> </td></tr>
-              <tr><td><?php echo '潮涌核心:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:conduit']); ?> </td></tr>
-              <tr><td><?php echo '橡木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_door']); ?> </td></tr>
-              <tr><td><?php echo '铁门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:iron_door']); ?> </td></tr>
-              <tr><td><?php echo '云杉木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_door']); ?> </td></tr>
-              <tr><td><?php echo '白桦木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_door']); ?> </td></tr>
-              <tr><td><?php echo '丛林木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_door']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_door']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_door']); ?> </td></tr>
-              <tr><td><?php echo '红石中继器:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:repeater']); ?> </td></tr>
-              <tr><td><?php echo '红石比较器:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:comparator']); ?> </td></tr>
-              <tr><td><?php echo '火:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:fire']); ?> </td></tr>
-              <tr><td><?php echo '小麦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:wheat']); ?> </td></tr>
-              <tr><td><?php echo '红石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:redstone_wire']); ?> </td></tr>
-              <tr><td><?php echo '甘蔗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sugar_cane']); ?> </td></tr>
-              <tr><td><?php echo '海带:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:kelp']); ?> </td></tr>
-              <tr><td><?php echo '海带植物:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:kelp_plant']); ?> </td></tr>
-              <tr><td><?php echo '干海带块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dried_kelp_block']); ?> </td></tr>
-              <tr><td><?php echo '蛋糕:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cake']); ?> </td></tr>
-              <tr><td><?php echo '白色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_bed']); ?> </td></tr>
-              <tr><td><?php echo '橙色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_bed']); ?> </td></tr>
-              <tr><td><?php echo '品红色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_bed']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_bed']); ?> </td></tr>
-              <tr><td><?php echo '黄色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_bed']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_bed']); ?> </td></tr>
-              <tr><td><?php echo '粉红色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_bed']); ?> </td></tr>
-              <tr><td><?php echo '灰色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_bed']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_bed']); ?> </td></tr>
-              <tr><td><?php echo '青色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_bed']); ?> </td></tr>
-              <tr><td><?php echo '紫色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_bed']); ?> </td></tr>
-              <tr><td><?php echo '蓝色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_bed']); ?> </td></tr>
-              <tr><td><?php echo '棕色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_bed']); ?> </td></tr>
-              <tr><td><?php echo '绿色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_bed']); ?> </td></tr>
-              <tr><td><?php echo '红色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_bed']); ?> </td></tr>
-              <tr><td><?php echo '黑色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_bed']); ?> </td></tr>
-              <tr><td><?php echo '南瓜茎:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pumpkin_stem']); ?> </td></tr>
-              <tr><td><?php echo '结果的南瓜茎:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:attached_pumpkin_stem']); ?> </td></tr>
-              <tr><td><?php echo '西瓜茎:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:melon_stem']); ?> </td></tr>
-              <tr><td><?php echo '结果的西瓜茎:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:attached_melon_stem']); ?> </td></tr>
-              <tr><td><?php echo '地狱疣:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_wart']); ?> </td></tr>
-              <tr><td><?php echo '酿造台:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brewing_stand']); ?> </td></tr>
-              <tr><td><?php echo '炼药锅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cauldron']); ?> </td></tr>
-              <tr><td><?php echo '花盆:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:flower_pot']); ?> </td></tr>
-              <tr><td><?php echo '虞美人盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_poppy']); ?> </td></tr>
-              <tr><td><?php echo '蒲公英盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_dandelion']); ?> </td></tr>
-              <tr><td><?php echo '橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '云杉树苗盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_spruce_sapling']); ?> </td></tr>
-              <tr><td><?php echo '白桦树苗盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_birch_sapling']); ?> </td></tr>
-              <tr><td><?php echo '丛林树苗盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_jungle_sapling']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_red_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_brown_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '仙人掌盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_cactus']); ?> </td></tr>
-              <tr><td><?php echo '枯萎的灌木盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_dead_bush']); ?> </td></tr>
-              <tr><td><?php echo '蕨盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_fern']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树苗盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_acacia_sapling']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_dark_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '兰花盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_blue_orchid']); ?> </td></tr>
-              <tr><td><?php echo '绒球葱盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_allium']); ?> </td></tr>
-              <tr><td><?php echo '茜草花盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_azure_bluet']); ?> </td></tr>
-              <tr><td><?php echo '红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_red_tulip']); ?> </td></tr>
-              <tr><td><?php echo '橙色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_orange_tulip']); ?> </td></tr>
-              <tr><td><?php echo '白色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_white_tulip']); ?> </td></tr>
-              <tr><td><?php echo '粉红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_pink_tulip']); ?> </td></tr>
-              <tr><td><?php echo '滨菊盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_oxeye_daisy']); ?> </td></tr>
-              <tr><td><?php echo '胡萝卜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:carrots']); ?> </td></tr>
-              <tr><td><?php echo '马铃薯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potatoes']); ?> </td></tr>
-              <tr><td><?php echo '骷髅头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:skeleton_skull']); ?> </td></tr>
-              <tr><td><?php echo '墙上的骷髅头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:skeleton_wall_skull']); ?> </td></tr>
-              <tr><td><?php echo '凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:wither_skeleton_skull']); ?> </td></tr>
-              <tr><td><?php echo '墙上的凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:wither_skeleton_wall_skull']); ?> </td></tr>
-              <tr><td><?php echo '僵尸的头:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:zombie_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的僵尸头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:zombie_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '玩家头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:player_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的玩家头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:player_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '爬行者的头:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:creeper_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的爬行者头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:creeper_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '龙首:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dragon_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的龙首:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dragon_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '白色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_banner']); ?> </td></tr>
-              <tr><td><?php echo '橙色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_banner']); ?> </td></tr>
-              <tr><td><?php echo '品红色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_banner']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_banner']); ?> </td></tr>
-              <tr><td><?php echo '黄色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_banner']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_banner']); ?> </td></tr>
-              <tr><td><?php echo '粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_banner']); ?> </td></tr>
-              <tr><td><?php echo '灰色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_banner']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_banner']); ?> </td></tr>
-              <tr><td><?php echo '青色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_banner']); ?> </td></tr>
-              <tr><td><?php echo '紫色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_banner']); ?> </td></tr>
-              <tr><td><?php echo '蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_banner']); ?> </td></tr>
-              <tr><td><?php echo '棕色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_banner']); ?> </td></tr>
-              <tr><td><?php echo '绿色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_banner']); ?> </td></tr>
-              <tr><td><?php echo '红色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_banner']); ?> </td></tr>
-              <tr><td><?php echo '黑色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的品红色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黄色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的灰色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的青色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的紫色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的棕色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的绿色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的红色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黑色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '霜冰:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:frosted_ice']); ?> </td></tr>
-              <tr><td><?php echo '甜菜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:beetroots']); ?> </td></tr>
-              <tr><td><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bubble_column']); ?> </td></tr>
-              <tr><td><?php echo '刷怪箱:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spawner']); ?> </td></tr>
-              <tr><td><?php echo '下界传送门方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_portal']); ?> </td></tr>
-              <tr><td><?php echo '末地传送门方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:end_portal']); ?> </td></tr>
-              <tr><td><?php echo '末地折跃门方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:end_gateway']); ?> </td></tr>
-              <tr><td><?php echo '命令方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:command_block']); ?> </td></tr>
-              <tr><td><?php echo '连锁型命令方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chain_command_block']); ?> </td></tr>
-              <tr><td><?php echo '循环型命令方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:repeating_command_block']); ?> </td></tr>
-              <tr><td><?php echo '结构方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:structure_block']); ?> </td></tr>
-              <tr><td><?php echo '结构空位:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:structure_void']); ?> </td></tr>
-              <tr><td><?php echo '屏障:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:barrier']); ?> </td></tr>
+          <table class="table-bordered" width="100%">
+              <tr><td height="30px"><?php echo '石头:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '花岗岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:granite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制花岗岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:polished_granite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '闪长岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:diorite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制闪长岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:polished_diorite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '安山岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:andesite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制安山岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:polished_andesite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:grass_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '泥土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dirt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:coarse_dirt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰化土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:podzol']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木木板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木木板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树苗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树苗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树苗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树苗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树苗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树苗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '水:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:water']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bubble_column']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '熔岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lava']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '基岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bedrock']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '沙子:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红沙:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '沙砾:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gravel']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gold_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:iron_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '煤矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:coal_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮橡木原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮云杉原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_spruce_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮白桦原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_birch_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮丛林原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_jungle_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮金合欢原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_acacia_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮深色橡木原木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_dark_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮橡木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮云杉木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_spruce_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮白桦木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_birch_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮丛林木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_jungle_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮金合欢木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_acacia_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮深色橡木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stripped_dark_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树叶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树叶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树叶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树叶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树叶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树叶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海绵:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sponge']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '湿海绵:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:wet_sponge']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青金石矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lapis_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青金石块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lapis_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '发射器:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dispenser']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chiseled_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '切制砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cut_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '音符盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:note_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '充能铁轨:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:powered_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '探测铁轨:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:detector_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘性活塞:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sticky_piston']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蜘蛛网:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cobweb']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草丛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:grass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蕨:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '枯萎的灌木:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海草:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:seagrass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '高海草:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tall_seagrass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海泡菜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sea_pickle']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:piston']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色羊毛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蒲公英:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dandelion']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '虞美人:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:poppy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '兰花:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_orchid']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绒球葱:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:allium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '茜草花:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:azure_bluet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色郁金香:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色郁金香:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色郁金香:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色郁金香:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '滨菊:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oxeye_daisy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gold_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:iron_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sandstone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质木台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:petrified_oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cobblestone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:quartz_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_sandstone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purpur_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:prismarine_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:prismarine_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石台阶:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_prismarine_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑石英块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:smooth_quartz']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑红砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:smooth_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:smooth_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑石头:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:smooth_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo 'TNT:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tnt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '书架:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bookshelf']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:mossy_cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑曜石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:obsidian']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火把:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的火把:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:wall_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地烛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:end_rod']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫颂植物:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chorus_plant']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫颂花:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chorus_flower']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purpur_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '竖纹紫珀块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purpur_pillar']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purpur_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '箱子:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '钻石矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:diamond_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '钻石块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:diamond_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '工作台:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:crafting_table']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '耕地:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:farmland']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '熔炉:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:furnace']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '梯子:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:ladder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁轨:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cobblestone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '拉杆:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lever']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:redstone_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石火把:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:redstone_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的红石火把:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:redstone_wall_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雪:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:snow']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '冰:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雪块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:snow_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '仙人掌:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cactus']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘土块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:clay']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '唱片机:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jukebox']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木栅栏:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木栅栏:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木栅栏:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木栅栏:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢栅栏:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木栅栏:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pumpkin']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雕刻过的南瓜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:carved_pumpkin']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:netherrack']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灵魂沙:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:soul_sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '荧石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:glowstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜灯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jack_o_lantern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的石头:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:infested_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的圆石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:infested_cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:infested_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的苔石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:infested_mossy_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的裂石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:infested_cracked_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的錾制石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:infested_chiseled_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:mossy_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '裂石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cracked_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chiseled_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_mushroom_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_mushroom_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蘑菇柄:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:mushroom_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁栏杆:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:iron_bars']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '西瓜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:melon']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '藤蔓:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:vine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:stone_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '菌丝:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:mycelium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '睡莲:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lily_pad']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖栅栏门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_brick_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '附魔台:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:enchanting_table']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地传送门框架:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:end_portal_frame']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:end_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:end_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石灯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:redstone_lamp']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sandstone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿宝石矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:emerald_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地箱:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:ender_chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绊线钩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tripwire_hook']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绊线:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tripwire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿宝石块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:emerald_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '信标:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:beacon']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石墙:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cobblestone_wall']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石墙:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:mossy_cobblestone_wall']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木按钮:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁砧:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '开裂的铁砧:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chipped_anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '损坏的铁砧:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:damaged_anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '陷阱箱:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:trapped_chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '轻质测重压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_weighted_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '重质测重压力板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:heavy_weighted_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '阳光传感器:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:daylight_detector']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:redstone_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '下界石英矿石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_quartz_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '漏斗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:hopper']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制石英块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chiseled_quartz_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:quartz_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '竖纹石英块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:quartz_pillar']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:quartz_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '激活铁轨:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:activator_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '投掷器:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dropper']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁活板门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:iron_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '干草块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:hay_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色地毯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '煤炭块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:coal_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '浮冰:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:packed_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘液块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:slime_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草径:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:grass_path']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '向日葵:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sunflower']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '欧丁香:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lilac']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玫瑰丛:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:rose_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '牡丹:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:peony']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '高草:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tall_grass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '大型蕨:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:large_fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色玻璃:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色玻璃板:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:prismarine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:prismarine_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_prismarine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:prismarine_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:prismarine_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_prismarine_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶灯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sea_lantern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制红砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chiseled_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '切制红砂岩:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cut_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_sandstone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '岩浆块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magma_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱疣块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_wart_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色地狱砖块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_nether_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '骨块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bone_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '侦测器:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:observer']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色潜影盒:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海龟蛋:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:turtle_egg']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_tube_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_brain_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_bubble_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_fire_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tube_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brain_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bubble_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:fire_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:horn_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tube_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brain_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bubble_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:fire_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:horn_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_tube_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_brain_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_bubble_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_fire_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tube_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:tube_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brain_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brain_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bubble_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bubble_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:fire_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:fire_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:horn_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:horn_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_tube_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_tube_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_brain_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_brain_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_bubble_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_bubble_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_fire_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_fire_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝冰:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '潮涌核心:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:conduit']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:iron_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spruce_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:birch_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:jungle_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:acacia_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dark_oak_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石中继器:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:repeater']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石比较器:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:comparator']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:fire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '小麦:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:wheat']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:redstone_wire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '甘蔗:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:sugar_cane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海带:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:kelp']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海带植物:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:kelp_plant']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '干海带块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dried_kelp_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蛋糕:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cake']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色床:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜茎:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pumpkin_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结果的南瓜茎:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:attached_pumpkin_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '西瓜茎:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:melon_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结果的西瓜茎:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:attached_melon_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱疣:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_wart']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '酿造台:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brewing_stand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '炼药锅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cauldron']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '花盆:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:flower_pot']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '虞美人盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_poppy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蒲公英盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_dandelion']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树苗盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_spruce_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树苗盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_birch_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树苗盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_jungle_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_red_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_brown_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '仙人掌盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_cactus']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '枯萎的灌木盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_dead_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蕨盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树苗盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_acacia_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_dark_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '兰花盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_blue_orchid']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绒球葱盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_allium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '茜草花盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_azure_bluet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_red_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_orange_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_white_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_pink_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '滨菊盆栽:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potted_oxeye_daisy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '胡萝卜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:carrots']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '马铃薯:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:potatoes']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '骷髅头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:skeleton_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的骷髅头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:skeleton_wall_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:wither_skeleton_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:wither_skeleton_wall_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '僵尸的头:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:zombie_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的僵尸头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:zombie_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玩家头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:player_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的玩家头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:player_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '爬行者的头:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:creeper_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的爬行者头颅:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:creeper_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '龙首:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dragon_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的龙首:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dragon_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:white_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:orange_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的品红色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:magenta_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_blue_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黄色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:yellow_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:lime_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:pink_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的灰色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:gray_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:light_gray_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的青色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:cyan_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的紫色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:purple_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的棕色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:brown_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的绿色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:green_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的红色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:red_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黑色旗帜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:black_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '霜冰:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:frosted_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '甜菜:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:beetroots']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:bubble_column']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '刷怪箱:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:spawner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '下界传送门方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:nether_portal']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地传送门方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:end_portal']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地折跃门方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:end_gateway']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '命令方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '连锁型命令方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:chain_command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '循环型命令方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:repeating_command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结构方块:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:structure_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结构空位:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:structure_void']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '屏障:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:barrier']); ?> </td></tr>
 </table>
         </div>
       </div>
@@ -2705,597 +2720,597 @@ $post_data = array(
       </div>
       <div id="collapseSeven" class="collapse" data-parent="#accordion">
         <div class="card-body">
-          <table class="table-striped table-bordered" width="100%">
-              <tr><td><?php echo '石头:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone']); ?> </td></tr>
-              <tr><td><?php echo '花岗岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:granite']); ?> </td></tr>
-              <tr><td><?php echo '磨制花岗岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:polished_granite']); ?> </td></tr>
-              <tr><td><?php echo '闪长岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:diorite']); ?> </td></tr>
-              <tr><td><?php echo '磨制闪长岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:polished_diorite']); ?> </td></tr>
-              <tr><td><?php echo '安山岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:andesite']); ?> </td></tr>
-              <tr><td><?php echo '磨制安山岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:polished_andesite']); ?> </td></tr>
-              <tr><td><?php echo '草方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:grass_block']); ?> </td></tr>
-              <tr><td><?php echo '泥土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dirt']); ?> </td></tr>
-              <tr><td><?php echo '砂土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:coarse_dirt']); ?> </td></tr>
-              <tr><td><?php echo '灰化土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:podzol']); ?> </td></tr>
-              <tr><td><?php echo '圆石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '橡木木板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_planks']); ?> </td></tr>
-              <tr><td><?php echo '云杉木板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_planks']); ?> </td></tr>
-              <tr><td><?php echo '白桦木板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_planks']); ?> </td></tr>
-              <tr><td><?php echo '丛林木板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_planks']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_planks']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木木板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_planks']); ?> </td></tr>
-              <tr><td><?php echo '橡树树苗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '云杉树苗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_sapling']); ?> </td></tr>
-              <tr><td><?php echo '白桦树苗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_sapling']); ?> </td></tr>
-              <tr><td><?php echo '丛林树苗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_sapling']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树苗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_sapling']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树苗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '水:'.json_decode($dkjson['stats']['minecraft:used/minecraft:water']); ?> </td></tr>
-              <tr><td><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bubble_column']); ?> </td></tr>
-              <tr><td><?php echo '熔岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lava']); ?> </td></tr>
-              <tr><td><?php echo '基岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bedrock']); ?> </td></tr>
-              <tr><td><?php echo '沙子:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sand']); ?> </td></tr>
-              <tr><td><?php echo '红沙:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_sand']); ?> </td></tr>
-              <tr><td><?php echo '沙砾:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gravel']); ?> </td></tr>
-              <tr><td><?php echo '金矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gold_ore']); ?> </td></tr>
-              <tr><td><?php echo '铁矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:iron_ore']); ?> </td></tr>
-              <tr><td><?php echo '煤矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:coal_ore']); ?> </td></tr>
-              <tr><td><?php echo '橡木原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_log']); ?> </td></tr>
-              <tr><td><?php echo '云杉原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_log']); ?> </td></tr>
-              <tr><td><?php echo '白桦原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_log']); ?> </td></tr>
-              <tr><td><?php echo '丛林原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_log']); ?> </td></tr>
-              <tr><td><?php echo '金合欢原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_log']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮橡木原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮云杉原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_spruce_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮白桦原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_birch_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮丛林原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_jungle_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮金合欢原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_acacia_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮深色橡木原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_dark_oak_log']); ?> </td></tr>
-              <tr><td><?php echo '去皮橡木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮云杉木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_spruce_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮白桦木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_birch_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮丛林木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_jungle_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮金合欢木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_acacia_wood']); ?> </td></tr>
-              <tr><td><?php echo '去皮深色橡木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_dark_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '橡木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '云杉木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_wood']); ?> </td></tr>
-              <tr><td><?php echo '白桦木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_wood']); ?> </td></tr>
-              <tr><td><?php echo '丛林木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_wood']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_wood']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_wood']); ?> </td></tr>
-              <tr><td><?php echo '橡树树叶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_leaves']); ?> </td></tr>
-              <tr><td><?php echo '云杉树叶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_leaves']); ?> </td></tr>
-              <tr><td><?php echo '白桦树叶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_leaves']); ?> </td></tr>
-              <tr><td><?php echo '丛林树叶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_leaves']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树叶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_leaves']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树叶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_leaves']); ?> </td></tr>
-              <tr><td><?php echo '海绵:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sponge']); ?> </td></tr>
-              <tr><td><?php echo '湿海绵:'.json_decode($dkjson['stats']['minecraft:used/minecraft:wet_sponge']); ?> </td></tr>
-              <tr><td><?php echo '玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:glass']); ?> </td></tr>
-              <tr><td><?php echo '青金石矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lapis_ore']); ?> </td></tr>
-              <tr><td><?php echo '青金石块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lapis_block']); ?> </td></tr>
-              <tr><td><?php echo '发射器:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dispenser']); ?> </td></tr>
-              <tr><td><?php echo '砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sandstone']); ?> </td></tr>
-              <tr><td><?php echo '錾制砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chiseled_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '切制砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cut_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '音符盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:note_block']); ?> </td></tr>
-              <tr><td><?php echo '充能铁轨:'.json_decode($dkjson['stats']['minecraft:used/minecraft:powered_rail']); ?> </td></tr>
-              <tr><td><?php echo '探测铁轨:'.json_decode($dkjson['stats']['minecraft:used/minecraft:detector_rail']); ?> </td></tr>
-              <tr><td><?php echo '粘性活塞:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sticky_piston']); ?> </td></tr>
-              <tr><td><?php echo '蜘蛛网:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cobweb']); ?> </td></tr>
-              <tr><td><?php echo '草丛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:grass']); ?> </td></tr>
-              <tr><td><?php echo '蕨:'.json_decode($dkjson['stats']['minecraft:used/minecraft:fern']); ?> </td></tr>
-              <tr><td><?php echo '枯萎的灌木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_bush']); ?> </td></tr>
-              <tr><td><?php echo '海草:'.json_decode($dkjson['stats']['minecraft:used/minecraft:seagrass']); ?> </td></tr>
-              <tr><td><?php echo '高海草:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tall_seagrass']); ?> </td></tr>
-              <tr><td><?php echo '海泡菜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sea_pickle']); ?> </td></tr>
-              <tr><td><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:used/minecraft:piston']); ?> </td></tr>
-              <tr><td><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_wool']); ?> </td></tr>
-              <tr><td><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_wool']); ?> </td></tr>
-              <tr><td><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_wool']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_wool']); ?> </td></tr>
-              <tr><td><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_wool']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_wool']); ?> </td></tr>
-              <tr><td><?php echo '粉红色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_wool']); ?> </td></tr>
-              <tr><td><?php echo '灰色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_wool']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_wool']); ?> </td></tr>
-              <tr><td><?php echo '青色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_wool']); ?> </td></tr>
-              <tr><td><?php echo '紫色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_wool']); ?> </td></tr>
-              <tr><td><?php echo '蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_wool']); ?> </td></tr>
-              <tr><td><?php echo '棕色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_wool']); ?> </td></tr>
-              <tr><td><?php echo '绿色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_wool']); ?> </td></tr>
-              <tr><td><?php echo '红色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_wool']); ?> </td></tr>
-              <tr><td><?php echo '黑色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_wool']); ?> </td></tr>
-              <tr><td><?php echo '蒲公英:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dandelion']); ?> </td></tr>
-              <tr><td><?php echo '虞美人:'.json_decode($dkjson['stats']['minecraft:used/minecraft:poppy']); ?> </td></tr>
-              <tr><td><?php echo '兰花:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_orchid']); ?> </td></tr>
-              <tr><td><?php echo '绒球葱:'.json_decode($dkjson['stats']['minecraft:used/minecraft:allium']); ?> </td></tr>
-              <tr><td><?php echo '茜草花:'.json_decode($dkjson['stats']['minecraft:used/minecraft:azure_bluet']); ?> </td></tr>
-              <tr><td><?php echo '红色郁金香:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_tulip']); ?> </td></tr>
-              <tr><td><?php echo '橙色郁金香:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_tulip']); ?> </td></tr>
-              <tr><td><?php echo '白色郁金香:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_tulip']); ?> </td></tr>
-              <tr><td><?php echo '粉红色郁金香:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_tulip']); ?> </td></tr>
-              <tr><td><?php echo '滨菊:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oxeye_daisy']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '金块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gold_block']); ?> </td></tr>
-              <tr><td><?php echo '铁块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:iron_block']); ?> </td></tr>
-              <tr><td><?php echo '橡木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '云杉木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_slab']); ?> </td></tr>
-              <tr><td><?php echo '白桦木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_slab']); ?> </td></tr>
-              <tr><td><?php echo '丛林木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_slab']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_slab']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '石台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone_slab']); ?> </td></tr>
-              <tr><td><?php echo '砂岩台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sandstone_slab']); ?> </td></tr>
-              <tr><td><?php echo '石质木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:petrified_oak_slab']); ?> </td></tr>
-              <tr><td><?php echo '圆石台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cobblestone_slab']); ?> </td></tr>
-              <tr><td><?php echo '砖块台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '石砖台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '石英台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:quartz_slab']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_sandstone_slab']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purpur_slab']); ?> </td></tr>
-              <tr><td><?php echo '海晶石台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:prismarine_slab']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:prismarine_brick_slab']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_prismarine_slab']); ?> </td></tr>
-              <tr><td><?php echo '平滑石英块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:smooth_quartz']); ?> </td></tr>
-              <tr><td><?php echo '平滑红砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:smooth_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '平滑砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:smooth_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '平滑石头:'.json_decode($dkjson['stats']['minecraft:used/minecraft:smooth_stone']); ?> </td></tr>
-              <tr><td><?php echo '砖块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bricks']); ?> </td></tr>
-              <tr><td><?php echo 'TNT:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tnt']); ?> </td></tr>
-              <tr><td><?php echo '书架:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bookshelf']); ?> </td></tr>
-              <tr><td><?php echo '苔石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:mossy_cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '黑曜石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:obsidian']); ?> </td></tr>
-              <tr><td><?php echo '火把:'.json_decode($dkjson['stats']['minecraft:used/minecraft:torch']); ?> </td></tr>
-              <tr><td><?php echo '墙上的火把:'.json_decode($dkjson['stats']['minecraft:used/minecraft:wall_torch']); ?> </td></tr>
-              <tr><td><?php echo '末地烛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:end_rod']); ?> </td></tr>
-              <tr><td><?php echo '紫颂植物:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chorus_plant']); ?> </td></tr>
-              <tr><td><?php echo '紫颂花:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chorus_flower']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purpur_block']); ?> </td></tr>
-              <tr><td><?php echo '竖纹紫珀块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purpur_pillar']); ?> </td></tr>
-              <tr><td><?php echo '紫珀块楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purpur_stairs']); ?> </td></tr>
-              <tr><td><?php echo '橡木楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_stairs']); ?> </td></tr>
-              <tr><td><?php echo '云杉木楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_stairs']); ?> </td></tr>
-              <tr><td><?php echo '白桦木楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_stairs']); ?> </td></tr>
-              <tr><td><?php echo '丛林木楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_stairs']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_stairs']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_stairs']); ?> </td></tr>
-              <tr><td><?php echo '箱子:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chest']); ?> </td></tr>
-              <tr><td><?php echo '钻石矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:diamond_ore']); ?> </td></tr>
-              <tr><td><?php echo '钻石块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:diamond_block']); ?> </td></tr>
-              <tr><td><?php echo '工作台:'.json_decode($dkjson['stats']['minecraft:used/minecraft:crafting_table']); ?> </td></tr>
-              <tr><td><?php echo '耕地:'.json_decode($dkjson['stats']['minecraft:used/minecraft:farmland']); ?> </td></tr>
-              <tr><td><?php echo '熔炉:'.json_decode($dkjson['stats']['minecraft:used/minecraft:furnace']); ?> </td></tr>
-              <tr><td><?php echo '梯子:'.json_decode($dkjson['stats']['minecraft:used/minecraft:ladder']); ?> </td></tr>
-              <tr><td><?php echo '铁轨:'.json_decode($dkjson['stats']['minecraft:used/minecraft:rail']); ?> </td></tr>
-              <tr><td><?php echo '圆石楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cobblestone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '拉杆:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lever']); ?> </td></tr>
-              <tr><td><?php echo '石质压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '橡木压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '云杉木压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '白桦木压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '丛林木压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '红石矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:redstone_ore']); ?> </td></tr>
-              <tr><td><?php echo '红石火把:'.json_decode($dkjson['stats']['minecraft:used/minecraft:redstone_torch']); ?> </td></tr>
-              <tr><td><?php echo '墙上的红石火把:'.json_decode($dkjson['stats']['minecraft:used/minecraft:redstone_wall_torch']); ?> </td></tr>
-              <tr><td><?php echo '石质按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone_button']); ?> </td></tr>
-              <tr><td><?php echo '雪:'.json_decode($dkjson['stats']['minecraft:used/minecraft:snow']); ?> </td></tr>
-              <tr><td><?php echo '冰:'.json_decode($dkjson['stats']['minecraft:used/minecraft:ice']); ?> </td></tr>
-              <tr><td><?php echo '雪块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:snow_block']); ?> </td></tr>
-              <tr><td><?php echo '仙人掌:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cactus']); ?> </td></tr>
-              <tr><td><?php echo '粘土块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:clay']); ?> </td></tr>
-              <tr><td><?php echo '唱片机:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jukebox']); ?> </td></tr>
-              <tr><td><?php echo '橡木栅栏:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_fence']); ?> </td></tr>
-              <tr><td><?php echo '云杉木栅栏:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_fence']); ?> </td></tr>
-              <tr><td><?php echo '白桦木栅栏:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_fence']); ?> </td></tr>
-              <tr><td><?php echo '丛林木栅栏:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_fence']); ?> </td></tr>
-              <tr><td><?php echo '金合欢栅栏:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_fence']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木栅栏:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_fence']); ?> </td></tr>
-              <tr><td><?php echo '南瓜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pumpkin']); ?> </td></tr>
-              <tr><td><?php echo '雕刻过的南瓜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:carved_pumpkin']); ?> </td></tr>
-              <tr><td><?php echo '地狱岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:netherrack']); ?> </td></tr>
-              <tr><td><?php echo '灵魂沙:'.json_decode($dkjson['stats']['minecraft:used/minecraft:soul_sand']); ?> </td></tr>
-              <tr><td><?php echo '荧石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:glowstone']); ?> </td></tr>
-              <tr><td><?php echo '南瓜灯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jack_o_lantern']); ?> </td></tr>
-              <tr><td><?php echo '橡木活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '云杉木活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '白桦木活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '丛林木活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的石头:'.json_decode($dkjson['stats']['minecraft:used/minecraft:infested_stone']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的圆石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:infested_cobblestone']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:infested_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的苔石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:infested_mossy_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的裂石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:infested_cracked_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '被虫蚀的錾制石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:infested_chiseled_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '苔石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:mossy_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '裂石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cracked_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '錾制石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chiseled_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_mushroom_block']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_mushroom_block']); ?> </td></tr>
-              <tr><td><?php echo '蘑菇柄:'.json_decode($dkjson['stats']['minecraft:used/minecraft:mushroom_stem']); ?> </td></tr>
-              <tr><td><?php echo '铁栏杆:'.json_decode($dkjson['stats']['minecraft:used/minecraft:iron_bars']); ?> </td></tr>
-              <tr><td><?php echo '玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '西瓜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:melon']); ?> </td></tr>
-              <tr><td><?php echo '藤蔓:'.json_decode($dkjson['stats']['minecraft:used/minecraft:vine']); ?> </td></tr>
-              <tr><td><?php echo '橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '云杉木栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '白桦木栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '丛林木栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_fence_gate']); ?> </td></tr>
-              <tr><td><?php echo '砖块楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '石砖楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '菌丝:'.json_decode($dkjson['stats']['minecraft:used/minecraft:mycelium']); ?> </td></tr>
-              <tr><td><?php echo '睡莲:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lily_pad']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_bricks']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_brick_fence']); ?> </td></tr>
-              <tr><td><?php echo '地狱砖楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '附魔台:'.json_decode($dkjson['stats']['minecraft:used/minecraft:enchanting_table']); ?> </td></tr>
-              <tr><td><?php echo '末地传送门框架:'.json_decode($dkjson['stats']['minecraft:used/minecraft:end_portal_frame']); ?> </td></tr>
-              <tr><td><?php echo '末地石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:end_stone']); ?> </td></tr>
-              <tr><td><?php echo '末地石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:end_stone_bricks']); ?> </td></tr>
-              <tr><td><?php echo '红石灯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:redstone_lamp']); ?> </td></tr>
-              <tr><td><?php echo '砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sandstone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '绿宝石矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:emerald_ore']); ?> </td></tr>
-              <tr><td><?php echo '末地箱:'.json_decode($dkjson['stats']['minecraft:used/minecraft:ender_chest']); ?> </td></tr>
-              <tr><td><?php echo '绊线钩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tripwire_hook']); ?> </td></tr>
-              <tr><td><?php echo '绊线:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tripwire']); ?> </td></tr>
-              <tr><td><?php echo '绿宝石块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:emerald_block']); ?> </td></tr>
-              <tr><td><?php echo '信标:'.json_decode($dkjson['stats']['minecraft:used/minecraft:beacon']); ?> </td></tr>
-              <tr><td><?php echo '圆石墙:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cobblestone_wall']); ?> </td></tr>
-              <tr><td><?php echo '苔石墙:'.json_decode($dkjson['stats']['minecraft:used/minecraft:mossy_cobblestone_wall']); ?> </td></tr>
-              <tr><td><?php echo '橡木按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_button']); ?> </td></tr>
-              <tr><td><?php echo '云杉木按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_button']); ?> </td></tr>
-              <tr><td><?php echo '白桦木按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_button']); ?> </td></tr>
-              <tr><td><?php echo '丛林木按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_button']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_button']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_button']); ?> </td></tr>
-              <tr><td><?php echo '铁砧:'.json_decode($dkjson['stats']['minecraft:used/minecraft:anvil']); ?> </td></tr>
-              <tr><td><?php echo '开裂的铁砧:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chipped_anvil']); ?> </td></tr>
-              <tr><td><?php echo '损坏的铁砧:'.json_decode($dkjson['stats']['minecraft:used/minecraft:damaged_anvil']); ?> </td></tr>
-              <tr><td><?php echo '陷阱箱:'.json_decode($dkjson['stats']['minecraft:used/minecraft:trapped_chest']); ?> </td></tr>
-              <tr><td><?php echo '轻质测重压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_weighted_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '重质测重压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:heavy_weighted_pressure_plate']); ?> </td></tr>
-              <tr><td><?php echo '阳光传感器:'.json_decode($dkjson['stats']['minecraft:used/minecraft:daylight_detector']); ?> </td></tr>
-              <tr><td><?php echo '红石块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:redstone_block']); ?> </td></tr>
-              <tr><td><?php echo '下界石英矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_quartz_ore']); ?> </td></tr>
-              <tr><td><?php echo '漏斗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:hopper']); ?> </td></tr>
-              <tr><td><?php echo '錾制石英块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chiseled_quartz_block']); ?> </td></tr>
-              <tr><td><?php echo '石英块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:quartz_block']); ?> </td></tr>
-              <tr><td><?php echo '竖纹石英块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:quartz_pillar']); ?> </td></tr>
-              <tr><td><?php echo '石英楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:quartz_stairs']); ?> </td></tr>
-              <tr><td><?php echo '激活铁轨:'.json_decode($dkjson['stats']['minecraft:used/minecraft:activator_rail']); ?> </td></tr>
-              <tr><td><?php echo '投掷器:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dropper']); ?> </td></tr>
-              <tr><td><?php echo '白色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '橙色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '品红色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '粉红色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '青色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '紫色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '棕色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '红色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黑色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '铁活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:iron_trapdoor']); ?> </td></tr>
-              <tr><td><?php echo '干草块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:hay_block']); ?> </td></tr>
-              <tr><td><?php echo '白色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_carpet']); ?> </td></tr>
-              <tr><td><?php echo '橙色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_carpet']); ?> </td></tr>
-              <tr><td><?php echo '品红色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_carpet']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黄色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_carpet']); ?> </td></tr>
-              <tr><td><?php echo '粉红色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_carpet']); ?> </td></tr>
-              <tr><td><?php echo '灰色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_carpet']); ?> </td></tr>
-              <tr><td><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_carpet']); ?> </td></tr>
-              <tr><td><?php echo '青色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_carpet']); ?> </td></tr>
-              <tr><td><?php echo '紫色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_carpet']); ?> </td></tr>
-              <tr><td><?php echo '蓝色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_carpet']); ?> </td></tr>
-              <tr><td><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_carpet']); ?> </td></tr>
-              <tr><td><?php echo '绿色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_carpet']); ?> </td></tr>
-              <tr><td><?php echo '红色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_carpet']); ?> </td></tr>
-              <tr><td><?php echo '黑色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_carpet']); ?> </td></tr>
-              <tr><td><?php echo '陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:terracotta']); ?> </td></tr>
-              <tr><td><?php echo '煤炭块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:coal_block']); ?> </td></tr>
-              <tr><td><?php echo '浮冰:'.json_decode($dkjson['stats']['minecraft:used/minecraft:packed_ice']); ?> </td></tr>
-              <tr><td><?php echo '粘液块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:slime_block']); ?> </td></tr>
-              <tr><td><?php echo '草径:'.json_decode($dkjson['stats']['minecraft:used/minecraft:grass_path']); ?> </td></tr>
-              <tr><td><?php echo '向日葵:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sunflower']); ?> </td></tr>
-              <tr><td><?php echo '欧丁香:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lilac']); ?> </td></tr>
-              <tr><td><?php echo '玫瑰丛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:rose_bush']); ?> </td></tr>
-              <tr><td><?php echo '牡丹:'.json_decode($dkjson['stats']['minecraft:used/minecraft:peony']); ?> </td></tr>
-              <tr><td><?php echo '高草:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tall_grass']); ?> </td></tr>
-              <tr><td><?php echo '大型蕨:'.json_decode($dkjson['stats']['minecraft:used/minecraft:large_fern']); ?> </td></tr>
-              <tr><td><?php echo '白色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '橙色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '品红色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黄色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '粉红色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '灰色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '青色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '紫色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '棕色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '绿色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '红色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '黑色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_stained_glass']); ?> </td></tr>
-              <tr><td><?php echo '白色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '橙色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '品红色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黄色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '粉红色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '青色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '紫色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '棕色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '红色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '黑色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_stained_glass_pane']); ?> </td></tr>
-              <tr><td><?php echo '海晶石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:prismarine']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:prismarine_bricks']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_prismarine']); ?> </td></tr>
-              <tr><td><?php echo '海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:prismarine_stairs']); ?> </td></tr>
-              <tr><td><?php echo '海晶石砖楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:prismarine_brick_stairs']); ?> </td></tr>
-              <tr><td><?php echo '暗海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_prismarine_stairs']); ?> </td></tr>
-              <tr><td><?php echo '海晶灯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sea_lantern']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '錾制红砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chiseled_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '切制红砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cut_red_sandstone']); ?> </td></tr>
-              <tr><td><?php echo '红砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_sandstone_stairs']); ?> </td></tr>
-              <tr><td><?php echo '岩浆块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magma_block']); ?> </td></tr>
-              <tr><td><?php echo '地狱疣块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_wart_block']); ?> </td></tr>
-              <tr><td><?php echo '红色地狱砖块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_nether_bricks']); ?> </td></tr>
-              <tr><td><?php echo '骨块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bone_block']); ?> </td></tr>
-              <tr><td><?php echo '侦测器:'.json_decode($dkjson['stats']['minecraft:used/minecraft:observer']); ?> </td></tr>
-              <tr><td><?php echo '潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '品红色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黄色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '粉红色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '青色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '紫色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '棕色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '红色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '黑色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_shulker_box']); ?> </td></tr>
-              <tr><td><?php echo '白色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '橙色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '品红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '粉红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '青色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '紫色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '棕色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '黑色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_glazed_terracotta']); ?> </td></tr>
-              <tr><td><?php echo '白色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_concrete']); ?> </td></tr>
-              <tr><td><?php echo '橙色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_concrete']); ?> </td></tr>
-              <tr><td><?php echo '品红色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_concrete']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黄色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_concrete']); ?> </td></tr>
-              <tr><td><?php echo '粉红色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_concrete']); ?> </td></tr>
-              <tr><td><?php echo '灰色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_concrete']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_concrete']); ?> </td></tr>
-              <tr><td><?php echo '青色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_concrete']); ?> </td></tr>
-              <tr><td><?php echo '紫色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_concrete']); ?> </td></tr>
-              <tr><td><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_concrete']); ?> </td></tr>
-              <tr><td><?php echo '棕色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_concrete']); ?> </td></tr>
-              <tr><td><?php echo '绿色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_concrete']); ?> </td></tr>
-              <tr><td><?php echo '红色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_concrete']); ?> </td></tr>
-              <tr><td><?php echo '黑色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_concrete']); ?> </td></tr>
-              <tr><td><?php echo '白色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '橙色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '品红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黄色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '粉红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '青色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '紫色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '棕色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '黑色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_concrete_powder']); ?> </td></tr>
-              <tr><td><?php echo '海龟蛋:'.json_decode($dkjson['stats']['minecraft:used/minecraft:turtle_egg']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_tube_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_brain_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_bubble_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_fire_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_horn_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tube_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brain_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bubble_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:fire_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:horn_coral_block']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tube_coral']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brain_coral']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bubble_coral']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:fire_coral']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:horn_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_tube_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_brain_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_bubble_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_fire_coral']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_horn_coral']); ?> </td></tr>
-              <tr><td><?php echo '管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tube_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tube_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brain_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brain_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bubble_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bubble_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:fire_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:fire_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:horn_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:horn_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_tube_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_tube_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_brain_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_brain_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_bubble_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_bubble_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_fire_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_fire_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_horn_coral_fan']); ?> </td></tr>
-              <tr><td><?php echo '墙上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
-              <tr><td><?php echo '蓝冰:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_ice']); ?> </td></tr>
-              <tr><td><?php echo '潮涌核心:'.json_decode($dkjson['stats']['minecraft:used/minecraft:conduit']); ?> </td></tr>
-              <tr><td><?php echo '橡木门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_door']); ?> </td></tr>
-              <tr><td><?php echo '铁门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:iron_door']); ?> </td></tr>
-              <tr><td><?php echo '云杉木门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_door']); ?> </td></tr>
-              <tr><td><?php echo '白桦木门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_door']); ?> </td></tr>
-              <tr><td><?php echo '丛林木门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_door']); ?> </td></tr>
-              <tr><td><?php echo '金合欢木门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_door']); ?> </td></tr>
-              <tr><td><?php echo '深色橡木门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_door']); ?> </td></tr>
-              <tr><td><?php echo '红石中继器:'.json_decode($dkjson['stats']['minecraft:used/minecraft:repeater']); ?> </td></tr>
-              <tr><td><?php echo '红石比较器:'.json_decode($dkjson['stats']['minecraft:used/minecraft:comparator']); ?> </td></tr>
-              <tr><td><?php echo '火:'.json_decode($dkjson['stats']['minecraft:used/minecraft:fire']); ?> </td></tr>
-              <tr><td><?php echo '小麦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:wheat']); ?> </td></tr>
-              <tr><td><?php echo '红石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:redstone_wire']); ?> </td></tr>
-              <tr><td><?php echo '甘蔗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sugar_cane']); ?> </td></tr>
-              <tr><td><?php echo '海带:'.json_decode($dkjson['stats']['minecraft:used/minecraft:kelp']); ?> </td></tr>
-              <tr><td><?php echo '海带植物:'.json_decode($dkjson['stats']['minecraft:used/minecraft:kelp_plant']); ?> </td></tr>
-              <tr><td><?php echo '干海带块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dried_kelp_block']); ?> </td></tr>
-              <tr><td><?php echo '蛋糕:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cake']); ?> </td></tr>
-              <tr><td><?php echo '白色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_bed']); ?> </td></tr>
-              <tr><td><?php echo '橙色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_bed']); ?> </td></tr>
-              <tr><td><?php echo '品红色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_bed']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_bed']); ?> </td></tr>
-              <tr><td><?php echo '黄色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_bed']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_bed']); ?> </td></tr>
-              <tr><td><?php echo '粉红色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_bed']); ?> </td></tr>
-              <tr><td><?php echo '灰色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_bed']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_bed']); ?> </td></tr>
-              <tr><td><?php echo '青色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_bed']); ?> </td></tr>
-              <tr><td><?php echo '紫色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_bed']); ?> </td></tr>
-              <tr><td><?php echo '蓝色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_bed']); ?> </td></tr>
-              <tr><td><?php echo '棕色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_bed']); ?> </td></tr>
-              <tr><td><?php echo '绿色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_bed']); ?> </td></tr>
-              <tr><td><?php echo '红色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_bed']); ?> </td></tr>
-              <tr><td><?php echo '黑色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_bed']); ?> </td></tr>
-              <tr><td><?php echo '南瓜茎:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pumpkin_stem']); ?> </td></tr>
-              <tr><td><?php echo '结果的南瓜茎:'.json_decode($dkjson['stats']['minecraft:used/minecraft:attached_pumpkin_stem']); ?> </td></tr>
-              <tr><td><?php echo '西瓜茎:'.json_decode($dkjson['stats']['minecraft:used/minecraft:melon_stem']); ?> </td></tr>
-              <tr><td><?php echo '结果的西瓜茎:'.json_decode($dkjson['stats']['minecraft:used/minecraft:attached_melon_stem']); ?> </td></tr>
-              <tr><td><?php echo '地狱疣:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_wart']); ?> </td></tr>
-              <tr><td><?php echo '酿造台:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brewing_stand']); ?> </td></tr>
-              <tr><td><?php echo '炼药锅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cauldron']); ?> </td></tr>
-              <tr><td><?php echo '花盆:'.json_decode($dkjson['stats']['minecraft:used/minecraft:flower_pot']); ?> </td></tr>
-              <tr><td><?php echo '虞美人盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_poppy']); ?> </td></tr>
-              <tr><td><?php echo '蒲公英盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_dandelion']); ?> </td></tr>
-              <tr><td><?php echo '橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '云杉树苗盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_spruce_sapling']); ?> </td></tr>
-              <tr><td><?php echo '白桦树苗盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_birch_sapling']); ?> </td></tr>
-              <tr><td><?php echo '丛林树苗盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_jungle_sapling']); ?> </td></tr>
-              <tr><td><?php echo '红色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_red_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '棕色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_brown_mushroom']); ?> </td></tr>
-              <tr><td><?php echo '仙人掌盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_cactus']); ?> </td></tr>
-              <tr><td><?php echo '枯萎的灌木盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_dead_bush']); ?> </td></tr>
-              <tr><td><?php echo '蕨盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_fern']); ?> </td></tr>
-              <tr><td><?php echo '金合欢树苗盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_acacia_sapling']); ?> </td></tr>
-              <tr><td><?php echo '深色橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_dark_oak_sapling']); ?> </td></tr>
-              <tr><td><?php echo '兰花盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_blue_orchid']); ?> </td></tr>
-              <tr><td><?php echo '绒球葱盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_allium']); ?> </td></tr>
-              <tr><td><?php echo '茜草花盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_azure_bluet']); ?> </td></tr>
-              <tr><td><?php echo '红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_red_tulip']); ?> </td></tr>
-              <tr><td><?php echo '橙色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_orange_tulip']); ?> </td></tr>
-              <tr><td><?php echo '白色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_white_tulip']); ?> </td></tr>
-              <tr><td><?php echo '粉红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_pink_tulip']); ?> </td></tr>
-              <tr><td><?php echo '滨菊盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_oxeye_daisy']); ?> </td></tr>
-              <tr><td><?php echo '胡萝卜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:carrots']); ?> </td></tr>
-              <tr><td><?php echo '马铃薯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potatoes']); ?> </td></tr>
-              <tr><td><?php echo '骷髅头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:skeleton_skull']); ?> </td></tr>
-              <tr><td><?php echo '墙上的骷髅头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:skeleton_wall_skull']); ?> </td></tr>
-              <tr><td><?php echo '凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:wither_skeleton_skull']); ?> </td></tr>
-              <tr><td><?php echo '墙上的凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:wither_skeleton_wall_skull']); ?> </td></tr>
-              <tr><td><?php echo '僵尸的头:'.json_decode($dkjson['stats']['minecraft:used/minecraft:zombie_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的僵尸头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:zombie_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '玩家头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:player_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的玩家头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:player_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '爬行者的头:'.json_decode($dkjson['stats']['minecraft:used/minecraft:creeper_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的爬行者头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:creeper_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '龙首:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dragon_head']); ?> </td></tr>
-              <tr><td><?php echo '墙上的龙首:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dragon_wall_head']); ?> </td></tr>
-              <tr><td><?php echo '白色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_banner']); ?> </td></tr>
-              <tr><td><?php echo '橙色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_banner']); ?> </td></tr>
-              <tr><td><?php echo '品红色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_banner']); ?> </td></tr>
-              <tr><td><?php echo '淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_banner']); ?> </td></tr>
-              <tr><td><?php echo '黄色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_banner']); ?> </td></tr>
-              <tr><td><?php echo '黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_banner']); ?> </td></tr>
-              <tr><td><?php echo '粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_banner']); ?> </td></tr>
-              <tr><td><?php echo '灰色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_banner']); ?> </td></tr>
-              <tr><td><?php echo '淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_banner']); ?> </td></tr>
-              <tr><td><?php echo '青色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_banner']); ?> </td></tr>
-              <tr><td><?php echo '紫色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_banner']); ?> </td></tr>
-              <tr><td><?php echo '蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_banner']); ?> </td></tr>
-              <tr><td><?php echo '棕色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_banner']); ?> </td></tr>
-              <tr><td><?php echo '绿色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_banner']); ?> </td></tr>
-              <tr><td><?php echo '红色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_banner']); ?> </td></tr>
-              <tr><td><?php echo '黑色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的品红色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黄色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的灰色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的青色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的紫色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的棕色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的绿色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的红色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '墙上的黑色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_wall_banner']); ?> </td></tr>
-              <tr><td><?php echo '霜冰:'.json_decode($dkjson['stats']['minecraft:used/minecraft:frosted_ice']); ?> </td></tr>
-              <tr><td><?php echo '甜菜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:beetroots']); ?> </td></tr>
-              <tr><td><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bubble_column']); ?> </td></tr>
-              <tr><td><?php echo '刷怪箱:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spawner']); ?> </td></tr>
-              <tr><td><?php echo '下界传送门方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_portal']); ?> </td></tr>
-              <tr><td><?php echo '末地传送门方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:end_portal']); ?> </td></tr>
-              <tr><td><?php echo '末地折跃门方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:end_gateway']); ?> </td></tr>
-              <tr><td><?php echo '命令方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:command_block']); ?> </td></tr>
-              <tr><td><?php echo '连锁型命令方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chain_command_block']); ?> </td></tr>
-              <tr><td><?php echo '循环型命令方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:repeating_command_block']); ?> </td></tr>
-              <tr><td><?php echo '结构方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:structure_block']); ?> </td></tr>
-              <tr><td><?php echo '结构空位:'.json_decode($dkjson['stats']['minecraft:used/minecraft:structure_void']); ?> </td></tr>
-              <tr><td><?php echo '屏障:'.json_decode($dkjson['stats']['minecraft:used/minecraft:barrier']); ?> </td></tr>
+          <table class="table-bordered" width="100%">
+              <tr><td height="30px"><?php echo '石头:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '花岗岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:granite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制花岗岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:polished_granite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '闪长岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:diorite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制闪长岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:polished_diorite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '安山岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:andesite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '磨制安山岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:polished_andesite']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:grass_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '泥土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dirt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:coarse_dirt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰化土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:podzol']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木木板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木木板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_planks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树苗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树苗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树苗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树苗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树苗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树苗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '水:'.json_decode($dkjson['stats']['minecraft:used/minecraft:water']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bubble_column']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '熔岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lava']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '基岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bedrock']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '沙子:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红沙:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '沙砾:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gravel']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gold_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:iron_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '煤矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:coal_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮橡木原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮云杉原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_spruce_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮白桦原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_birch_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮丛林原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_jungle_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮金合欢原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_acacia_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮深色橡木原木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_dark_oak_log']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮橡木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮云杉木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_spruce_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮白桦木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_birch_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮丛林木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_jungle_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮金合欢木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_acacia_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '去皮深色橡木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stripped_dark_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_wood']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树叶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树叶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树叶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树叶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树叶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树叶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_leaves']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海绵:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sponge']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '湿海绵:'.json_decode($dkjson['stats']['minecraft:used/minecraft:wet_sponge']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青金石矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lapis_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青金石块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lapis_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '发射器:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dispenser']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chiseled_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '切制砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cut_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '音符盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:note_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '充能铁轨:'.json_decode($dkjson['stats']['minecraft:used/minecraft:powered_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '探测铁轨:'.json_decode($dkjson['stats']['minecraft:used/minecraft:detector_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘性活塞:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sticky_piston']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蜘蛛网:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cobweb']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草丛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:grass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蕨:'.json_decode($dkjson['stats']['minecraft:used/minecraft:fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '枯萎的灌木:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海草:'.json_decode($dkjson['stats']['minecraft:used/minecraft:seagrass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '高海草:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tall_seagrass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海泡菜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sea_pickle']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '活塞:'.json_decode($dkjson['stats']['minecraft:used/minecraft:piston']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色羊毛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_wool']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蒲公英:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dandelion']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '虞美人:'.json_decode($dkjson['stats']['minecraft:used/minecraft:poppy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '兰花:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_orchid']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绒球葱:'.json_decode($dkjson['stats']['minecraft:used/minecraft:allium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '茜草花:'.json_decode($dkjson['stats']['minecraft:used/minecraft:azure_bluet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色郁金香:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色郁金香:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色郁金香:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色郁金香:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '滨菊:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oxeye_daisy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gold_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:iron_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sandstone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质木台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:petrified_oak_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cobblestone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:quartz_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_sandstone_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purpur_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:prismarine_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:prismarine_brick_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石台阶:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_prismarine_slab']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑石英块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:smooth_quartz']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑红砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:smooth_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:smooth_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '平滑石头:'.json_decode($dkjson['stats']['minecraft:used/minecraft:smooth_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo 'TNT:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tnt']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '书架:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bookshelf']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:mossy_cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑曜石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:obsidian']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火把:'.json_decode($dkjson['stats']['minecraft:used/minecraft:torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的火把:'.json_decode($dkjson['stats']['minecraft:used/minecraft:wall_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地烛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:end_rod']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫颂植物:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chorus_plant']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫颂花:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chorus_flower']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purpur_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '竖纹紫珀块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purpur_pillar']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫珀块楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purpur_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '箱子:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '钻石矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:diamond_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '钻石块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:diamond_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '工作台:'.json_decode($dkjson['stats']['minecraft:used/minecraft:crafting_table']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '耕地:'.json_decode($dkjson['stats']['minecraft:used/minecraft:farmland']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '熔炉:'.json_decode($dkjson['stats']['minecraft:used/minecraft:furnace']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '梯子:'.json_decode($dkjson['stats']['minecraft:used/minecraft:ladder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁轨:'.json_decode($dkjson['stats']['minecraft:used/minecraft:rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cobblestone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '拉杆:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lever']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:redstone_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石火把:'.json_decode($dkjson['stats']['minecraft:used/minecraft:redstone_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的红石火把:'.json_decode($dkjson['stats']['minecraft:used/minecraft:redstone_wall_torch']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石质按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雪:'.json_decode($dkjson['stats']['minecraft:used/minecraft:snow']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '冰:'.json_decode($dkjson['stats']['minecraft:used/minecraft:ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雪块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:snow_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '仙人掌:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cactus']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘土块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:clay']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '唱片机:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jukebox']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木栅栏:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木栅栏:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木栅栏:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木栅栏:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢栅栏:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木栅栏:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pumpkin']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '雕刻过的南瓜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:carved_pumpkin']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:netherrack']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灵魂沙:'.json_decode($dkjson['stats']['minecraft:used/minecraft:soul_sand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '荧石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:glowstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜灯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jack_o_lantern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的石头:'.json_decode($dkjson['stats']['minecraft:used/minecraft:infested_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的圆石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:infested_cobblestone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:infested_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的苔石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:infested_mossy_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的裂石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:infested_cracked_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '被虫蚀的錾制石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:infested_chiseled_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:mossy_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '裂石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cracked_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chiseled_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_mushroom_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_mushroom_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蘑菇柄:'.json_decode($dkjson['stats']['minecraft:used/minecraft:mushroom_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁栏杆:'.json_decode($dkjson['stats']['minecraft:used/minecraft:iron_bars']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '西瓜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:melon']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '藤蔓:'.json_decode($dkjson['stats']['minecraft:used/minecraft:vine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_fence_gate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砖块楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石砖楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:stone_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '菌丝:'.json_decode($dkjson['stats']['minecraft:used/minecraft:mycelium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '睡莲:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lily_pad']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖栅栏门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_brick_fence']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱砖楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '附魔台:'.json_decode($dkjson['stats']['minecraft:used/minecraft:enchanting_table']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地传送门框架:'.json_decode($dkjson['stats']['minecraft:used/minecraft:end_portal_frame']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:end_stone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:end_stone_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石灯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:redstone_lamp']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sandstone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿宝石矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:emerald_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地箱:'.json_decode($dkjson['stats']['minecraft:used/minecraft:ender_chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绊线钩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tripwire_hook']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绊线:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tripwire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿宝石块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:emerald_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '信标:'.json_decode($dkjson['stats']['minecraft:used/minecraft:beacon']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '圆石墙:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cobblestone_wall']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '苔石墙:'.json_decode($dkjson['stats']['minecraft:used/minecraft:mossy_cobblestone_wall']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木按钮:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_button']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁砧:'.json_decode($dkjson['stats']['minecraft:used/minecraft:anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '开裂的铁砧:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chipped_anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '损坏的铁砧:'.json_decode($dkjson['stats']['minecraft:used/minecraft:damaged_anvil']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '陷阱箱:'.json_decode($dkjson['stats']['minecraft:used/minecraft:trapped_chest']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '轻质测重压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_weighted_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '重质测重压力板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:heavy_weighted_pressure_plate']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '阳光传感器:'.json_decode($dkjson['stats']['minecraft:used/minecraft:daylight_detector']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:redstone_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '下界石英矿石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_quartz_ore']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '漏斗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:hopper']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制石英块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chiseled_quartz_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:quartz_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '竖纹石英块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:quartz_pillar']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '石英楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:quartz_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '激活铁轨:'.json_decode($dkjson['stats']['minecraft:used/minecraft:activator_rail']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '投掷器:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dropper']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁活板门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:iron_trapdoor']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '干草块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:hay_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色地毯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_carpet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '煤炭块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:coal_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '浮冰:'.json_decode($dkjson['stats']['minecraft:used/minecraft:packed_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粘液块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:slime_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '草径:'.json_decode($dkjson['stats']['minecraft:used/minecraft:grass_path']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '向日葵:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sunflower']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '欧丁香:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lilac']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玫瑰丛:'.json_decode($dkjson['stats']['minecraft:used/minecraft:rose_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '牡丹:'.json_decode($dkjson['stats']['minecraft:used/minecraft:peony']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '高草:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tall_grass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '大型蕨:'.json_decode($dkjson['stats']['minecraft:used/minecraft:large_fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色玻璃:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_stained_glass']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色玻璃板:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_stained_glass_pane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:prismarine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖:'.json_decode($dkjson['stats']['minecraft:used/minecraft:prismarine_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_prismarine']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:prismarine_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶石砖楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:prismarine_brick_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '暗海晶石楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_prismarine_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海晶灯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sea_lantern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '錾制红砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chiseled_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '切制红砂岩:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cut_red_sandstone']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红砂岩楼梯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_sandstone_stairs']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '岩浆块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magma_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱疣块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_wart_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色地狱砖块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_nether_bricks']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '骨块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bone_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '侦测器:'.json_decode($dkjson['stats']['minecraft:used/minecraft:observer']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色潜影盒:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_shulker_box']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色带釉陶瓦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_glazed_terracotta']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_concrete']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色混凝土:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色混凝土粉末:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_concrete_powder']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海龟蛋:'.json_decode($dkjson['stats']['minecraft:used/minecraft:turtle_egg']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_tube_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_brain_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_bubble_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_fire_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_horn_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tube_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brain_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bubble_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:fire_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:horn_coral_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tube_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brain_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bubble_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:fire_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:horn_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_tube_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_brain_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_bubble_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_fire_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_horn_coral']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tube_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:tube_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brain_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brain_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bubble_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bubble_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:fire_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:fire_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:horn_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:horn_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_tube_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的管珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_tube_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_brain_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的脑纹珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_brain_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_bubble_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的气泡珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_bubble_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_fire_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_fire_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_horn_coral_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝冰:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '潮涌核心:'.json_decode($dkjson['stats']['minecraft:used/minecraft:conduit']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡木门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:oak_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '铁门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:iron_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉木门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spruce_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦木门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:birch_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林木门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:jungle_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢木门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:acacia_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡木门:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dark_oak_door']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石中继器:'.json_decode($dkjson['stats']['minecraft:used/minecraft:repeater']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石比较器:'.json_decode($dkjson['stats']['minecraft:used/minecraft:comparator']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '火:'.json_decode($dkjson['stats']['minecraft:used/minecraft:fire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '小麦:'.json_decode($dkjson['stats']['minecraft:used/minecraft:wheat']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红石:'.json_decode($dkjson['stats']['minecraft:used/minecraft:redstone_wire']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '甘蔗:'.json_decode($dkjson['stats']['minecraft:used/minecraft:sugar_cane']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海带:'.json_decode($dkjson['stats']['minecraft:used/minecraft:kelp']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '海带植物:'.json_decode($dkjson['stats']['minecraft:used/minecraft:kelp_plant']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '干海带块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dried_kelp_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蛋糕:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cake']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色床:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_bed']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '南瓜茎:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pumpkin_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结果的南瓜茎:'.json_decode($dkjson['stats']['minecraft:used/minecraft:attached_pumpkin_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '西瓜茎:'.json_decode($dkjson['stats']['minecraft:used/minecraft:melon_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结果的西瓜茎:'.json_decode($dkjson['stats']['minecraft:used/minecraft:attached_melon_stem']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '地狱疣:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_wart']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '酿造台:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brewing_stand']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '炼药锅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cauldron']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '花盆:'.json_decode($dkjson['stats']['minecraft:used/minecraft:flower_pot']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '虞美人盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_poppy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蒲公英盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_dandelion']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '云杉树苗盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_spruce_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白桦树苗盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_birch_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '丛林树苗盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_jungle_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_red_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色蘑菇盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_brown_mushroom']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '仙人掌盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_cactus']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '枯萎的灌木盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_dead_bush']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蕨盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_fern']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '金合欢树苗盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_acacia_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '深色橡树树苗盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_dark_oak_sapling']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '兰花盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_blue_orchid']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绒球葱盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_allium']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '茜草花盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_azure_bluet']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_red_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_orange_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_white_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色郁金香盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_pink_tulip']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '滨菊盆栽:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potted_oxeye_daisy']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '胡萝卜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:carrots']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '马铃薯:'.json_decode($dkjson['stats']['minecraft:used/minecraft:potatoes']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '骷髅头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:skeleton_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的骷髅头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:skeleton_wall_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:wither_skeleton_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的凋灵骷髅头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:wither_skeleton_wall_skull']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '僵尸的头:'.json_decode($dkjson['stats']['minecraft:used/minecraft:zombie_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的僵尸头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:zombie_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '玩家头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:player_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的玩家头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:player_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '爬行者的头:'.json_decode($dkjson['stats']['minecraft:used/minecraft:creeper_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的爬行者头颅:'.json_decode($dkjson['stats']['minecraft:used/minecraft:creeper_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '龙首:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dragon_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的龙首:'.json_decode($dkjson['stats']['minecraft:used/minecraft:dragon_wall_head']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '白色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '橙色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '品红色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '灰色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '青色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '紫色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '棕色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '绿色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '红色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '黑色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:white_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的白色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:orange_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的品红色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:magenta_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的淡蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_blue_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黄色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:yellow_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黄绿色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:lime_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的粉红色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:pink_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的灰色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:gray_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的淡灰色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:light_gray_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的青色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:cyan_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的紫色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:purple_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的蓝色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:blue_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的棕色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:brown_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的绿色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:green_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的红色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:red_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的黑色旗帜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:black_wall_banner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '霜冰:'.json_decode($dkjson['stats']['minecraft:used/minecraft:frosted_ice']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '甜菜:'.json_decode($dkjson['stats']['minecraft:used/minecraft:beetroots']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '气泡柱:'.json_decode($dkjson['stats']['minecraft:used/minecraft:bubble_column']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '刷怪箱:'.json_decode($dkjson['stats']['minecraft:used/minecraft:spawner']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '下界传送门方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:nether_portal']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地传送门方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:end_portal']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '末地折跃门方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:end_gateway']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '命令方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '连锁型命令方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:chain_command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '循环型命令方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:repeating_command_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结构方块:'.json_decode($dkjson['stats']['minecraft:used/minecraft:structure_block']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '结构空位:'.json_decode($dkjson['stats']['minecraft:used/minecraft:structure_void']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '屏障:'.json_decode($dkjson['stats']['minecraft:used/minecraft:barrier']); ?> </td></tr>
 </table>
         </div>
       </div>
@@ -3312,7 +3327,6 @@ $post_data = array(
     echo '<a class="btn btn-primary" href="'.$nyaaurl.'">Raw数据下载</a>';}
     }} ?>
   </div>
-
   <footer>
 	<br><br><br>
 	<div class="container">

@@ -9,7 +9,7 @@
   <style>
 	* {font-family: "微软雅黑"}
 		</style>
-	<script src="https://www.google.com/recaptcha/api.js?render=Your_Site_Key"></script>
+	<script src="https://www.recaptcha.net/recaptcha/api.js?render=Your_Site_Key"></script>
   <script>
         grecaptcha.ready(function () {
             grecaptcha.execute('Your_Site_Key', { action: 'verify' }).then(function (token) {
@@ -43,7 +43,7 @@
 
   <?php
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])) {
-      $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+      $recaptcha_url = 'https://www.recaptcha.net/recaptcha/api/siteverify';
       $recaptcha_secret = 'Your_Site_Key';
       $recaptcha_response = $_POST['recaptcha_response'];
       $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);

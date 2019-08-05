@@ -18,14 +18,6 @@
             });
         });
     </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135455723-5"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-135455723-5');
-  </script>
 </head>
 <body>
 	<div class="container">
@@ -2617,7 +2609,7 @@
               <tr><td height="30px"><?php echo '失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_fire_coral_fan']); ?> </td></tr>
               <tr><td height="30px"><?php echo '墙上的失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_fire_coral_wall_fan']); ?> </td></tr>
               <tr><td height="30px"><?php echo '失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral_fan']); ?> </td></tr>
-              <tr><td height="30px"><?php echo '���上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '墙上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
               <tr><td height="30px"><?php echo '蓝冰:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_ice']); ?> </td></tr>
               <tr><td height="30px"><?php echo '潮涌核心:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:conduit']); ?> </td></tr>
               <tr><td height="30px"><?php echo '橡木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_door']); ?> </td></tr>

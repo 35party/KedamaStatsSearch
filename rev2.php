@@ -10,14 +10,6 @@
 	* {font-family: "微软雅黑"}
 		</style>
 	<script src='https://www.recaptcha.net/recaptcha/api.js'></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135455723-5"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-135455723-5');
-  </script>
 </head>
 <body>
 	<div class="container">

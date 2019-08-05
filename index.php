@@ -18,6 +18,14 @@
             });
         });
     </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135455723-5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-135455723-5');
+  </script>
 </head>
 <body>
 	<div class="container">
@@ -70,7 +78,14 @@
     $nyaaurl=("https://i.nyaa.cat/static/data/$id/stats.json");
     $nyaajson= file_get_contents($nyaaurl);
     $dkjson=json_decode($nyaajson,true);}
-    $ban=json_decode($dkjson['data']['banned']);}
+    $ban=json_decode($dkjson['data']['banned']);
+    $total = (json_decode($dkjson['stats']['minecraft:mined/minecraft:emerald_ore']) + json_decode($dkjson['stats']['minecraft:mined/minecraft:coal_ore']) + json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_ore']) + json_decode($dkjson['stats']['minecraft:mined/minecraft:gold_ore']) + json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_ore']) + json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']));
+    $diamond_ch = (json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']) / $total) * 100;
+    $coal_diamond = (json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']) / json_decode($dkjson['stats']['minecraft:mined/minecraft:coal_ore'])) * 100 ;
+    $iron_diamond = (json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']) / json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_ore'])) * 100 ;
+    $diamond_stone = (json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']) / json_decode($dkjson['stats']['minecraft:mined/minecraft:stone'])) * 100 ;
+    $ore_stone = ($total / json_decode($dkjson['stats']['minecraft:mined/minecraft:stone'])) * 100 ;
+  }
     else { $ban="notpass"; echo '<div class="alert alert-danger alert-dismissible fade show">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <strong>等等！</strong>reCAPTCHA认为您是机器人。如果您不是的话，<a href="rev2.php">请点击这里</a></div>';}}
@@ -180,6 +195,33 @@
          <tr><td height="30px">战术性钓鱼</td><td height="30px"><?php if(!empty(json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tactical_fishing']['done'])))){ echo "已完成"; }else{ echo "未完成"; };?></td><td height="30px"><?php print_r (json_decode(json_encode($dkjson['advancements']['minecraft:husbandry/tactical_fishing']['criteria']['pufferfish_bucket'],true),true));?></td></tr>
          
           </table>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <a class="collapsed card-link" data-toggle="collapse" href="#collapseT">
+        <span style="color:red">矿透筛查(实验性)</span>
+      </a>
+      </div>
+      <div id="collapseT" class="collapse" data-parent="#accordion">
+        <div class="card-body">
+          <table class="table-bordered" width="100%">
+          <tr><td height="30px"><?php echo '挖掘的石头:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:stone']); ?> </td></tr>
+          <tr><td height="30px"><?php echo '挖掘的煤矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:coal_ore']); ?> </td></tr>
+          <tr><td height="30px"><?php echo '挖掘的铁矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_ore']); ?> </td></tr>
+          <tr><td height="30px"><?php echo '挖掘的金矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:gold_ore']); ?> </td></tr>
+          <tr><td height="30px"><?php echo '挖掘的红石矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_ore']); ?> </td></tr>
+          <tr><td height="30px"><?php echo '挖掘的绿宝石矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:emerald_ore']); ?> </td></tr>
+          <tr><td height="30px"><?php echo '挖掘的钻石矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']); ?> </td></tr>
+          <tr><td height="30px">总挖矿数量:<?php echo $total; ?></td></tr>
+          <tr><td height="30px">钻石在所有矿石中所占比例:<?php if ($recaptcha->score >= 0.6){echo $diamond_ch.'%';}?></td></tr>
+          <tr><td height="30px">钻石占煤的比例:<?php if ($recaptcha->score >= 0.6){echo $coal_diamond.'%';} ?></td></tr>
+          <tr><td height="30px">钻石占铁的比例:<?php if ($recaptcha->score >= 0.6){echo $iron_diamond.'%';} ?></td></tr>
+          <tr><td height="30px">钻石占石头的比例:<?php if ($recaptcha->score >= 0.6){echo $diamond_stone.'%';} ?></td></tr>
+          <tr><td height="30px">矿物占石头的比例:<?php if ($recaptcha->score >= 0.6){echo $ore_stone.'%';} ?></td></tr>
+          <tr><td height="30px"><b>注:以上数据均不包含下界石英数量</b></td></tr>
+    	</table>
         </div>
       </div>
     </div>
@@ -2575,7 +2617,7 @@
               <tr><td height="30px"><?php echo '失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_fire_coral_fan']); ?> </td></tr>
               <tr><td height="30px"><?php echo '墙上的失活的火珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_fire_coral_wall_fan']); ?> </td></tr>
               <tr><td height="30px"><?php echo '失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral_fan']); ?> </td></tr>
-              <tr><td height="30px"><?php echo '墙上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
+              <tr><td height="30px"><?php echo '���上的失活的鹿角珊瑚扇:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:dead_horn_coral_wall_fan']); ?> </td></tr>
               <tr><td height="30px"><?php echo '蓝冰:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:blue_ice']); ?> </td></tr>
               <tr><td height="30px"><?php echo '潮涌核心:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:conduit']); ?> </td></tr>
               <tr><td height="30px"><?php echo '橡木门:'.json_decode($dkjson['stats']['minecraft:crafted/minecraft:oak_door']); ?> </td></tr>
@@ -3310,7 +3352,7 @@
   <br>
   	<?php
 	if(!empty($_POST["post"])){
-	if(!empty(json_decode($recaptcha_result['success'])))
+	if ($recaptcha->score >= 0.6)
 	{
     if(!empty($_POST["select"]) && !empty($_POST["post"]) && $_POST["select"] == 'kedamapost'){
     echo '<a class="btn btn-primary" href="'.$kedamaurl.'">Raw数据下载</a>';}

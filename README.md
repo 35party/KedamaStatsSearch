@@ -17,4 +17,5 @@
 8.Delete meaningless output
 9.Multi-server(已完成)
 10.reCaptcha(已完成)
+11.Cheating check(已完成)
 ```

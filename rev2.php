@@ -10,6 +10,11 @@
 	* {font-family: "微软雅黑"}
 		</style>
 	<script src='https://www.recaptcha.net/recaptcha/api.js'></script>
+  <script type="text/javascript">
+    function recaptcha_callback(){
+      $('.btn').click();
+    }
+</script>
 </head>
 <body>
 	<div class="container">
@@ -29,7 +34,7 @@
       </select>
       <br>
       
-<span style="font-size:14px;">    <div class="g-recaptcha" data-sitekey="Your_Site_Key"></div></span>  
+<span style="font-size:14px;">    <div class="g-recaptcha" data-callback="recaptcha_callback" data-sitekey="Your_Site_Key"></div></span>  
 
       <br>
   <button type="submit" class="btn btn-primary">提交</button>

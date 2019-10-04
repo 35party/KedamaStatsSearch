@@ -1,6 +1,8 @@
 # KedamaStatsSearch
 毛玉线圈物语 玩家信息查询
 
+支持版本:1.14.4
+
 [查看DEMO](https://labs.blingwang.cn/kedama)
 
 ~~性能可能有点弱鸡，要什么自行车...~~

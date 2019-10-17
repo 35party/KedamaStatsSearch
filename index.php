@@ -67,7 +67,7 @@
     $ban=json_decode($dkjson['data']['banned']);
 
     if(!empty($_POST["select"]) && !empty($_POST["post"]) && $_POST["select"] == 'nyaapost'){
-    $nyaaurl=("https://i.nyaa.cat/static/data/$id/stats.json");
+    $nyaaurl=("https://i.nyaa.cat/data/$id/stats.json");
     $nyaajson= file_get_contents($nyaaurl);
     $dkjson=json_decode($nyaajson,true);}
     $ban=json_decode($dkjson['data']['banned']);

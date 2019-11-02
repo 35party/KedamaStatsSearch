@@ -1,3 +1,4 @@
+<?php error_reporting(0); ?>
 <!DOCTYPE HTML>
 <html lang="zh">
 	<head>
@@ -73,6 +74,7 @@
     $ban=json_decode($dkjson['data']['banned']);
     $total = (json_decode($dkjson['stats']['minecraft:mined/minecraft:emerald_ore']) + json_decode($dkjson['stats']['minecraft:mined/minecraft:coal_ore']) + json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_ore']) + json_decode($dkjson['stats']['minecraft:mined/minecraft:gold_ore']) + json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_ore']) + json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']));
     $diamond_ch = (json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']) / $total) * 100;
+    $diamond_ch_exp_used = (json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']) - json_decode($dkjson['stats']['minecraft:used/minecraft:diamond_ore'])) / $total * 100;
     $coal_diamond = (json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']) / json_decode($dkjson['stats']['minecraft:mined/minecraft:coal_ore'])) * 100 ;
     $iron_diamond = (json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']) / json_decode($dkjson['stats']['minecraft:mined/minecraft:iron_ore'])) * 100 ;
     $diamond_stone = (json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']) / json_decode($dkjson['stats']['minecraft:mined/minecraft:stone'])) * 100 ;
@@ -214,6 +216,7 @@
           <tr><td height="30px"><?php echo '挖掘的钻石矿石:'.json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']); ?> </td></tr>
           <tr><td height="30px">总挖矿数量:<?php echo $total; ?></td></tr>
           <tr><td height="30px">钻石在所有矿石中所占比例:<?php if ($recaptcha->score >= 0.6){echo $diamond_ch.'%';}?></td></tr>
+          <tr><td height="30px">钻石在所有矿石中所占比例(除去原矿放置):<?php if ($recaptcha->score >= 0.6){echo $diamond_ch_exp_used.'%';}?></td></tr>
           <tr><td height="30px">钻石占煤的比例:<?php if ($recaptcha->score >= 0.6){echo $coal_diamond.'%';} ?></td></tr>
           <tr><td height="30px">钻石占铁的比例:<?php if ($recaptcha->score >= 0.6){echo $iron_diamond.'%';} ?></td></tr>
           <tr><td height="30px">钻石占石头的比例:<?php if ($recaptcha->score >= 0.6){echo $diamond_stone.'%';} ?></td></tr>

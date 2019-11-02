@@ -3,7 +3,7 @@
 
 支持版本:1.14.4
 
-[查看DEMO](https://labs.blingwang.cn/kedama)
+[查看DEMO](https://labs.blw.moe/kedama)
 
 ~~性能可能有点弱鸡，要什么自行车...~~
 

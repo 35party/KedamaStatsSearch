@@ -46,9 +46,55 @@ $('.ui.form')
         ]
     }}})}
   </script>
+    <script>
+ $(document).ready(function () {
+ 	setTimeout(function(){
+  $('#box')
+  .transition({
+    animation  : 'fade down',
+    duration   : '0.5s',
+    onComplete : function() {
+    }
+  });
+ 	}, 3000);
+ 	});
+</script>
 </head>
 <body><br>
 <div class="ui container">
+<?php
+ function check($url){
+    $handle = curl_init($url);
+    curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_exec($handle);
+    $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+    if($httpCode == 200) {
+      return true;
+    }else{
+        return false;
+    }
+    curl_close($handle);
+ }
+ $url="https://stats.craft.moe/data/players.json";
+ if(check($url)==true){
+     echo '<div id="box">
+<br>
+<div class="ui floating positive message">
+<div class="header">已连接至服务器</div>
+<div id="times">三秒后自动关闭</div>
+</div>
+</div>';
+ }else{
+     echo '<div id="box">
+<br>
+<div class="ui floating negative message">
+<div class="header">无法连接服务器</div>
+<div id="times">三秒后自动关闭</div>
+</div>
+</div>';
+ }
+?>
 <h1 class="hheader">NyaaStats 玩家数据查询</h1>
   <?php
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])) {

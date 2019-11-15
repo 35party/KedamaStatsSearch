@@ -116,14 +116,24 @@ $('.ui.form')
     if(!empty($_POST["select"]) && !empty($_POST["post"]) && $_POST["select"] == 'kedamapost'){
     $kedamaurl=("https://stats.craft.moe/data/$id/stats.json");
     $kedamajson= file_get_contents($kedamaurl);
-    $dkjson=json_decode($kedamajson,true);}
-    $ban=json_decode($dkjson['data']['banned']);
+    $dkjson=json_decode($kedamajson,true);
+    if(preg_match("/The file or path you request could not be found by the server./",$kedamajson)){echo '
+      <div class="ui floating negative message">
+      <div class="header">提示</div>
+      <div id="times">该玩家不存在!</div>
+      </div>';}
+    else{$ban=json_decode($dkjson['data']['banned']);}}
     
     if(!empty($_POST["select"]) && !empty($_POST["post"]) && $_POST["select"] == 'nyaapost'){
     $nyaaurl=("https://i.nyaa.cat/data/$id/stats.json");
     $nyaajson= file_get_contents($nyaaurl);
-    $dkjson=json_decode($nyaajson,true);}
-    $ban=json_decode($dkjson['data']['banned']);
+    $dkjson=json_decode($nyaajson,true);
+    if(strlen($nyaajson) == 0) {echo '
+      <div class="ui floating negative message">
+      <div class="header">提示</div>
+      <div id="times">该玩家不存在!</div>
+      </div>';}
+    else{$ban=json_decode($dkjson['data']['banned']);}}
     
     $total = (json_decode($dkjson['stats']['minecraft:mined/minecraft:emerald_ore']) + json_decode($dkjson['stats']['minecraft:mined/minecraft:coal_ore']) + json_decode($dkjson['stats']['minecraft:mined/Minecraft:iron_ore']) + json_decode($dkjson['stats']['minecraft:mined/minecraft:gold_ore']) + json_decode($dkjson['stats']['minecraft:mined/minecraft:redstone_ore']) + json_decode($dkjson['stats']['minecraft:mine/minecraft:diamond_ore']));
     $diamond_ch = (json_decode($dkjson['stats']['minecraft:mined/minecraft:diamond_ore']) / $total) * 100;

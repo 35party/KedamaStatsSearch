@@ -1,7 +1,7 @@
 # KedamaStatsSearch
 毛玉线圈物语 玩家信息查询
 
-支持版本:1.14.4
+当前 Minecraft 版本:1.15.1
 
 [查看DEMO](https://labs.blw.moe/kedama)
 

@@ -17,7 +17,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-	<script src="https://www.recaptcha.net/recaptcha/api.js?render=your-public-key"></script>
+	  <script src="https://www.recaptcha.net/recaptcha/api.js?render=your-public-key"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.111.0/build/three.min.js"></script>
+	  <script src="skinview3d.min.js"></script>
     <script>
       grecaptcha.ready(function () {
         grecaptcha.execute('your-public-key', { action: 'verify' }).then(function (token) {
@@ -182,6 +184,12 @@ $('.ui.form')
   <tr><td>是否被ban:<?php if($ban != "notpass"){ if(!empty($_POST["post"])){ echo $ban ? '是':'否'; }}?> </td></tr>
   <tr><td>数据更新时间:<?php $update = json_decode(json_encode($dkjson['data']['lastUpdate'])); if(!empty($update)){echo date('Y-m-d H:i:s', $update / 1000);} ?> </td></tr>
   </table>
+  </div>
+  <div class="title"><i class="dropdown icon"></i>皮肤展示</div>
+  <div class="content">
+    <table class="ui celled table" width="100%">
+    	  <tr><td><div id="skin_container"></div></td></tr>
+    </table>
   </div>
   <div class="title"><i class="dropdown icon"></i>成就信息</div>
   <div class="content">
@@ -1139,12 +1147,27 @@ echo'
   </div><br><br>
   <div class="ui container center aligned footer">
 	<div class="container">
-<p>Data Sources: <a href="https://api.mojang.com">Mojang Public API</a> & <a href="https://stats.craft.moe">NyaaStats</a></p>
+<p>Data Sources: <a href="https://api.mojang.com">Mojang Public API</a> & <a href="https://stats.craft.moe">NyaaStats</a> & <a href="https://crafatar.com">Crafatar</a></p>
 <p>前往 <a href="https://craft.moe">毛玉线圈物语</a> 服务器</p>
 <br>
  <p>&copy;2017-2019 blw.moe All Rights Reserved.</p>
  <p>Made by BlingWang with ❤️</sp>
 <br><br>
 </div>
+<script async="async">
+	let skinViewer = new skinview3d.SkinViewer({
+		domElement: document.getElementById("skin_container"),
+		width: 250,
+		height: 300,
+		skinUrl: "<?php echo "https://crafatar.com/skins/". json_decode(json_encode($dkjson['data']['uuid'])); ?>"
+	});
+	let control = new skinview3d.createOrbitControls(skinViewer);
+	skinViewer.animation = new skinview3d.CompositeAnimation();
+	let walk = skinViewer.animation.add(skinview3d.WalkingAnimation);
+	walk.speed = 1.5;
+	control.enableRotate = true;
+	control.enableZoom = false;
+	let rotate = skinViewer.animation.add(skinview3d.RotatingAnimation);
+</script>
 </body>
 </html>

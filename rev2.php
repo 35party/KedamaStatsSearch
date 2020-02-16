@@ -28,6 +28,9 @@
   </script>
   <script>
   function login(){
+   if( $('.ui.form').form('is valid')) {
+  $('.ui.modal').modal('show');
+	};
 $('.ui.form')
   .form({
     fields: {
@@ -38,9 +41,15 @@ $('.ui.form')
             prompt : '请输入玩家 ID!'
           }
         ]
-    }}})}
+    }}})
+  }
   </script>
-      <script>
+  <script>
+	function form(){
+		$("#form").submit();
+	}
+</script>
+  <script>
  $(document).ready(function () {
  	setTimeout(function(){
   $('#box')
@@ -161,7 +170,7 @@ $post_data = array(
   <div class="header"> <strong>请完成人机验证！</strong></div>
   <p>如果您仍然无法完成验证，请<a href="https://bbs.craft.moe/d/817">点击这里</a>联系开发者。</p></div>';}}
     ?>
-<form class="ui form" method="post">
+<form class="ui form" method="post" id="form">
   <div class="field">
     <label>玩家 ID</label>
     <input type="text" name="post" id="post" placeholder="Enter Player ID">
@@ -175,8 +184,29 @@ $post_data = array(
   </select>
   </div>
   <span style="font-size:14px;">    <div class="g-recaptcha" data-callback="recaptcha_callback" data-sitekey="your-public-key"></div></span><br>
-  <button class="ui button" type="submit" onclick="login()">提交</button>
+  <div class="ui button" onclick="login()">提交</div>
   <div class="ui error message"></div>
+  <div class="ui modal">
+  <i class="close icon"></i>
+  <div class="header">
+    请注意
+  </div>
+  <div class="image content">
+    <div class="description">
+      <div class="ui header">本工具列出的数据仅供参考</div>
+      <p>请不要在没有确凿证据的情况下使用本工具所查询到的数据举报他人。如果您同意上述使用条款，请点击"接受"按钮继续。</p>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      拒绝
+    </div>
+    <div class="ui positive right labeled icon button" onclick="form()">
+      接受
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+</div>
 </form>
 </div>
 <br><br>

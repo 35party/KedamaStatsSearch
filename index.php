@@ -15,6 +15,7 @@
 		}
 	</style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script>console.log('\n' + ' %c 感谢使用 KedamaStatsSearch' + ' %c Maintained by BlingWang ' + '\n', 'color: #ffffff; background: #000000; padding:5px 0;', 'color: #ffffff; background: #000000; padding:5px 0;');</script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 	  <script src="https://www.recaptcha.net/recaptcha/api.js?render=your-public-key"></script>
@@ -69,6 +70,14 @@ $('.ui.form')
   });
  	}, 3000);
  	});
+</script>
+<script>
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+	    console.warn("Enter提交已被禁用");
+    }
+  });
 </script>
 </head>
 <body><br>
@@ -1211,7 +1220,7 @@ echo'
 		domElement: document.getElementById("skin_container"),
 		width: 250,
 		height: 300,
-		skinUrl: "<?php echo "https://crafatar.com/skins/". json_decode(json_encode($dkjson['data']['uuid'])); ?>"
+		skinUrl: "<?php if(!empty($_POST["post"])){echo "https://crafatar.com/skins/". json_decode(json_encode($dkjson['data']['uuid']));} else {echo "fallback.png";} //fallback可以使用任何皮肤 ?>"
 	});
 	let control = new skinview3d.createOrbitControls(skinViewer);
 	skinViewer.animation = new skinview3d.CompositeAnimation();

@@ -154,7 +154,13 @@ $post_data = array(
     
     if(!empty($_POST["select"]) && !empty($_POST["post"]) && $_POST["select"] == 'nyaapost'){
     $nyaaurl=("https://i.nyaa.cat/data/$id/stats.json");
-    $nyaajson= file_get_contents($nyaaurl);
+    $nyaacurl = curl_init();
+    curl_setopt($nyaacurl, CURLOPT_URL, $nyaaurl);
+    curl_setopt($nyaacurl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($nyaacurl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($nyaacurl, CURLOPT_SSL_VERIFYHOST, false);
+    $nyaajson = curl_exec($nyaacurl);
+    curl_close($nyaacurl);
     $dkjson=json_decode($nyaajson,true);
     if(strlen($nyaajson) == 0) {echo '
       <div class="ui floating negative message">

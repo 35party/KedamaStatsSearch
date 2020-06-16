@@ -22,10 +22,29 @@
   <script src="https://cdn.jsdelivr.net/npm/three@0.111.0/build/three.min.js"></script>
 	<script src="skinview3d.min.js"></script>
   <script>
-  $(document).ready(function(){
-    $('.ui.dropdown').dropdown();
-    $('.ui.accordion').accordion();
-});
+    $(document).ready(function() {
+      $('.ui.dropdown').dropdown();
+      $('.ui.accordion').accordion();
+      var httpRequest = new XMLHttpRequest();
+      httpRequest.open('GET', 'https://labs.blw.moe/kedama/watermark.php', true);
+      httpRequest.setRequestHeader("X-Requested-With","XMLHttpRequest"); 
+      httpRequest.send();
+      httpRequest.onreadystatechange = function () {
+          if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+              json = httpRequest.responseText;
+              $(window).on("scroll",function(){
+                  watermark.init({ watermark_alpha: 0.3, watermark_angle: 20, watermark_color: "#C0C0C0", watermark_cols: 10, watermark_font: "sans-serif", watermark_fontsize: "20px", watermark_height: 100, watermark_rows: 10, watermark_txt: json, watermark_width: 350, watermark_x: 0, watermark_x_space: 0, watermark_y: 0, watermark_y_space: 50 });
+              });
+          }
+          else {
+              var time = new Date();
+              json = time.toLocaleString() + "无法连接至水印服务器";
+              $(window).on("scroll",function(){
+                  watermark.init({ watermark_alpha: 0.3, watermark_angle: 20, watermark_color: "#C0C0C0", watermark_cols: 10, watermark_font: "sans-serif", watermark_fontsize: "20px", watermark_height: 100, watermark_rows: 10, watermark_txt: json, watermark_width: 350, watermark_x: 0, watermark_x_space: 0, watermark_y: 0, watermark_y_space: 50 });
+              });
+          }
+      }
+    });
   </script>
   <script>
   function login(){

@@ -20,7 +20,7 @@
     <script>
     console.log('\n' + ' %c 感谢使用 KedamaStatsSearch' + ' %c Maintained by BlingWang ' + '\n',
         'color: #ffffff; background: #000000; padding:5px 0;', 'color: #ffffff; background: #000000; padding:5px 0;'
-        );
+    );
     </script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
@@ -38,6 +38,54 @@
     });
     </script>
     <script>
+    function ref() {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.open('GET', 'https://labs.blw.moe/kedama/watermark.php', true);
+        httpRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        httpRequest.send();
+        httpRequest.onreadystatechange = function() {
+            if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                json = httpRequest.responseText;
+                watermark.init({
+                    watermark_alpha: 0.3,
+                    watermark_angle: 20,
+                    watermark_color: "#C0C0C0",
+                    watermark_cols: 10,
+                    watermark_font: "sans-serif",
+                    watermark_fontsize: "20px",
+                    watermark_height: 100,
+                    watermark_rows: 10,
+                    watermark_txt: json,
+                    watermark_width: 350,
+                    watermark_x: 0,
+                    watermark_x_space: 0,
+                    watermark_y: 0,
+                    watermark_y_space: 50
+                });
+            } else {
+                var time = new Date();
+                json = time.toLocaleString() + "无法连接至水印服务器";
+                watermark.init({
+                    watermark_alpha: 0.3,
+                    watermark_angle: 20,
+                    watermark_color: "#C0C0C0",
+                    watermark_cols: 10,
+                    watermark_font: "sans-serif",
+                    watermark_fontsize: "20px",
+                    watermark_height: 100,
+                    watermark_rows: 10,
+                    watermark_txt: json,
+                    watermark_width: 350,
+                    watermark_x: 0,
+                    watermark_x_space: 0,
+                    watermark_y: 0,
+                    watermark_y_space: 50
+                });
+            }
+        }
+    }
+    </script>
+    <script>
     $(document).ready(function() {
         $('.ui.dropdown').dropdown();
         $('.ui.accordion').accordion();
@@ -47,54 +95,8 @@
         });
         $('h4.advTitle_parent').text('上游进度');
         $('h4.advTitle_requirements').text('完成条件');
-        var httpRequest = new XMLHttpRequest();
-        httpRequest.open('GET', 'https://labs.blw.moe/kedama/watermark.php', true);
-        httpRequest.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-        httpRequest.send();
-        httpRequest.onreadystatechange = function() {
-            if (httpRequest.readyState == 4 && httpRequest.status == 200) {
-                json = httpRequest.responseText;
-                $(window).on("scroll", function() {
-                    watermark.init({
-                        watermark_alpha: 0.3,
-                        watermark_angle: 20,
-                        watermark_color: "#C0C0C0",
-                        watermark_cols: 10,
-                        watermark_font: "sans-serif",
-                        watermark_fontsize: "20px",
-                        watermark_height: 100,
-                        watermark_rows: 10,
-                        watermark_txt: json,
-                        watermark_width: 350,
-                        watermark_x: 0,
-                        watermark_x_space: 0,
-                        watermark_y: 0,
-                        watermark_y_space: 50
-                    });
-                });
-            } else {
-                var time = new Date();
-                json = time.toLocaleString() + "无法连接至水印服务器";
-                $(window).on("scroll", function() {
-                    watermark.init({
-                        watermark_alpha: 0.3,
-                        watermark_angle: 20,
-                        watermark_color: "#C0C0C0",
-                        watermark_cols: 10,
-                        watermark_font: "sans-serif",
-                        watermark_fontsize: "20px",
-                        watermark_height: 100,
-                        watermark_rows: 10,
-                        watermark_txt: json,
-                        watermark_width: 350,
-                        watermark_x: 0,
-                        watermark_x_space: 0,
-                        watermark_y: 0,
-                        watermark_y_space: 50
-                    });
-                });
-            }
-        }
+        ref();
+        setInterval(ref, 2000);
     });
     </script>
     <script>

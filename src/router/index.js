@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Dashboard from "../views/Dashboard.vue";
-import Stats from "../views/Stats.vue";
-import Analytics from "../views/Analytics.vue";
-import Logs from "../views/Logs.vue";
+import Dashboard from "@/views/Dashboard";
+import Stats from "@/views/Stats";
+import Analytics from "@/views/Analytics";
+import Logs from "@/views/Logs";
 
 Vue.use(VueRouter);
 

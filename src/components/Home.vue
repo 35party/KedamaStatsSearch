@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="home">
     <section class="section is-small pt-4 pb-0">
       <div class="columns">
         <div class="column is-one-quarter">

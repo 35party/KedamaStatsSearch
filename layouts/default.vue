@@ -5,7 +5,7 @@
         <img src="~/static/kedamalogo.png" alt="Kedama Logo" />
       </v-avatar>
 
-      <v-tabs centered class="ml-n9" color="grey darken-1">
+      <v-tabs :key="refreshkey" centered class="ml-n9" color="grey darken-1">
         <v-tab
           v-for="link in links"
           :key="link.title"
@@ -19,6 +19,8 @@
     </v-app-bar>
 
     <v-main class="grey lighten-3">
+      <v-btn color="blue" dark @click="switch_lang('en_US')">English</v-btn>
+      <v-btn color="blue" dark @click="switch_lang('zh_CN')">简体中文</v-btn>
       <v-container class="pa-6">
         <v-row>
           <v-col cols="12" sm="4">
@@ -59,12 +61,14 @@ export default {
       { title: 'statistic', to: '/statistic' },
       { title: 'oredata', to: '/oredata' },
     ],
+    refreshkey: 0,
   }),
   methods: {
     switch_lang(lang) {
       console.log('switching to ' + lang)
       this.$store.commit('SET_LANG', lang)
       this.$i18n.locale = lang
+      this.refreshkey += 1
     },
   },
 }

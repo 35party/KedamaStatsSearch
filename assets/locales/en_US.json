@@ -1,0 +1,25 @@
+{
+  "dashboard": "Dashboard",
+  "advancement": "Advancement",
+  "statistic": "Statistic",
+  "oredata": "Ore Data",
+  "form": {
+    "playerid": "Player ID",
+    "server": "Server",
+    "submit": "Submit",
+    "notice": {
+      "1": "I agree that...",
+      "2": "I have been informed that the data listed in this tool is for reference only and will not be used to report others maliciously.",
+      "agree": "Agree",
+      "disagree": "Disagree"
+    }
+  },
+  "footer": {
+    "kedama": "Kedama",
+    "update": "Data update time: "
+  },
+  "error": {
+    "notfound" : "404 Not Found",
+    "other" : "An error occurred"
+  }
+}

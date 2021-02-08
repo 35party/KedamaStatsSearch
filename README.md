@@ -1,10 +1,20 @@
-# KedamaStatsSearch
-毛玉线圈物语 玩家信息查询
+# kedama_stats
 
-当前 Minecraft 版本:1.15.1
+## Build Setup
 
-[查看DEMO](https://labs.blw.moe/kedama)
+```bash
+# install dependencies
+$ yarn install
 
-~~性能可能有点弱鸡，要什么自行车...~~
+# serve with hot reload at localhost:2333
+$ yarn run dev
 
-皮肤展示组件:[bs-community/skinview3d](https://github.com/bs-community/skinview3d)
+# build for production and launch server
+$ yarn run build
+$ yarn start
+
+# generate static project
+$ yarn generate
+```
+
+For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).

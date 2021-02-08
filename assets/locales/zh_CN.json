@@ -1,0 +1,25 @@
+{
+  "dashboard": "仪表盘",
+  "advancement": "进度",
+  "statistic": "统计数据",
+  "oredata": "矿物统计",
+  "form": {
+    "playerid": "玩家 ID",
+    "server": "服务器",
+    "submit": "提交",
+    "notice": {
+      "1": "我同意...",
+      "2": "我已获知本工具所列出的数据仅供参考，并且不会使用这些数据恶意举报他人。",
+      "agree": "同意",
+      "disagree": "不同意"
+    }
+  },
+  "footer": {
+    "kedama": "毛玉线圈物语",
+    "update": "数据更新时间："
+  },
+  "error": {
+    "notfound" : "404 Not Found",
+    "other" : "发生了一个不可预料的错误，请联系开发者"
+  }
+}
